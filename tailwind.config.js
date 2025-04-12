@@ -6,6 +6,9 @@ export default {
       fontSize: {
         10: "10px",
       },
+      colors: {
+        mainColor: "#ECE000",
+      },
     },
   },
   plugins: [],
