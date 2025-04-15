@@ -5,7 +5,11 @@
       "@components/*": ["src/components/*"],
       "@libs/*": ["src/libs/*"],
       "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@redux/*": ["src/redux/*"],
+      "@service/*": ["src/service/*"],
+      "@routes/*": ["src/routes/*"],
+      "@consts/*": ["src/consts/*"]
     }
   }
 }

@@ -14,6 +14,10 @@ export default defineConfig({
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@context": path.resolve(__dirname, "src/context"),
       "@configs": path.resolve(__dirname, "src/configs"),
+      "@routes": path.resolve(__dirname, "src/routes"),
+      "@redux": path.resolve(__dirname, "src/redux"),
+      "@service": path.resolve(__dirname, "src/service"),
+      "@consts": path.resolve(__dirname, "src/consts"),
     },
   },
 });

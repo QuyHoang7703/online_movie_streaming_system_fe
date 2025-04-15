@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
+import { Button } from "antd";
 
 const HomePage = () => {
   return (
     <div>
       <h1>Home Page</h1>
-      <Button variant="contained">Login</Button>
+      <Button className="bg-mainColor">Login</Button>
       <div className="font-bold">Hello, Tailwind!</div>
     </div>
   );

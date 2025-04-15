@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller } from "react-hook-form";
 // eslint-disable-next-line no-unused-vars
-const FormField = ({ control, name, label, type, Component }) => {
+const FormField = ({ control, name, label, type, Component, error }) => {
   return (
     <div>
       <p className="mb-1 font-medium text-white">{label}</p>
@@ -17,6 +17,7 @@ const FormField = ({ control, name, label, type, Component }) => {
               type={type}
               label={label}
               control={control}
+              error={error}
             />
           );
         }}
