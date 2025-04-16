@@ -9,16 +9,18 @@ import { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { mapErrorMessage } from "@consts/errorMessages";
+import { useDispatch } from "react-redux";
+import { login } from "@redux/slides/authSlice";
 
 const LoginPage = () => {
-  const [login, { data, isLoading, isError, error, isSuccess }] =
+  const [loginApi, { data, isLoading, isError, error, isSuccess }] =
     useLoginMutation();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+  const dispatch = useDispatch();
 
   const onSubmit = async (formData) => {
-    console.log("ALo");
-    login(formData);
+    loginApi(formData);
   };
 
   const formSchema = yup.object().shape({
@@ -46,15 +48,14 @@ const LoginPage = () => {
   useEffect(() => {
     if (isSuccess) {
       showNotification("success", "Thông báo", "Đăng nhập thành công");
+      dispatch(login({ accessToken: data.data.accessToken })); // Có thẻ không cần nữa vì đã lưu trong Cookie
       navigate("/");
-      console.log({ data });
     }
     if (isError) {
-      console.log({ error });
       showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, data]);
 
   // console.log({ data, isError, errors });
   return (
@@ -107,6 +108,7 @@ const LoginPage = () => {
             type="primary"
             htmlType="submit"
             className="mt-2 bg-mainColor !p-4 !font-bold !text-black hover:!bg-mainColorHover sm:mt-3 sm:!p-5"
+            loading={isLoading}
           >
             Đăng nhập
           </Button>

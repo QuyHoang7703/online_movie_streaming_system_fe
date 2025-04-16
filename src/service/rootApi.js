@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const rootApi = createApi({
   reducerPath: "rootApi",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_BASE_URL,
+    credentials: "include",
+  }),
   endpoints: (builder) => {
     return {
       login: builder.mutation({
@@ -23,8 +26,40 @@ export const rootApi = createApi({
           };
         },
       }),
+      verifyOtp: builder.mutation({
+        query: ({ email, otp }) => {
+          return {
+            url: "auth/verify-otp",
+            method: "POST",
+            body: { email, otp },
+          };
+        },
+      }),
+      resendOtp: builder.mutation({
+        query: ({ email }) => {
+          return {
+            url: "/auth/resend-otp",
+            method: "POST",
+            params: { email },
+          };
+        },
+      }),
+      getAuthUser: builder.query({
+        query: () => {
+          return {
+            url: "auth/get-auth-user",
+            method: "GET",
+          };
+        },
+      }),
     };
   },
 });
 
-export const { useLoginMutation, useRegisterMutation } = rootApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
+  useGetAuthUserQuery,
+} = rootApi;
