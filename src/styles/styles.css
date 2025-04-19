@@ -1,0 +1,27 @@
+.ant-input {
+  background-color: #323d4e !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.ant-input:hover,
+.ant-input:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  @apply bg-dark-200/85 font-semibold text-white;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  @apply bg-dark-100 font-semibold text-white;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  @apply bg-dark-100 !important;
+}

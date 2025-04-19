@@ -5,22 +5,27 @@ import InputField from "@components/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@service/rootApi";
 import { useNotification } from "@hooks/useNotification";
-import { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { mapErrorMessage } from "@consts/errorMessages";
-import { useDispatch } from "react-redux";
-import { login } from "@redux/slides/authSlice";
 
 const LoginPage = () => {
+  // eslint-disable-next-line no-unused-vars
   const [loginApi, { data, isLoading, isError, error, isSuccess }] =
     useLoginMutation();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-  const dispatch = useDispatch();
 
   const onSubmit = async (formData) => {
-    loginApi(formData);
+    try {
+      const result = await loginApi(formData).unwrap();
+      console.log("Login success response:", result);
+      showNotification("success", "Thông báo", "Đăng nhập thành công");
+
+      navigate("/");
+    } catch (error) {
+      showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
+    }
   };
 
   const formSchema = yup.object().shape({
@@ -45,19 +50,6 @@ const LoginPage = () => {
     resolver: yupResolver(formSchema),
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      showNotification("success", "Thông báo", "Đăng nhập thành công");
-      dispatch(login({ accessToken: data.data.accessToken })); // Có thẻ không cần nữa vì đã lưu trong Cookie
-      navigate("/");
-    }
-    if (isError) {
-      showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess, data]);
-
-  // console.log({ data, isError, errors });
   return (
     <div className="flex h-screen w-full flex-col justify-between bg-[#1B2431] p-5 lg:flex-row">
       {/* Left side */}
