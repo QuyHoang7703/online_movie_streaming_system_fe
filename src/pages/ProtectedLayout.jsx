@@ -4,11 +4,13 @@ import { useGetAuthUserQuery } from "@service/rootApi";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 
 import AdminSidebar from "@components/layout/AdminSidebar";
 import AdminHeader from "@components/layout/AdminHeader";
 import "@styles/styles.css";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import LoadingComponent from "@context/LoadingComponent";
 const { Content } = Layout;
 const ProtectedLayout = () => {
   // const navigate = useNavigate();
@@ -28,10 +30,12 @@ const ProtectedLayout = () => {
   // if (response.isLoading || response.isFetching) {
   //   return <div>Loading...</div>;
   // }
+  // <DotLottieReact src="/animation-loading.lottie" loop autoplay />
+  // <Spin tip="Loading" size="large" fullscreen="true"></Spin>
 
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingComponent />}>
         <Layout>
           <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout>

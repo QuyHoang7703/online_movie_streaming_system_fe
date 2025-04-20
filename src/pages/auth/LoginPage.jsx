@@ -7,7 +7,7 @@ import { useLoginMutation } from "@service/rootApi";
 import { useNotification } from "@hooks/useNotification";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { mapErrorMessage } from "@consts/errorMessages";
+import { mapErrorMessage } from "@consts/messages";
 
 const LoginPage = () => {
   // eslint-disable-next-line no-unused-vars

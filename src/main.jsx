@@ -8,6 +8,7 @@ import { persistor, store } from "@redux/store";
 import { App as AntdApp } from "antd";
 import { PersistGate } from "redux-persist/integration/react";
 import AppProvider from "@components/AppProvider";
+import "@styles/styles.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
