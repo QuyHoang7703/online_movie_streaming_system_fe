@@ -2,14 +2,65 @@ import { useForm } from "react-hook-form";
 import FormField from "@components/FormField";
 import { Button } from "antd";
 import InputField from "@components/InputField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRegisterMutation } from "@service/rootApi";
+import { useEffect } from "react";
+import { useNotification } from "@hooks/useNotification";
 
 const RegisterPage = () => {
-  const { control, handleSubmit } = useForm();
+  const formSchema = yup.object().shape({
+    email: yup
+      .string()
+      .required("Email không được để trống")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email không hợp lệ",
+      ),
+    password: yup
+      .string()
+      .required("Mật khẩu không được để trống")
+      .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+    confirmPassword: yup
+      .string()
+      .required("Xác nhận mật khẩu không được để trống")
+      .oneOf([yup.ref("password"), null], "Mật khẩu không khớp"),
+  });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const [register, { data, isLoading, isError, error, isSuccess }] =
+    useRegisterMutation();
+
+  const onSubmit = (formData) => {
+    console.log({ formDataRegister: formData });
+    register(formData);
   };
+  if (errors) {
+    console.log({ errorsRegisterForm: errors });
+  }
+
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
+  useEffect(() => {
+    if (isSuccess) {
+      showNotification("success", "Thông báo", "Đã gửi OTP");
+      navigate("/otp-verify", { state: { email: getValues("email") } });
+    }
+    if (isError) {
+      showNotification("error", "Lỗi", error?.data?.message);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError, isSuccess]);
+  console.log({ data });
 
   return (
     <div className="flex h-screen w-full flex-col justify-between bg-[#1B2431] p-5 lg:flex-row">
@@ -30,12 +81,16 @@ const RegisterPage = () => {
             Khám phá thế giới điện ảnh không giới hạn
           </p>
         </div>
-        <div className="mx-auto flex w-full max-w-[350px] flex-col gap-4 sm:gap-5">
+        <form
+          className="mx-auto flex w-full max-w-[350px] flex-col gap-4 sm:gap-5"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <FormField
             control={control}
             name="email"
             label="Email"
             Component={InputField}
+            error={errors?.email?.message}
           />
 
           <FormField
@@ -43,22 +98,27 @@ const RegisterPage = () => {
             name="password"
             label="Mât khẩu"
             Component={InputField}
+            error={errors?.password?.message}
+            type="password"
           />
           <FormField
             control={control}
             name="confirmPassword"
             label="Xác nhận mật khẩu"
             Component={InputField}
+            error={errors?.confirmPassword?.message}
+            type="password"
           />
 
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             className="mt-2 bg-mainColor !p-4 !font-bold !text-black hover:!bg-mainColorHover sm:mt-3 sm:!p-5"
           >
             Đăng ký
           </Button>
-        </div>
+        </form>
         <div className="mt-3 text-center text-white sm:mt-4">
           <span className="text-xs sm:text-sm">Bạn đã có tài khoản rồi? </span>
           <Link to="/login" className="font-medium text-mainColor">

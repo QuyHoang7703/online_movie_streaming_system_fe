@@ -1,20 +1,15 @@
-// import { App as AntdApp, ConfigProvider } from "antd";
-// import { theme } from ""; // giả sử bạn có file theme riêng
+import { App as AntdApp, ConfigProvider } from "antd";
+import { theme } from "@configs/ConfigAntd";
 
-// const AppProvider = ({ children }) => {
-//   return (
-//     <ConfigProvider theme={theme}>
-//       <AntdApp
-//         message={{ maxCount: 3 }}
-//         notification={{
-//           placement: "topRight",
-//           maxCount: 3,
-//         }}
-//       >
-//         {children}
-//       </AntdApp>
-//     </ConfigProvider>
-//   );
-// };
+const AppProvider = ({ children }) => {
+  return (
+    <ConfigProvider
+      theme={theme}
+      // Các cấu hình khác
+    >
+      <AntdApp>{children}</AntdApp>
+    </ConfigProvider>
+  );
+};
 
-// export default AppProvider;
+export default AppProvider;

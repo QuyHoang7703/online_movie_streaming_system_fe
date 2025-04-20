@@ -1,6 +1,6 @@
 import { Input } from "antd";
 
-const InputField = ({ onChange, name, label, type, control, error }) => {
+const InputField = ({ onChange, name, label, type, control, error, value }) => {
   return (
     <div>
       <Input
@@ -11,6 +11,7 @@ const InputField = ({ onChange, name, label, type, control, error }) => {
         placeholder={` ${label}`}
         onChange={onChange}
         status={error ? "error" : ""}
+        defaultValue={value}
       />
       {error && <p className="mt-2 text-sm font-light text-red-500">{error}</p>}
     </div>

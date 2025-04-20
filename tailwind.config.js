@@ -15,6 +15,11 @@ export default {
         textPrimary: "#FFFFFF",
         textSecondary: "#000000",
         borderColor: "#4B5563",
+        createButton: "#4880FF",
+        dark: {
+          100: "#273142",
+          200: "#1B2431",
+        },
       },
     },
   },

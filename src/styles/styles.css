@@ -1,0 +1,53 @@
+.ant-input {
+  background-color: #323d4e !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.ant-input:hover,
+.ant-input:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  @apply bg-dark-200/85 font-semibold text-white;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  @apply bg-dark-100 font-semibold text-white;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  @apply bg-dark-100 !important;
+}
+
+.custom-modal-wrapper .ant-modal-content {
+  @apply bg-dark-200 p-5 text-white;
+}
+
+.custom-modal-wrapper .ant-modal-header {
+  @apply border-white bg-[#1b2431];
+}
+.custom-modal-wrapper .ant-modal-title {
+  @apply border-b;
+}
+
+.custom-modal-wrapper .ant-modal-body {
+  @apply p-3;
+}
+
+.custom-modal-wrapper .ant-modal-close-x {
+  @apply text-white;
+}
+
+/* styles.css */
+.custom-pagination .ant-pagination-prev button,
+.custom-pagination .ant-pagination-next button {
+  color: white !important;
+  border-color: white !important;
+}

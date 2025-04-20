@@ -5,20 +5,27 @@ import InputField from "@components/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@service/rootApi";
 import { useNotification } from "@hooks/useNotification";
-import { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { mapErrorMessage } from "@consts/errorMessages";
+import { mapErrorMessage } from "@consts/messages";
 
 const LoginPage = () => {
-  const [login, { data, isLoading, isError, error, isSuccess }] =
+  // eslint-disable-next-line no-unused-vars
+  const [loginApi, { data, isLoading, isError, error, isSuccess }] =
     useLoginMutation();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
 
   const onSubmit = async (formData) => {
-    console.log("ALo");
-    login(formData);
+    try {
+      const result = await loginApi(formData).unwrap();
+      console.log("Login success response:", result);
+      showNotification("success", "Thông báo", "Đăng nhập thành công");
+
+      navigate("/");
+    } catch (error) {
+      showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
+    }
   };
 
   const formSchema = yup.object().shape({
@@ -43,20 +50,6 @@ const LoginPage = () => {
     resolver: yupResolver(formSchema),
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      showNotification("success", "Thông báo", "Đăng nhập thành công");
-      navigate("/");
-      console.log({ data });
-    }
-    if (isError) {
-      console.log({ error });
-      showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess]);
-
-  // console.log({ data, isError, errors });
   return (
     <div className="flex h-screen w-full flex-col justify-between bg-[#1B2431] p-5 lg:flex-row">
       {/* Left side */}
@@ -107,6 +100,7 @@ const LoginPage = () => {
             type="primary"
             htmlType="submit"
             className="mt-2 bg-mainColor !p-4 !font-bold !text-black hover:!bg-mainColorHover sm:mt-3 sm:!p-5"
+            loading={isLoading}
           >
             Đăng nhập
           </Button>
