@@ -3,10 +3,7 @@ import { theme } from "@configs/ConfigAntd";
 
 const AppProvider = ({ children }) => {
   return (
-    <ConfigProvider
-      theme={theme}
-      // Các cấu hình khác
-    >
+    <ConfigProvider theme={theme}>
       <AntdApp>{children}</AntdApp>
     </ConfigProvider>
   );

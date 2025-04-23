@@ -1,16 +1,16 @@
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
-import "@styles/styles.css";
 import InputSearch from "@components/InputSearch";
-import { useGetGenresQuery } from "@service/admin/genresApi";
-import useNotification from "antd/es/notification/useNotification";
-import { useEffect, useState } from "react";
+import { useNotification } from "@hooks/useNotification";
+import { useGetActorsQuery } from "@service/admin/actorApi";
+import { Button, Image, Space, Table } from "antd";
 import { debounce } from "lodash";
-import GenreForm from "@pages/admin/GenreForm";
+import { useEffect, useState } from "react";
+import "@styles/styles.css";
+import { Link, useNavigate } from "react-router-dom";
+import ActorForm from "@pages/admin/actor/ActorForm";
 import GenericModal from "@context/GenericModal";
-import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 
-const GenreManagement = () => {
+const ActorManagement = () => {
   const columns = [
     {
       title: "ID",
@@ -18,21 +18,42 @@ const GenreManagement = () => {
       key: "id",
     },
     {
-      title: "Thể loại",
-      dataIndex: "name",
-      key: "name",
-      width: "20%",
+      title: "Hình ảnh",
+      dataIndex: "avatarUrl",
+      key: "avatarUrl",
+      render: (avatarUrl) =>
+        avatarUrl ? (
+          <Image
+            src={avatarUrl}
+            alt="avatarUrl"
+            width={60}
+            height={60}
+            style={{ objectFit: "cover", borderRadius: "50%" }}
+            fallback="https://via.placeholder.com/60x60?text=No+Image" // Ảnh fallback nếu lỗi
+          />
+        ) : (
+          <span className="italic text-gray-400">Không có ảnh</span>
+        ),
     },
     {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
-      width: "50%",
+      title: "Tên diễn viên",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Ngày sinh",
+      dataIndex: "birthDate",
+      key: "birthDate",
+    },
+    {
+      title: "Nơi sinh",
+      dataIndex: "placeOfBirth",
+      key: "placeOfBirth",
     },
     {
       title: "Hành động",
-      dataIndex: "action",
-      key: "action",
+      dataIndex: "actions",
+      key: "actions",
       // eslint-disable-next-line no-unused-vars
       render: (_, record) => (
         <Space size="middle">
@@ -41,28 +62,27 @@ const GenreManagement = () => {
             size="large"
             type="primary"
             variant="solid"
-            onClick={() => handleCreateOrUpdateGenre(true, record)}
+            onClick={() =>
+              handleCreateOrUpdateActor(true, { actorId: record.id })
+            }
           />
           <Button
             icon={<DeleteFilled />}
             size="large"
             color="danger"
             variant="solid"
-            onClick={() => handleOpenModalDelete(record.id, record.name)}
+            // onClick={() => handleOpenModalDelete(record.id, record.name)}
           />
         </Space>
       ),
     },
   ];
-  const { showNotification } = useNotification();
   const [search, setSearch] = useState("");
-
   const [searchDebounced, setSearchDebounced] = useState("");
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageSize: 2,
+    pageNumber: 1,
+    pageSize: 4,
   });
-
   // Tạo debounce function
   const debouncedSearch = debounce((value) => {
     setSearchDebounced(value);
@@ -73,92 +93,70 @@ const GenreManagement = () => {
     debouncedSearch(value);
   };
 
-  // reset page về 1 khi search từ khoá mới
   useEffect(() => {
-    setPagination((prev) => ({ ...prev, page: 1 }));
+    setPagination((prev) => ({ ...prev, pageNumber: 1 }));
   }, [searchDebounced]);
 
-  const response = useGetGenresQuery({
-    genreName: searchDebounced,
-    page: pagination.page,
+  const response = useGetActorsQuery({
+    actorName: searchDebounced,
+    page: pagination.pageNumber,
     size: pagination.pageSize,
   });
+
+  const { showNotification } = useNotification();
   useEffect(() => {
     if (response.isError) {
       showNotification("error", response?.error?.data?.message);
     }
-  }, [response.isError, showNotification, response.error]);
+  }, [response, showNotification]);
 
-  const genres = response?.data?.data?.result || [];
-  // console.log({ genres });
+  const isLoading = response.isLoading || response.isFetching;
+  const actors = response?.data?.data?.result || [];
+  // const navigate = useNavigate();
+  // const openActorForm = () => {
+  //   navigate("/create-actor");
+  // };
 
   const [modalContent, setModalContent] = useState(null);
 
-  const handleCreateOrUpdateGenre = (isUpdate = false, genre = null) => {
+  const handleCreateOrUpdateActor = (isUpdate = false, actorId = null) => {
     setModalContent({
-      title: isUpdate ? "Cập nhật thể loại" : "Tạo thể loại mới",
+      title: isUpdate ? "Cập nhật diễn viên" : "Thêm diễn viên mới",
       open: true,
-      onCancel: () => {
-        setModalContent(null);
-      },
-      Component: GenreForm,
+      onCancel: () => setModalContent(null),
+      Component: ActorForm,
+      width: 800,
       componentProps: {
         isUpdate,
-        genre,
+        actorId,
         onSuccess: () => {
           setModalContent(null);
           response.refetch();
         },
-        onCancel: () => {
-          setModalContent(null);
-        },
+        onCancel: () => setModalContent(null),
       },
     });
   };
-
-  // Open modal confirm delete genre
-  const [modelDeleteContent, setModelDeleteContent] = useState(null);
-  const handleOpenModalDelete = (genreId, genreName) => {
-    setModelDeleteContent({
-      title: "Xác nhận xóa thể loại",
-      open: true,
-      onCancel: () => {
-        setModelDeleteContent(null);
-      },
-      Component: ConfirmDeleteModal,
-      componentProps: {
-        genreId,
-        genreName,
-        onSuccess: () => {
-          setModelDeleteContent(null);
-          response.refetch();
-        },
-      },
-    });
-  };
-
-  const isLoading = response.isLoading || response.isFetching;
 
   return (
     <div className="h-full bg-dark-200 p-7">
       <div className="flex items-center justify-between">
         <p className="text-xl font-bold text-white sm:text-2xl">
-          Danh sách thể loại
+          Danh sách diễn viên
         </p>
         <Button
           className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
           type="primary"
-          onClick={() => handleCreateOrUpdateGenre()}
+          onClick={() => handleCreateOrUpdateActor()}
         >
-          Tạo thể loại
+          Thêm diễn viên
         </Button>
       </div>
       <div className="mt-5">
         <InputSearch
-          placeholder="Tìm kiếm thể loại"
+          placeholder="Tìm kiếm diễn viên"
           value={search}
           onChange={(e) => {
-            console.log({ input: e.target.value });
             handleSearch(e.target.value);
           }}
           loading={isLoading}
@@ -168,24 +166,24 @@ const GenreManagement = () => {
         <p className="mb-3 text-lg font-bold text-white">Thông tin thể loại</p>
         <Table
           columns={columns}
-          dataSource={genres}
+          dataSource={actors}
           rowKey="id"
           loading={isLoading}
           // rowClassName={() => "hover:bg-transparent"}
           className="custom-table"
           pagination={{
-            current: pagination.page,
+            current: pagination.pageNumber,
             pageSize: pagination.pageSize,
             total: response?.data?.data?.meta?.totalElements,
-            onChange: (page, pageSize) => {
-              setPagination({ ...pagination, page, pageSize });
+            onChange: (pageNumber, pageSize) => {
+              setPagination({ ...pagination, pageNumber, pageSize });
             },
           }}
         ></Table>
       </div>
       {modalContent && <GenericModal {...modalContent} />}
-      {modelDeleteContent && <GenericModal {...modelDeleteContent} />}
+      {/* {modelDeleteContent && <GenericModal {...modelDeleteContent} />} */}
     </div>
   );
 };
-export default GenreManagement;
+export default ActorManagement;

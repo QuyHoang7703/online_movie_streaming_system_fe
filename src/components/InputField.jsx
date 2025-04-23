@@ -10,8 +10,9 @@ const InputField = ({ onChange, name, label, type, control, error, value }) => {
         className="!bg-[#f6f2ee] !p-2"
         placeholder={` ${label}`}
         onChange={onChange}
+        value={value} // giữ nguyên
         status={error ? "error" : ""}
-        defaultValue={value}
+        // defaultValue={value}
       />
       {error && <p className="mt-2 text-sm font-light text-red-500">{error}</p>}
     </div>
