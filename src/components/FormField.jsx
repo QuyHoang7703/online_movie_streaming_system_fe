@@ -1,14 +1,14 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-// eslint-disable-next-line no-unused-vars
+
 const FormField = ({
   control,
   name,
   label,
   type,
+  // eslint-disable-next-line no-unused-vars
   Component,
   error,
-  defaultValue,
 }) => {
   return (
     <div>
@@ -17,6 +17,7 @@ const FormField = ({
         control={control}
         name={name}
         render={({ field: { onChange, value, name } }) => {
+          // console.log(name, value);
           return (
             <Component
               onChange={onChange}
@@ -26,7 +27,6 @@ const FormField = ({
               label={label}
               control={control}
               error={error}
-              defaultValue={defaultValue}
             />
           );
         }}

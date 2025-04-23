@@ -1,6 +1,13 @@
 import { Modal } from "antd";
 import "@styles/styles.css";
-const GenericModal = ({ title, open, onCancel, Component, componentProps }) => {
+const GenericModal = ({
+  title,
+  open,
+  onCancel,
+  Component,
+  componentProps,
+  width,
+}) => {
   return (
     <Modal
       open={open}
@@ -9,6 +16,7 @@ const GenericModal = ({ title, open, onCancel, Component, componentProps }) => {
       title={<p className="mb-3 text-lg font-bold text-white">{title}</p>}
       destroyOnClose
       wrapClassName="custom-modal-wrapper"
+      width={width}
     >
       {Component ? <Component {...componentProps} onCancel={onCancel} /> : null}
     </Modal>

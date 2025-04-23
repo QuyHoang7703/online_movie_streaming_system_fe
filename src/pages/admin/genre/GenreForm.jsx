@@ -4,7 +4,6 @@ import InputField from "@components/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useCreateGenreMutation,
-  useGetGenresQuery,
   useUpdateGenreMutation,
 } from "@service/admin/genresApi";
 import { Button } from "antd";

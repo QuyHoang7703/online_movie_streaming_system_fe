@@ -74,35 +74,33 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
     },
   ];
   return (
-    <div>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-        breakpoint="lg" // có thể là 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'
-        onBreakpoint={(broken) => setCollapsed(broken)}
-        className="min-h-screen !bg-[#273142]"
-      >
-        <div className="mb-5 flex items-center justify-center p-5">
-          <img
-            src="/emovie-logo.png"
-            alt="emovie-logo"
-            className={`h-[20px] transition-all duration-300 ${
-              collapsed ? "w-[15px] object-cover object-left" : "w-auto"
-            }`}
-          />
-        </div>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          className="!bg-[#273142] !text-sm [&_.ant-menu-item-selected]:!text-black [&_.ant-menu-item]:!mb-3 [&_.ant-menu-submenu-title]:!mb-3 [&_.ant-menu-submenu]:!mb-3"
-          // className="!bg-[#273142] !text-sm [&_.ant-menu-item-selected]:!bg-[#ECE000] [&_.ant-menu-item-selected]:!text-black [&_.ant-menu-item:hover]:!bg-[#ECE000]/80 [&_.ant-menu-item:hover]:!text-black [&_.ant-menu-item]:!mb-3 [&_.ant-menu-submenu-title]:!mb-3 [&_.ant-menu-submenu]:!mb-3"
-          theme="dark"
-          items={menuItems}
+    <Sider
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      breakpoint="lg" // có thể là 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'
+      onBreakpoint={(broken) => setCollapsed(broken)}
+      className="min-h-screen !bg-[#273142]"
+    >
+      <div className="mb-5 flex items-center justify-center p-5">
+        <img
+          src="/emovie-logo.png"
+          alt="emovie-logo"
+          className={`h-[20px] transition-all duration-300 ${
+            collapsed ? "w-[15px] object-cover object-left" : "w-auto"
+          }`}
         />
-      </Sider>
-    </div>
+      </div>
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={["1"]}
+        className="!bg-[#273142] !text-sm [&_.ant-menu-item-selected]:!text-black [&_.ant-menu-item]:!mb-3 [&_.ant-menu-submenu-title]:!mb-3 [&_.ant-menu-submenu]:!mb-3"
+        // className="!bg-[#273142] !text-sm [&_.ant-menu-item-selected]:!bg-[#ECE000] [&_.ant-menu-item-selected]:!text-black [&_.ant-menu-item:hover]:!bg-[#ECE000]/80 [&_.ant-menu-item:hover]:!text-black [&_.ant-menu-item]:!mb-3 [&_.ant-menu-submenu-title]:!mb-3 [&_.ant-menu-submenu]:!mb-3"
+        theme="dark"
+        items={menuItems}
+      />
+    </Sider>
   );
 };
 export default AdminSidebar;

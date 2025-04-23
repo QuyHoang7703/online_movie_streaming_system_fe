@@ -51,3 +51,13 @@
   color: white !important;
   border-color: white !important;
 }
+/* styles.css */
+.custom-upload-wrapper .ant-upload-select-picture-card {
+  border: 2px dashed #999 !important;
+  border-radius: 12px;
+  transition: border-color 0.3s;
+}
+
+.custom-upload-wrapper .ant-upload-select-picture-card:hover {
+  border-color: #1890ff !important;
+}

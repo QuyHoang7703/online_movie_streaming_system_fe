@@ -36,7 +36,7 @@ const ProtectedLayout = () => {
   return (
     <div>
       <Suspense fallback={<LoadingComponent />}>
-        <Layout>
+        <Layout className="min-h-screen">
           <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout>
             <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
