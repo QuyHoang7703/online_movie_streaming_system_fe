@@ -10,7 +10,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-const ImageUpload = ({ fileList, onChange }) => {
+const ImageUpload = ({ fileList, onChange, className }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
@@ -25,10 +25,20 @@ const ImageUpload = ({ fileList, onChange }) => {
   };
 
   // Button to upload image
+  // const uploadButton = (
+  //   <button className="text-white" type="button">
+  //     <PlusOutlined />
+  //     <div className="mt-3">Tải ảnh</div>
+  //   </button>
+  // );
   const uploadButton = (
-    <button className="text-white" type="button">
-      <PlusOutlined />
-      <div className="mt-3">Tải ảnh</div>
+    <button
+      className="flex flex-col items-center justify-center text-white"
+      type="button"
+      style={{ width: 180, height: 180, fontSize: 28 }}
+    >
+      <PlusOutlined style={{ fontSize: 40 }} />
+      <div className="mt-3 text-base">Tải ảnh</div>
     </button>
   );
 
@@ -36,10 +46,10 @@ const ImageUpload = ({ fileList, onChange }) => {
     <div>
       <Upload
         listType="picture-card"
-        fileList={fileList}
+        fileList={fileList || []}
         onPreview={handlePreview}
         onChange={onChange}
-        className="custom-upload-wrapper"
+        className={className}
         beforeUpload={() => false} // không upload ngay
       >
         {fileList.length >= 1 ? null : uploadButton}

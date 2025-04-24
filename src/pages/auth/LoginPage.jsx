@@ -8,21 +8,24 @@ import { useNotification } from "@hooks/useNotification";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { mapErrorMessage } from "@consts/messages";
-
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "@redux/slides/authSlice";
 const LoginPage = () => {
   // eslint-disable-next-line no-unused-vars
   const [loginApi, { data, isLoading, isError, error, isSuccess }] =
     useLoginMutation();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-
+  const dispatch = useDispatch();
   const onSubmit = async (formData) => {
     try {
       const result = await loginApi(formData).unwrap();
-      console.log("Login success response:", result);
-      showNotification("success", "Thông báo", "Đăng nhập thành công");
 
-      navigate("/");
+      console.log({ result });
+      console.log("Login success", result?.data?.userInfo);
+      showNotification("success", "Thông báo", "Đăng nhập thành công");
+      dispatch(saveUserInfo(result?.data?.userInfo));
+      navigate("/admin");
     } catch (error) {
       showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
     }

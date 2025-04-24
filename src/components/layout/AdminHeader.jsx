@@ -7,9 +7,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import UserDropdown from "@components/UserDropdown";
+import { useLogout } from "@hooks/useLogout";
+
 import { Badge, Button, Input, Layout } from "antd";
 const { Header } = Layout;
 const AdminHeader = ({ collapsed, setCollapsed }) => {
+  const { handleLogout } = useLogout();
   const menu = [
     {
       key: "1",
@@ -20,8 +23,10 @@ const AdminHeader = ({ collapsed, setCollapsed }) => {
       key: "2",
       label: "Đăng xuất",
       icon: <LogoutOutlined />,
+      onClick: handleLogout,
     },
   ];
+
   return (
     <div>
       <Header className="flex items-center justify-between !bg-[#273142]">

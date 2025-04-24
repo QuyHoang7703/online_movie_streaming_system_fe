@@ -1,170 +1,157 @@
-import React, { useEffect, useState } from "react";
-import { Table, Tag, Button, Input, Select, Space, Image } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-
-const { Option } = Select;
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import InputSearch from "@components/InputSearch";
+import { Button, Image, Space, Table } from "antd";
+import { debounce } from "lodash";
+import { useEffect, useState } from "react";
+import MovieTypeModal from "@pages/admin/movie/MovieTypeModal";
+import GenericModal from "@context/GenericModal";
 
 const MovieManagement = () => {
-  const [movies, setMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [filterType, setFilterType] = useState("");
-
-  // Mock data for movies
-  useEffect(() => {
-    const mockMovies = [
-      {
-        id: 1,
-        title: "Inception",
-        description: "A mind-bending thriller by Christopher Nolan.",
-        director: "Christopher Nolan",
-        releaseDate: "2010-07-16",
-        country: "USA",
-        isFree: false,
-        movieType: "FEATURE",
-        posterUrl: "https://via.placeholder.com/150", // Placeholder image
-      },
-      {
-        id: 2,
-        title: "Parasite",
-        description: "A dark comedy thriller by Bong Joon-ho.",
-        director: "Bong Joon-ho",
-        releaseDate: "2019-05-30",
-        country: "South Korea",
-        isFree: true,
-        movieType: "FEATURE",
-        posterUrl: "https://via.placeholder.com/150", // Placeholder image
-      },
-      {
-        id: 3,
-        title: "Soul",
-        description: "An animated movie by Pixar.",
-        director: "Pete Docter",
-        releaseDate: "2020-12-25",
-        country: "USA",
-        isFree: true,
-        movieType: "ANIMATION",
-        posterUrl: "https://via.placeholder.com/150", // Placeholder image
-      },
-    ];
-    setMovies(mockMovies);
-    setFilteredMovies(mockMovies);
-  }, []);
-
-  // Handle search
-  const handleSearch = (value) => {
-    setSearchText(value);
-    const filtered = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(value.toLowerCase()),
-    );
-    setFilteredMovies(filtered);
-  };
-
-  // Handle filter by type
-  const handleFilterType = (value) => {
-    setFilterType(value);
-    const filtered = movies.filter((movie) =>
-      value ? movie.movieType === value : true,
-    );
-    setFilteredMovies(filtered);
-  };
-
-  // Table columns
   const columns = [
     {
-      title: "Poster",
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Hình ảnh",
       dataIndex: "posterUrl",
       key: "posterUrl",
-      render: (url) => <Image width={50} src={url} alt="Poster" />,
+      render: (posterUrl) =>
+        posterUrl ? (
+          <Image
+            src={posterUrl}
+            alt="posterUrl"
+            width={60}
+            height={60}
+            style={{ objectFit: "cover", borderRadius: "50%" }}
+            fallback="https://via.placeholder.com/60x60?text=No+Image" // Ảnh fallback nếu lỗi
+          />
+        ) : (
+          <span className="italic text-gray-400">Không có ảnh</span>
+        ),
     },
     {
-      title: "Title",
+      title: "Tên phim",
       dataIndex: "title",
       key: "title",
-      render: (text) => <b>{text}</b>,
     },
     {
-      title: "Director",
+      title: "Đạo diễn",
       dataIndex: "director",
       key: "director",
     },
     {
-      title: "Country",
-      dataIndex: "country",
-      key: "country",
-    },
-    {
-      title: "Release Date",
-      dataIndex: "releaseDate",
-      key: "releaseDate",
-    },
-    {
-      title: "Type",
+      title: "Thể loại",
       dataIndex: "movieType",
       key: "movieType",
-      render: (type) => (
-        <Tag color={type === "FEATURE" ? "blue" : "green"}>{type}</Tag>
-      ),
     },
     {
-      title: "Free",
-      dataIndex: "isFree",
-      key: "isFree",
-      render: (isFree) => (
-        <Tag color={isFree ? "green" : "red"}>{isFree ? "Yes" : "No"}</Tag>
-      ),
-    },
-    {
-      title: "Actions",
+      title: "Hành động",
+      dataIndex: "actions",
       key: "actions",
+      // eslint-disable-next-line no-unused-vars
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" size="small">
-            Edit
-          </Button>
-          <Button type="danger" size="small">
-            Delete
-          </Button>
+          <Button
+            icon={<EditFilled />}
+            size="large"
+            type="primary"
+            variant="solid"
+            // onClick={() =>
+            //   // handleCreateOrUpdateActor(true, { actorId: record.id })
+            // }
+          />
+          <Button
+            icon={<DeleteFilled />}
+            size="large"
+            color="danger"
+            variant="solid"
+            // onClick={() => handleOpenModalDelete(record.id, record.name)}
+          />
         </Space>
       ),
     },
   ];
+  const [search, setSearch] = useState("");
+  const [searchDebounced, setSearchDebounced] = useState("");
+  const [pagination, setPagination] = useState({
+    pageNumber: 1,
+    pageSize: 4,
+  });
+  // Tạo debounce function
+  const debouncedSearch = debounce((value) => {
+    setSearchDebounced(value);
+  }, 500);
+
+  const handleSearch = (value) => {
+    setSearch(value);
+    debouncedSearch(value);
+  };
+
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, pageNumber: 1 }));
+  }, [searchDebounced]);
+
+  const [isMovieTypeModalOpen, setIsMovieTypeModalOpen] = useState(false);
+  const handleOpenMovieTypeModal = () => {
+    console.log("open modal");
+    setIsMovieTypeModalOpen(true);
+  };
 
   return (
-    <div>
-      <h1 style={{ marginBottom: "20px" }}>Movie Management</h1>
-
-      {/* Filters */}
-      <Space style={{ marginBottom: "20px" }}>
-        <Input
-          placeholder="Search by title"
-          value={searchText}
-          onChange={(e) => handleSearch(e.target.value)}
-          prefix={<SearchOutlined />}
-          style={{ width: 200 }}
-        />
-        <Select
-          placeholder="Filter by type"
-          value={filterType}
-          onChange={handleFilterType}
-          style={{ width: 200 }}
-          allowClear
+    <div className="h-full bg-dark-200 p-7">
+      <div className="flex items-center justify-between">
+        <p className="text-xl font-bold text-white sm:text-2xl">
+          Danh sách phim
+        </p>
+        <Button
+          className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
+          type="primary"
+          onClick={() => handleOpenMovieTypeModal()}
         >
-          <Option value="FEATURE">Feature</Option>
-          <Option value="ANIMATION">Animation</Option>
-        </Select>
-      </Space>
-
-      {/* Table */}
-      <Table
-        columns={columns}
-        dataSource={filteredMovies}
-        rowKey="id"
-        bordered
-        pagination={{ pageSize: 5 }}
-      />
+          Thêm phim
+        </Button>
+      </div>
+      <div className="mt-5">
+        <InputSearch
+          placeholder="Tìm kiếm phim"
+          // value={search}
+          // onChange={(e) => {
+          //   handleSearch(e.target.value);
+          // }}
+          // loading={isLoading}
+        />
+      </div>
+      <div className="custom-pagination mt-5 rounded-lg bg-dark-100 p-7">
+        <p className="mb-3 text-lg font-bold text-white">Thông tin thể loại</p>
+        <Table
+          columns={columns}
+          // dataSource={actors}
+          rowKey="id"
+          // loading={isLoading}
+          // rowClassName={() => "hover:bg-transparent"}
+          className="custom-table"
+          // pagination={{
+          //   current: pagination.pageNumber,
+          //   pageSize: pagination.pageSize,
+          //   total: response?.data?.data?.meta?.totalElements,
+          //   onChange: (pageNumber, pageSize) => {
+          //     setPagination({ ...pagination, pageNumber, pageSize });
+          //   },
+          // }}
+        ></Table>
+        {isMovieTypeModalOpen && (
+          <GenericModal
+            title="Loại phim"
+            open={isMovieTypeModalOpen}
+            onCancel={() => setIsMovieTypeModalOpen(false)}
+            Component={MovieTypeModal}
+            width={250}
+          />
+        )}
+      </div>
     </div>
   );
 };
-
 export default MovieManagement;

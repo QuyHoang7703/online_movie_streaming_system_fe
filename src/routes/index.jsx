@@ -10,6 +10,9 @@ import { lazy } from "react";
 import ActorManagement from "@pages/admin/actor/ActorManagement";
 import ActorForm from "@pages/admin/actor/ActorForm";
 import MovieManagement from "@pages/admin/movie/MovieManagement";
+import MovieForm from "@pages/admin/movie/MovieFormInfo";
+import MovieFormInfo from "@pages/admin/movie/MovieFormInfo";
+import MovieFormMedia from "@pages/admin/movie/MovieFormMedia";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {
@@ -30,24 +33,32 @@ const router = createBrowserRouter([
     element: <ProtectedLayout />,
     children: [
       {
-        path: "/",
+        path: "/admin",
         element: <HomePage />,
       },
       {
-        path: "/genres",
+        path: "/admin/genres",
         element: <GenreManagement />,
       },
       {
-        path: "/actors",
+        path: "/admin/actors",
         element: <ActorManagement />,
       },
       {
-        path: "/create-actor",
+        path: "/admin/create-actor",
         element: <ActorForm />,
       },
       {
-        path: "/movies",
+        path: "/admin/movies",
         element: <MovieManagement />,
+      },
+      {
+        path: "/admin/movies/create",
+        element: <MovieFormInfo />,
+      },
+      {
+        path: "/admin/movies/create/media",
+        element: <MovieFormMedia />,
       },
     ],
   },
