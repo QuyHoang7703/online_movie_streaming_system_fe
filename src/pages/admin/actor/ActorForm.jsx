@@ -29,7 +29,9 @@ const ActorForm = ({
   isUpdate = false,
 }) => {
   const [fileList, setFileList] = useState([]);
-
+  const [createActor, { isCreateLoading }] = useCreateActorMutation();
+  const [updateActor, { isUpdateLoading }] = useUpdateActorMutation();
+  const { showNotification } = useNotification();
   const handleChange = ({ fileList: newList }) => setFileList(newList);
   const navigate = useNavigate();
 
@@ -53,6 +55,7 @@ const ActorForm = ({
   console.log({ response });
   const actor = response?.data;
 
+  // Show chi tiết actor khi người dùng xem chi tiết
   useEffect(() => {
     if (actor && isUpdate) {
       console.log("Actor data:", actor);
@@ -78,11 +81,6 @@ const ActorForm = ({
     onCancel?.();
   };
 
-  const [createActor, { isCreateLoading }] = useCreateActorMutation();
-  const [updateActor, { isUpdateLoading }] = useUpdateActorMutation();
-
-  const { showNotification } = useNotification();
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     console.log({ type: typeof JSON.stringify(data) });
@@ -107,7 +105,7 @@ const ActorForm = ({
         : await createActor(formData).unwrap(); // unwrap để throw error nếu fail
       console.log({ response });
       showNotification("success", response?.message);
-      navigate("/actors");
+      navigate("/admin/actors");
       onSuccess?.();
       if (isUpdate) {
         await refetch(); // 🔁 lấy lại dữ liệu mới nhất từ server
@@ -127,11 +125,6 @@ const ActorForm = ({
 
   return (
     <div className="h-full bg-dark-200 p-7">
-      {/* <div className="flex items-center justify-between">
-        <p className="text-xl font-bold text-white sm:text-2xl">
-          Thêm diễn viên
-        </p>
-      </div> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-3 flex gap-5 rounded-lg bg-dark-100 p-7"
@@ -141,13 +134,6 @@ const ActorForm = ({
             <ImageUpload fileList={fileList} onChange={handleChange} />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {/* <FormField
-              control={control}
-              name="name"
-              label="Tên diễn viên"
-              Component={InputField}
-              error={errors?.name?.message}
-            /> */}
             <FormField
               control={control}
               name="name"

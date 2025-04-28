@@ -13,7 +13,6 @@ export const authSlice = createSlice({
       state.userInfo = action.payload;
     },
     logout: () => {
-      console.log("Logout action triggered in reducer");
       return initialState;
     },
   },

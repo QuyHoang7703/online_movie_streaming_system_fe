@@ -52,12 +52,26 @@
   border-color: white !important;
 }
 /* styles.css */
+
+.custom-upload-wrapper .ant-upload-select,
 .custom-upload-wrapper .ant-upload-select-picture-card {
-  border: 2px dashed #999 !important;
-  border-radius: 12px;
-  transition: border-color 0.3s;
+  width: 180px !important;
+  height: 180px !important;
+  min-width: 180px !important;
+  min-height: 180px !important;
+  line-height: 180px !important;
+  font-size: 24px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.custom-upload-wrapper .ant-upload-select-picture-card:hover {
-  border-color: #1890ff !important;
+.custom-upload-wrapper .ant-upload-list-picture-card-container,
+.custom-upload-wrapper .ant-upload-list-item,
+.custom-upload-wrapper .ant-upload-list-item-thumbnail,
+.custom-upload-wrapper .ant-upload-list-item-thumbnail img {
+  width: 180px !important;
+  height: 180px !important;
+  object-fit: cover !important;
+  border-radius: 8px;
 }
