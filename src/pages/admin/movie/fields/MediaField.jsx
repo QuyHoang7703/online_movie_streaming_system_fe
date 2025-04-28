@@ -50,6 +50,11 @@ const MediaField = ({
                 onChange={handleChangePoster}
                 name="poster"
               />
+              {errors?.poster && (
+                <div className="mt-1 text-sm font-light text-red-400">
+                  {errors.poster.message}
+                </div>
+              )}
             </div>
             <div className="w-full md:w-1/2">
               <p className="font-base mb-1 text-white">Backdrop</p>
@@ -59,6 +64,11 @@ const MediaField = ({
                 onChange={handleChangeBackdrop}
                 name="backdrop"
               />
+              {errors?.backdrop && (
+                <div className="mt-1 text-sm font-light text-red-400">
+                  {errors.backdrop.message}
+                </div>
+              )}
             </div>
           </div>
           {/* <FormField

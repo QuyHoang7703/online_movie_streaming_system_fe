@@ -22,101 +22,89 @@ import {
   useUpdateSeriesMovieMutation,
 } from "@service/admin/seriesMovieApi";
 import dayjs from "dayjs";
+import { useMovieCRUD } from "@hooks/useMovieCRUD";
+import { Form } from "antd";
+
 const MovieFormInfo = () => {
   // Kiểm tra form đang là form cập nhập hay form thêm movie
   const { movieType, movieId } = useParams();
   const isUpdate = Boolean(movieId && movieType);
-  console.log({ isUpdate });
+  console.log({ movieId, movieType });
 
   const [filePosterList, setFilePosterList] = useState([]);
   const [fileBackdropList, setFileBackdropList] = useState([]);
   const [isFree, setIsFree] = useState(true);
   const [trailer, setTrailer] = useState("");
 
-  const [createStandaloneMovie, { isLoading: isCreateStandaloneLoading }] =
-    useCreateStandaloneMovieMutation();
-
-  const [createSeriesMovie, { isLoading: isCreateSeriesLoading }] =
-    useCreateSeriesMovieMutation();
-
-  const isCreateLoading =
-    movieType === "STANDALONE"
-      ? isCreateStandaloneLoading
-      : isCreateSeriesLoading;
-
-  const [updateStandaloneMovie, { isLoading: isUpdateStandaloneLoading }] =
-    useUpdateStandaloneMovieMutation();
-
-  const [updateSeriesMovie, { isLoading: isUpdateSeriesLoading }] =
-    useUpdateSeriesMovieMutation();
-
-  const isUpdateLoading =
-    movieType === "STANDALONE"
-      ? isUpdateStandaloneLoading
-      : isUpdateSeriesLoading;
-
-  const { showNotification } = useNotification();
-
   const navigate = useNavigate();
 
-  const formSchema = yup.object().shape({
-    title: yup.string().required("Tên phim không được để trống"),
-    country: yup.string().required("Quốc gia không được để trống"),
-    director: yup.string().required("Đạo diễn không được để trống"),
-    description: yup.string().required("Mô tả không được để trống"),
-    genreIds: yup.array().min(1, "Thể loại không được để trống"),
-    movieActors: yup.array().of(
-      yup.object().shape({
-        actorId: yup.number().required("Chọn diễn viên"),
-        characterName: yup.string().required("Nhập tên nhân vật"),
-      }),
-    ),
-    // subscriptionPlan: yup
-    //   .string()
-    //   .required("Gói Subscription không được để trống"),
-    // season: yup.number().required("Mùa không được để trống"),
-    // duration: yup
-    //   .number()
-    //   .typeError("Thời lượng phải là một số")
-    //   .required("Thời lượng không được để trống"),
-    // videoUrl: yup.string().required("Nguồn phim không được để trống"),
+  const createFormSchema = (movieType) => {
+    const baseSchema = {
+      title: yup.string().required("Tên phim không được để trống"),
+      country: yup.string().required("Quốc gia không được để trống"),
+      director: yup.string().required("Đạo diễn không được để trống"),
+      description: yup.string().required("Mô tả không được để trống"),
+      genreIds: yup.array().min(1, "Thể loại không được để trống"),
+      movieActors: yup.array().of(
+        yup.object().shape({
+          actorId: yup.number().required("Chọn diễn viên"),
+          characterName: yup.string().required("Nhập tên nhân vật"),
+        }),
+      ),
+      subscriptionPlan: yup.string().default("FREE"),
+      trailerUrl: yup.string().required("Trailer không được để trống"),
+      poster: yup
+        .mixed()
+        .test("required", "Poster không được để trống", (value) => {
+          return filePosterList && filePosterList.length > 0;
+        }),
+      backdrop: yup
+        .mixed()
+        .test("required", "Backdrop không được để trống", (value) => {
+          return fileBackdropList && fileBackdropList.length > 0;
+        }),
+    };
 
-    // episodeNumber: yup
-    //   .number()
-    //   .typeError("Số tập phải là một số")
-    //   .required("Số tập không được để trống"),
-    // season: yup
-    //   .number()
-    //   .typeError("Mùa phải là một số")
-    //   .required("Mùa không được để trống"),
-    // poster: yup
-    //   .mixed()
-    //   .test(
-    //     "required",
-    //     "Poster không được để trống",
-    //     (value) => Array.isArray(value) && value.length > 0,
-    //   ),
-    // backdrop: yup
-    //   .mixed()
-    //   .test(
-    //     "required",
-    //     "Backdrop không được để trống",
-    //     (value) => Array.isArray(value) && value.length > 0,
-    //   ),
+    if (movieType === "STANDALONE") {
+      return yup.object().shape({
+        ...baseSchema,
+        duration: yup
+          .number()
+          .typeError("Thời lượng phải là một số")
+          .required("Thời lượng không được để trống")
+          .positive("Thời lượng phải lớn hơn 0"),
+        videoUrl: yup.string().required("Nguồn phim không được để trống"),
+      });
+    } else {
+      return yup.object().shape({
+        ...baseSchema,
+        season: yup
+          .number()
+          .typeError("Mùa phải là một số")
+          .required("Mùa không được để trống")
+          .positive("Mùa phải lớn hơn 0"),
+        episodeNumber: yup
+          .number()
+          .typeError("Số tập phải là một số")
+          .required("Số tập không được để trống")
+          .positive("Số tập phải lớn hơn 0"),
+      });
+    }
+  };
 
-    trailerUrl: yup.string().required("Trailer không được để trống"),
-  });
+  const formSchema = createFormSchema(movieType);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
+    setError,
   } = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      // ...other fields
-      genreIds: [], // Thêm dòng này
+      genreIds: [],
+      subscriptionPlan: "FREE",
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -139,6 +127,7 @@ const MovieFormInfo = () => {
   const movieDetailResponse =
     movieType === "STANDALONE" ? standaloneMovieData : seriesMovieData;
 
+  // Hiển thị chi tiết movie theo movieType nếu là chức năng cập nhập
   useEffect(() => {
     if (movieDetailResponse?.data) {
       const movieDetail = movieDetailResponse.data;
@@ -204,71 +193,61 @@ const MovieFormInfo = () => {
     }
   }, [genreData]);
 
+  // Sử dụng custom hook
+  const {
+    handleCreateMovie,
+    handleUpdateMovie,
+    prepareFormData,
+    isCreateStandaloneLoading,
+    isCreateSeriesLoading,
+    isUpdateStandaloneLoading,
+    isUpdateSeriesLoading,
+  } = useMovieCRUD();
+
+  const isCreateLoading =
+    movieType === "STANDALONE"
+      ? isCreateStandaloneLoading
+      : isCreateSeriesLoading;
+
+  const isUpdateLoading =
+    movieType === "STANDALONE"
+      ? isUpdateStandaloneLoading
+      : isUpdateSeriesLoading;
+
   const handleOnSubmit = async (data) => {
-    console.log({ data });
-    const submitData = {
-      ...data,
-      genreIds: (data.genreIds || []).map(Number),
+    // Kiểm tra poster và backdrop khi submit
+    if (filePosterList.length === 0) {
+      setError("poster", {
+        type: "required",
+        message: "Poster không được để trống",
+      });
+      return;
+    }
 
-      movieType: movieType === "standalone" ? "STANDALONE" : "SERIES",
-      isFree: isFree,
-    };
-    const formData = new FormData();
-    formData.append(
-      "movieInfo",
-      new Blob([JSON.stringify(submitData)], { type: "application/json" }),
+    if (fileBackdropList.length === 0) {
+      setError("backdrop", {
+        type: "required",
+        message: "Backdrop không được để trống",
+      });
+      return;
+    }
+
+    const formData = prepareFormData(
+      data,
+      filePosterList,
+      fileBackdropList,
+      movieType,
+      isFree,
     );
-    if (filePosterList.length > 0) {
-      formData.append("poster", filePosterList[0].originFileObj);
-    }
-    if (fileBackdropList.length > 0) {
-      formData.append("backdrop", fileBackdropList[0].originFileObj);
-    }
-    if (!isUpdate) {
-      try {
-        let response;
-        if (movieType === "STANDALONE") {
-          response = await createStandaloneMovie(formData).unwrap();
-        } else {
-          response = await createSeriesMovie(formData).unwrap();
-        }
-        showNotification(
-          "success",
-          response?.message || "Thêm phim thành công!",
-        );
-        navigate("/admin/movies");
-      } catch (error) {
-        showNotification(
-          "error",
-          error?.data?.message || "Thêm phim thất bại!",
-        );
-      }
-    } else {
-      try {
-        let response;
-        if (movieType === "STANDALONE") {
-          response = await updateStandaloneMovie({
-            movieId,
-            formData,
-          }).unwrap();
-        } else {
-          response = await updateSeriesMovie({
-            movieId,
-            formData,
-          }).unwrap();
-        }
 
-        showNotification(
-          "success",
-          response?.message || "Cập nhập phim thành công!",
-        );
-        navigate("/admin/movies");
-      } catch (error) {
-        showNotification(
-          "error",
-          error?.data?.message || "Cập nhập phim thất bại!",
-        );
+    try {
+      if (!isUpdate) {
+        await handleCreateMovie(formData, movieType);
+      } else {
+        await handleUpdateMovie(formData, movieId, movieType);
       }
+    } catch (error) {
+      console.error("Error in form submission:", error);
     }
   };
 
@@ -280,7 +259,8 @@ const MovieFormInfo = () => {
       >
         <div className="flex w-full flex-col gap-10 px-20 py-7">
           <p className="border-b border-white pb-5 text-xl font-bold text-white sm:text-2xl">
-            THÊM PHIM {movieType === "standalone" ? "LẺ" : "BỘ"}
+            {isUpdate ? "CHI TIẾT" : "THÊM"} PHIM{" "}
+            {movieType === "STANDALONE" ? "LẺ" : "BỘ"}
           </p>
           <BasisInfoFields
             control={control}
@@ -301,13 +281,20 @@ const MovieFormInfo = () => {
             setTrailer={setTrailer}
           />
           <div>
-            <FormField
-              control={control}
-              name="description"
+            <Form.Item
               label="Mô tả"
-              Component={(props) => <TextArea {...props} rows={6} />}
-              className="col-span-2"
-            />
+              validateStatus={errors?.description ? "error" : ""}
+              help={errors?.description?.message}
+              labelCol={{ span: 24 }}
+              className="[&_.ant-form-item-explain-error]:font-base [&_.ant-form-item-explain-error]:mt-2 [&_.ant-form-item-explain-error]:text-red-400 [&_.ant-form-item-label>label]:font-bold [&_.ant-form-item-label>label]:text-white"
+            >
+              <FormField
+                control={control}
+                name="description"
+                Component={(props) => <TextArea {...props} rows={6} />}
+                className="col-span-2"
+              />
+            </Form.Item>
             <div>
               <MovieActor
                 fields={fields}

@@ -11,6 +11,7 @@ export const genreApi = rootApi.injectEndpoints({
             params: { genreName, page, size },
           };
         },
+        providesTags: [{ type: "Genres", id: "List" }],
       }),
       createGenre: builder.mutation({
         query: ({ name, description }) => {
@@ -23,6 +24,7 @@ export const genreApi = rootApi.injectEndpoints({
             },
           };
         },
+        invalidatesTags: [{ type: "Genres", id: "List" }],
       }),
       getGenreById: builder.query({
         query: (id) => {
@@ -40,6 +42,7 @@ export const genreApi = rootApi.injectEndpoints({
             body: { name, description },
           };
         },
+        invalidatesTags: [{ type: "Genres", id: "List" }],
       }),
       deleteGenre: builder.mutation({
         query: (genreId) => {
@@ -48,6 +51,7 @@ export const genreApi = rootApi.injectEndpoints({
             method: "DELETE",
           };
         },
+        invalidatesTags: [{ type: "Genres", id: "List" }],
       }),
       getAllGenres: builder.query({
         query: () => {

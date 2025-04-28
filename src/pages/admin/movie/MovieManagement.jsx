@@ -8,6 +8,9 @@ import GenericModal from "@context/GenericModal";
 import { useGetMoviesQuery } from "@service/admin/movieApi";
 import MovieFilter from "@components/MovieFilter";
 import { useNavigate } from "react-router-dom";
+import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
+import { useNotification } from "@hooks/useNotification";
+import { useMovieCRUD } from "@hooks/useMovieCRUD";
 
 const genreColorMap = {
   "Hành động": "volcano",
@@ -19,6 +22,21 @@ const genreColorMap = {
 };
 
 const MovieManagement = () => {
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
+
+  // Sử dụng custom hook cho CRUD operations
+  const {
+    handleDeleteMovie,
+    deleteResponse,
+    isDeleteError,
+    isDeleteSuccess,
+    deleteError,
+    resetDelete,
+  } = useMovieCRUD();
+
+  const [modelDeleteContent, setModelDeleteContent] = useState(null);
+
   const columns = [
     {
       title: "ID",
@@ -104,7 +122,7 @@ const MovieManagement = () => {
             size="large"
             color="danger"
             variant="solid"
-            // onClick={() => handleOpenModalDelete(record.id, record.name)}
+            onClick={() => handleOpenModalDelete(record.id, record.title)}
           />
         </Space>
       ),
@@ -118,7 +136,6 @@ const MovieManagement = () => {
   const [selectedGenres, setSelectedGenres] = useState(["Tất cả"]);
   const [searchDebounced, setSearchDebounced] = useState("");
 
-  const navigate = useNavigate();
   // Tạo debounce function
   const debouncedSearch = debounce((value) => {
     setSearchDebounced(value);
@@ -129,20 +146,9 @@ const MovieManagement = () => {
     debouncedSearch(value);
   };
 
-  // const [isOpenModal, setIsOpenModal] = useState(false);
-  // const [modalContent, setModalContent] = useState(null);
-  // const handleDeleteMovie = (movieId) => {
-  //   setModalContent({
-  //     title: "Xóa phim",
-  //     open: true,
-  //     onCancel: () => setModalContent(null),
-  //     Component:
-  //   })
-  // }
-
   const [pagination, setPagination] = useState({
     pageNumber: 1,
-    pageSize: 4,
+    pageSize: 1,
   });
 
   const params = {
@@ -161,33 +167,83 @@ const MovieManagement = () => {
   if (!selectedCountries.includes("Tất cả")) {
     params.countries = selectedCountries;
   }
-  console.log({ params });
 
   const response = useGetMoviesQuery(params);
-  console.log({ response });
   const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
     setPagination((prev) => ({ ...prev, pageNumber: 1 }));
   }, [searchDebounced]);
 
+  // Modal thêm phim
   const [isMovieTypeModalOpen, setIsMovieTypeModalOpen] = useState(false);
   const handleOpenMovieTypeModal = () => {
-    console.log("open modal");
     setIsMovieTypeModalOpen(true);
   };
 
+  // Hiển thị danh sách phim và cập nhật phân trang
   useEffect(() => {
     if (response.isSuccess) {
-      setMovieData(response?.data?.data?.result);
+      console.log("Movies data from API:", response?.data?.data);
+      const result = response?.data?.data?.result || [];
+      setMovieData(result);
+
+      // Xử lý trường hợp trang hiện tại trống sau khi xóa
+      if (result.length === 0 && pagination.pageNumber > 1) {
+        setPagination((prev) => ({
+          ...prev,
+          pageNumber: Math.max(1, prev.pageNumber - 1),
+        }));
+      }
     }
-  }, [response, setMovieData]);
+  }, [response, setMovieData, pagination.pageSize, pagination.pageNumber]);
 
   const handleShowMovieDetail = (movieType, movieId) => {
-    console.log("movieType:", movieType);
-    console.log("movieId:", movieId);
     navigate(`/admin/movies/update/${movieType}/${movieId}`);
   };
+
+  const handleOpenModalDelete = (movieId, movieName) => {
+    console.log("movieId:", movieId);
+    setModelDeleteContent({
+      title: "Xác nhận xóa phim",
+      open: true,
+      onCancel: () => setModelDeleteContent(null),
+      Component: ConfirmDeleteModal,
+      componentProps: {
+        itemName: movieName,
+        itemType: "phim",
+        onConfirm: () => handleDeleteMovie(movieId),
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      showNotification("success", deleteResponse?.message);
+      setModelDeleteContent(null);
+      console.log("Deleting movie successfully, refetching data...");
+
+      // Sử dụng setTimeout để đảm bảo backend có đủ thời gian xử lý
+      setTimeout(() => {
+        response.refetch();
+      }, 300);
+
+      resetDelete();
+    }
+    if (isDeleteError) {
+      showNotification("error", deleteError?.data?.message);
+      resetDelete();
+    }
+  }, [
+    isDeleteSuccess,
+    showNotification,
+    deleteResponse,
+    isDeleteError,
+    deleteError,
+    setModelDeleteContent,
+    resetDelete,
+    response,
+  ]);
 
   return (
     <div className="h-full bg-dark-200 p-7">
@@ -232,16 +288,7 @@ const MovieManagement = () => {
           dataSource={movieData}
           rowKey="id"
           loading={response.isLoading || response.isFetching}
-          // rowClassName={() => "hover:bg-transparent"}
           className="custom-table"
-          // pagination={{
-          //   current: pagination.pageNumber,
-          //   pageSize: pagination.pageSize,
-          //   total: response?.data?.data?.meta?.totalElements,
-          //   onChange: (pageNumber, pageSize) => {
-          //     setPagination({ ...pagination, pageNumber, pageSize });
-          //   },
-          // }}
           pagination={{
             current: pagination.pageNumber,
             pageSize: pagination.pageSize,
@@ -265,6 +312,9 @@ const MovieManagement = () => {
           />
         )}
       </div>
+      {modelDeleteContent && (
+        <GenericModal {...modelDeleteContent} width={700} />
+      )}
     </div>
   );
 };

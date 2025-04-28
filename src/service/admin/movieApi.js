@@ -24,10 +24,11 @@ export const movieApi = rootApi.injectEndpoints({
       }),
     }),
     deleteMovie: builder.mutation({
-      query: ({ movieId }) => ({
+      query: (movieId) => ({
         url: `/movies/${movieId}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Movies", id: "List" }],
     }),
   }),
 });
