@@ -13,6 +13,7 @@ import MovieManagement from "@pages/admin/movie/MovieManagement";
 import MovieForm from "@pages/admin/movie/MovieFormInfo";
 import MovieFormInfo from "@pages/admin/movie/MovieFormInfo";
 import MovieFormMedia from "@pages/admin/movie/MovieFormMedia";
+import MovieFilter from "@components/MovieFilter";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {
@@ -53,12 +54,16 @@ const router = createBrowserRouter([
         element: <MovieManagement />,
       },
       {
-        path: "/admin/movies/create",
+        path: "/admin/movies/create/:movieType",
+        element: <MovieFormInfo />,
+      },
+      {
+        path: "/admin/movies/update/:movieType/:movieId",
         element: <MovieFormInfo />,
       },
       {
         path: "/admin/movies/create/media",
-        element: <MovieFormMedia />,
+        element: <MovieFilter />,
       },
     ],
   },

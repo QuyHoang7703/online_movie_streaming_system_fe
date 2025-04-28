@@ -41,6 +41,10 @@ const MovieActor = ({ fields, append, remove, control, errors }) => {
     return actorOptions.filter((opt) => !selectedIds.includes(opt.value));
   };
 
+  // Hàm tìm actor theo ID
+  const findActorById = (id) =>
+    actorOptions.find((actor) => actor.value === id);
+
   return (
     <div className="mx-auto max-w-2xl rounded-lg bg-dark-100 p-6 shadow-lg">
       <h2 className="mb-4 text-xl font-bold text-white">
@@ -55,44 +59,80 @@ const MovieActor = ({ fields, append, remove, control, errors }) => {
             <Controller
               control={control}
               name={`movieActors.${index}.actorId`}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  showSearch
-                  placeholder="Tìm diễn viên"
-                  options={getAvailableOptions(index)}
-                  style={{ width: 220 }}
-                  className="bg-white"
-                  optionFilterProp="label"
-                  filterOption={false}
-                  onSearch={setSearch}
-                  onPopupScroll={(e) => {
-                    if (
-                      !loadingRef.current &&
-                      hasMore &&
-                      e.target.scrollTop + e.target.offsetHeight >=
-                        e.target.scrollHeight - 10
-                    ) {
-                      setPage((prev) => prev + 1);
-                    }
-                  }}
-                  notFoundContent={isLoading ? <Spin size="small" /> : null}
-                  optionRender={(option) => (
-                    <Space>
-                      <Avatar
-                        src={option.data.avatarUrl}
-                        size="small"
-                        style={{ backgroundColor: "#1890ff" }}
-                      >
-                        {!option.data.avatarUrl &&
-                          option.data.label?.charAt(0)?.toUpperCase()}
-                      </Avatar>
-                      {option.data.label}
-                    </Space>
-                  )}
-                />
-              )}
+              render={({ field: { onChange, value } }) => {
+                const selectedActor = findActorById(value);
+
+                return (
+                  <Select
+                    showSearch
+                    placeholder="Tìm diễn viên"
+                    style={{ width: 220 }}
+                    className="bg-white"
+                    value={value ?? undefined}
+                    onChange={(newValue) => {
+                      onChange(newValue);
+                    }}
+                    onSearch={(val) => {
+                      setSearch(val);
+                      setPage(1);
+                    }}
+                    onPopupScroll={(e) => {
+                      if (
+                        !loadingRef.current &&
+                        hasMore &&
+                        e.target.scrollTop + e.target.offsetHeight >=
+                          e.target.scrollHeight - 10
+                      ) {
+                        setPage((prev) => prev + 1);
+                      }
+                    }}
+                    notFoundContent={isLoading ? <Spin size="small" /> : null}
+                    filterOption={false}
+                    optionFilterProp="label"
+                    dropdownRender={(menu) => menu}
+                    suffixIcon={null}
+                  >
+                    {getAvailableOptions(index).map((option) => (
+                      <Select.Option key={option.value} value={option.value}>
+                        <Space>
+                          <Avatar
+                            src={option.avatarUrl}
+                            size="small"
+                            style={{ backgroundColor: "#1890ff" }}
+                          >
+                            {!option.avatarUrl &&
+                              option.label?.charAt(0)?.toUpperCase()}
+                          </Avatar>
+                          {option.label}
+                        </Space>
+                      </Select.Option>
+                    ))}
+                  </Select>
+                );
+              }}
             />
+
+            {/* Custom hiển thị Selected Actor */}
+            {/* {(() => {
+              const selectedActor = findActorById(item.actorId);
+              if (selectedActor) {
+                return (
+                  <div className="flex items-center gap-2">
+                    <Avatar
+                      src={selectedActor.avatarUrl}
+                      size="small"
+                      style={{ backgroundColor: "#1890ff" }}
+                    >
+                      {!selectedActor.avatarUrl &&
+                        selectedActor.label?.charAt(0)?.toUpperCase()}
+                    </Avatar>
+                    <span className="text-white">{selectedActor.label}</span>
+                  </div>
+                );
+              }
+              return null;
+            })()} */}
+
             <Controller
               control={control}
               name={`movieActors.${index}.characterName`}
@@ -104,6 +144,7 @@ const MovieActor = ({ fields, append, remove, control, errors }) => {
                 />
               )}
             />
+
             <Button
               danger
               icon={<DeleteOutlined />}

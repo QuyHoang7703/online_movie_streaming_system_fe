@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 const MovieTypeModal = () => {
   const [movieType, setMovieType] = useState("");
   const navigate = useNavigate();
-  const handleMovieTypeSelection = (type) => {
-    setMovieType(type);
-    navigate(`/admin/movies/create?type=${type}`);
+  const handleMovieTypeSelection = (movieType) => {
+    setMovieType(movieType);
+    navigate(`/admin/movies/create/${movieType}`);
   };
 
   return (
@@ -16,14 +16,14 @@ const MovieTypeModal = () => {
         <Button
           type="primary"
           className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
-          onClick={() => handleMovieTypeSelection("series")}
+          onClick={() => handleMovieTypeSelection("SERIES")}
         >
           Phim bộ
         </Button>
         <Button
           type="primary"
           className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
-          onClick={() => handleMovieTypeSelection("standalone")}
+          onClick={() => handleMovieTypeSelection("STANDALONE")}
         >
           Phim lẻ
         </Button>

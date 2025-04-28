@@ -59,3 +59,44 @@ const ConfirmDeleteModal = ({ genreId, genreName, onSuccess, onCancel }) => {
   );
 };
 export default ConfirmDeleteModal;
+
+// import { Button } from "antd";
+
+// const ConfirmDeleteModal = ({
+//   visible,
+//   onCancel,
+//   onConfirm,
+//   isLoading,
+//   itemName = "",
+//   itemType = "",
+// }) => {
+//   if (!visible) return null;
+
+//   return (
+//     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+//       <div className="bg-gray-900 p-6 rounded-md w-[400px]">
+//         <p className="text-base font-bold text-white">
+//           Bạn có muốn xóa {itemType}{" "}
+//           <span className="text-yellow-400">"{itemName}"</span> này không?
+//         </p>
+
+//         <div className="mt-5 flex justify-end gap-4">
+//           <Button
+//             type="primary"
+//             danger
+//             loading={isLoading}
+//             onClick={onConfirm}
+//             size="large"
+//           >
+//             Xóa
+//           </Button>
+//           <Button onClick={onCancel} size="large">
+//             Thoát
+//           </Button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ConfirmDeleteModal;

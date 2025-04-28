@@ -49,6 +49,14 @@ export const genreApi = rootApi.injectEndpoints({
           };
         },
       }),
+      getAllGenres: builder.query({
+        query: () => {
+          return {
+            url: "/genres/all",
+            method: "GET",
+          };
+        },
+      }),
     };
   },
 });
@@ -59,4 +67,5 @@ export const {
   useGetGenreByIdQuery,
   useUpdateGenreMutation,
   useDeleteGenreMutation,
+  useGetAllGenresQuery,
 } = genreApi;

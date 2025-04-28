@@ -55,6 +55,7 @@ const ActorForm = ({
   console.log({ response });
   const actor = response?.data;
 
+  // Show chi tiết actor khi người dùng xem chi tiết
   useEffect(() => {
     if (actor && isUpdate) {
       console.log("Actor data:", actor);

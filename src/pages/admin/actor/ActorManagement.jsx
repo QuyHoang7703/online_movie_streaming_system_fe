@@ -6,7 +6,6 @@ import { Button, Image, Space, Table } from "antd";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import "@styles/styles.css";
-import { Link, useNavigate } from "react-router-dom";
 import ActorForm from "@pages/admin/actor/ActorForm";
 import GenericModal from "@context/GenericModal";
 
