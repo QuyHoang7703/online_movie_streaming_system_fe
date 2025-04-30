@@ -1,4 +1,4 @@
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled, PlusCircleFilled } from "@ant-design/icons";
 import InputSearch from "@components/InputSearch";
 import { Button, Image, Space, Table, Tag } from "antd";
 import { debounce } from "lodash";
@@ -101,7 +101,7 @@ const MovieManagement = () => {
     },
 
     {
-      title: "Hành động",
+      title: "Thao tác",
       dataIndex: "actions",
       key: "actions",
       // eslint-disable-next-line no-unused-vars
@@ -116,14 +116,18 @@ const MovieManagement = () => {
               console.log({ record });
               handleShowMovieDetail(record.movieType, record.id);
             }}
-          />
+          >
+            Sửa
+          </Button>
           <Button
             icon={<DeleteFilled />}
             size="large"
             color="danger"
             variant="solid"
             onClick={() => handleOpenModalDelete(record.id, record.title)}
-          />
+          >
+            Xóa
+          </Button>
         </Space>
       ),
     },
@@ -255,6 +259,7 @@ const MovieManagement = () => {
           className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
           type="primary"
           onClick={() => handleOpenMovieTypeModal()}
+          icon={<PlusCircleFilled size={50} />}
         >
           Thêm phim
         </Button>
