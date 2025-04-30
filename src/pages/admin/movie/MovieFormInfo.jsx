@@ -253,6 +253,17 @@ const MovieFormInfo = () => {
             {isUpdate ? "CHI TIẾT" : "THÊM"} PHIM{" "}
             {movieType === "STANDALONE" ? "LẺ" : "BỘ"}
           </p>
+          {movieType === "SERIES" && isUpdate && (
+            <Button
+              type="primary"
+              onClick={() =>
+                navigate(`/admin/series-movie/${movieId}/episodes`)
+              }
+              className="ml-auto"
+            >
+              Quản lý tập phim
+            </Button>
+          )}
           <BasisInfoFields
             control={control}
             errors={errors}

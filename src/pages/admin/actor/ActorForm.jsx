@@ -92,7 +92,9 @@ const ActorForm = ({
     );
 
     // 2. Thêm avatar nếu có
-    if (fileList.length > 0) {
+    // Avatar được hiển thị là từ file.url, nhưng khi gửi lên server thì lại là file.originFileObj
+    // Do đó nếu fileList[0].originFileObj không tồn tại thì không thêm avatar vào formData
+    if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append("avatar", fileList[0].originFileObj);
     }
 

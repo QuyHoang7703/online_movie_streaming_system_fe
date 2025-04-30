@@ -109,7 +109,7 @@ const MovieManagement = () => {
         <Space size="middle">
           <Button
             icon={<EditFilled />}
-            size="large"
+            // size="large"
             type="primary"
             variant="solid"
             onClick={() => {
@@ -121,13 +121,21 @@ const MovieManagement = () => {
           </Button>
           <Button
             icon={<DeleteFilled />}
-            size="large"
+            // size="large"
             color="danger"
             variant="solid"
             onClick={() => handleOpenModalDelete(record.id, record.title)}
           >
             Xóa
           </Button>
+          {record.movieType === "SERIES" && (
+            <Button
+              type="default"
+              onClick={() => navigate(`/admin/series/${record.id}/episodes`)}
+            >
+              Quản lý tập phim
+            </Button>
+          )}
         </Space>
       ),
     },
@@ -152,7 +160,7 @@ const MovieManagement = () => {
 
   const [pagination, setPagination] = useState({
     pageNumber: 1,
-    pageSize: 1,
+    pageSize: 5,
   });
 
   const params = {
