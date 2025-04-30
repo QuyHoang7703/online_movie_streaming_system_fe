@@ -16,6 +16,7 @@ import MovieFormMedia from "@pages/admin/movie/MovieFormMedia";
 import MovieFilter from "@components/MovieFilter";
 import SubscriptionPlanManage from "@pages/admin/subscriptionPlan/SubscriptionPlanManage";
 import SubscriptionPlanForm from "@pages/admin/subscriptionPlan/SubscriptionPlanForm";
+import Episode from "@pages/admin/movie/Episode";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {
@@ -71,10 +72,10 @@ const router = createBrowserRouter([
         path: "/admin/subscription-plans",
         element: <SubscriptionPlanManage />,
       },
-      // {
-      //   path: "/admin/subscription-plans/:subscriptionPlanId",
-      //   element: <SubscriptionPlanForm />,
-      // },
+      {
+        path: "/admin/series-movie/:movieId/episodes",
+        element: <Episode />,
+      },
     ],
   },
 ]);
