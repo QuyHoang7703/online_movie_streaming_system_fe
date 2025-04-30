@@ -35,9 +35,9 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
         navigate("/admin/genres");
         break;
 
-      // case "4":
-      //   navigate("/admin/subscriptions");
-      //   break;
+      case "4":
+        navigate("/admin/subscription-plans");
+        break;
       // case "5":
       //   navigate("/admin/notifications");
       //   break;

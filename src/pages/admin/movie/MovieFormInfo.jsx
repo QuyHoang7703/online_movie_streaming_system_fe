@@ -5,22 +5,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import FormField from "@components/FormField";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MovieActor from "@components/layout/admin/movie/MovieActor";
 import { useGetGenresQuery } from "@service/admin/genresApi";
-import {
-  useCreateStandaloneMovieMutation,
-  useGetStandaloneMovieDetailQuery,
-  useUpdateStandaloneMovieMutation,
-} from "@service/admin/standaloneMovieApi";
-import { useNotification } from "@hooks/useNotification";
+import { useGetStandaloneMovieDetailQuery } from "@service/admin/standaloneMovieApi";
 import BasisInfoFields from "./fields/BasisInfoFields";
 import MediaField from "./fields/MediaField";
-import {
-  useCreateSeriesMovieMutation,
-  useGetSeriesMovieDetailQuery,
-  useUpdateSeriesMovieMutation,
-} from "@service/admin/seriesMovieApi";
+import { useGetSeriesMovieDetailQuery } from "@service/admin/seriesMovieApi";
 import dayjs from "dayjs";
 import { useMovieCRUD } from "@hooks/useMovieCRUD";
 import { Form } from "antd";

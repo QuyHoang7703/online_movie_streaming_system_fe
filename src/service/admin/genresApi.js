@@ -51,7 +51,10 @@ export const genreApi = rootApi.injectEndpoints({
             method: "DELETE",
           };
         },
-        invalidatesTags: [{ type: "Genres", id: "List" }],
+        invalidatesTags: [
+          { type: "Genres", id: "List" },
+          { type: "Movies", id: "List" },
+        ],
       }),
       getAllGenres: builder.query({
         query: () => {
