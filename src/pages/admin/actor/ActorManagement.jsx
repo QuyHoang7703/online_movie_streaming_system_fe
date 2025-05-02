@@ -1,4 +1,9 @@
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import {
+  DeleteFilled,
+  EditFilled,
+  PlusCircleFilled,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import InputSearch from "@components/InputSearch";
 import { useNotification } from "@hooks/useNotification";
 import { useGetActorsQuery } from "@service/admin/actorApi";
@@ -144,9 +149,10 @@ const ActorManagement = () => {
           Danh sách diễn viên
         </p>
         <Button
-          className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
+          className="btn-create"
           type="primary"
           onClick={() => handleCreateOrUpdateActor()}
+          icon={<PlusCircleFilled />}
         >
           Thêm diễn viên
         </Button>

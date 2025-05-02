@@ -12,7 +12,8 @@ const ConfirmDeleteModal = ({ itemName, itemType, onConfirm, onCancel }) => {
     <div>
       <p className="text-base font-bold text-white">
         Bạn có muốn xóa {itemType}
-        <span className="text-yellow-400">"{itemName}"</span> này không?
+        {itemName && <span className="text-yellow-400">"{itemName}"</span>}{" "}
+        không?
       </p>
 
       <div className="mt-5 flex justify-end gap-4">

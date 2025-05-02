@@ -264,7 +264,7 @@ const MovieManagement = () => {
           Danh sách phim
         </p>
         <Button
-          className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
+          className="btn-create"
           type="primary"
           onClick={() => handleOpenMovieTypeModal()}
           icon={<PlusCircleFilled size={50} />}

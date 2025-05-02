@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RegisterPage from "@pages/auth/RegisterPage.jsx";
 import LoginPage from "@pages/auth/LoginPage.jsx";
 import "../index.css";
-// import HomePage from "@pages/HomePage.jsx";
+
 import OTPVerifyPage from "@pages/auth/OTPVerifyPage.jsx";
 import ProtectedLayout from "@pages/ProtectedLayout";
 import GenreManagement from "@pages/admin/genre/GenreManagement";
@@ -10,13 +10,13 @@ import { lazy } from "react";
 import ActorManagement from "@pages/admin/actor/ActorManagement";
 import ActorForm from "@pages/admin/actor/ActorForm";
 import MovieManagement from "@pages/admin/movie/MovieManagement";
-import MovieForm from "@pages/admin/movie/MovieFormInfo";
+
 import MovieFormInfo from "@pages/admin/movie/MovieFormInfo";
-import MovieFormMedia from "@pages/admin/movie/MovieFormMedia";
+
 import MovieFilter from "@components/MovieFilter";
 import SubscriptionPlanManage from "@pages/admin/subscriptionPlan/SubscriptionPlanManage";
-import SubscriptionPlanForm from "@pages/admin/subscriptionPlan/SubscriptionPlanForm";
-import Episode from "@pages/admin/movie/Episode";
+
+import Episode from "@pages/admin/movie/EpisodeManagement";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {

@@ -75,3 +75,36 @@
   object-fit: cover !important;
   border-radius: 8px;
 }
+
+.btn-create {
+  border: none !important;
+  background-color: #4880ff !important;
+  color: white !important;
+  font-weight: bold;
+  padding: 1.2rem;
+}
+.btn-create.ant-btn:hover {
+  background-color: #4880ffcc !important; /* 80% opacity */
+  color: white !important;
+}
+
+.radio-url-btn,
+.radio-upload-btn {
+  color: #16a34a !important; /* Xanh lá */
+  border-color: #16a34a !important;
+}
+.radio-url-btn.ant-radio-button-wrapper-checked,
+.radio-upload-btn.ant-radio-button-wrapper-checked {
+  background-color: #16a34a !important;
+  color: #fff !important;
+}
+
+/* Đổi màu chữ tên file trong danh sách upload */
+.ant-upload-list-item-name {
+  color: #fff !important;
+}
+
+/* Đổi màu chữ nút Xóa (Remove) */
+.ant-upload-list-item-action {
+  color: #fff !important;
+}
