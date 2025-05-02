@@ -10,45 +10,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import FormField from "@components/FormField";
+import CustomInputField from "@components/customeField/CustomInputField";
+import CustomTextAreaField from "@components/customeField/CustomTextAreaField";
+import CustomInputNumberField from "@components/customeField/CustomInputNumberField";
+import CustomSelectField from "@components/customeField/CustomSelectField";
 
 const { TextArea } = Input;
-
-// Custom component fields
-const CustomInputField = ({ error, ...props }) => (
-  <div className="flex w-full flex-col">
-    <Input {...props} status={error ? "error" : undefined} />
-    <div className="mt-1 h-5">
-      {error && <div className="text-sm font-light text-red-500">{error}</div>}
-    </div>
-  </div>
-);
-
-const CustomTextAreaField = ({ error, ...props }) => (
-  <div className="flex w-full flex-col">
-    <TextArea {...props} status={error ? "error" : undefined} />
-    <div className="mt-1 h-5">
-      {error && <div className="text-sm font-light text-red-500">{error}</div>}
-    </div>
-  </div>
-);
-
-const CustomSelectField = ({ error, ...props }) => (
-  <div className="flex w-full flex-col">
-    <Select {...props} status={error ? "error" : undefined} />
-    <div className="mt-1 h-5">
-      {error && <div className="text-sm font-light text-red-500">{error}</div>}
-    </div>
-  </div>
-);
-
-const CustomInputNumberField = ({ error, ...props }) => (
-  <div className="flex w-full flex-col">
-    <InputNumber {...props} status={error ? "error" : undefined} />
-    <div className="mt-1 h-5">
-      {error && <div className="text-sm font-light text-red-500">{error}</div>}
-    </div>
-  </div>
-);
 
 const schema = yup.object().shape({
   name: yup.string().required("Tên gói không được để trống"),

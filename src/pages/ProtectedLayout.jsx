@@ -11,6 +11,8 @@ import AdminHeader from "@components/layout/AdminHeader";
 import "@styles/styles.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoadingComponent from "@context/LoadingComponent";
+import { LoadingProvider } from "@context/LoadingContext";
+
 const { Content } = Layout;
 const ProtectedLayout = () => {
   // const navigate = useNavigate();
@@ -36,15 +38,17 @@ const ProtectedLayout = () => {
   return (
     <div>
       <Suspense fallback={<LoadingComponent />}>
-        <Layout className="min-h-screen">
-          <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-          <Layout>
-            <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-            <Content>
-              <Outlet />
-            </Content>
+        <LoadingProvider>
+          <Layout className="min-h-screen">
+            <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+            <Layout>
+              <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+              <Content>
+                <Outlet />
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
+        </LoadingProvider>
       </Suspense>
     </div>
   );

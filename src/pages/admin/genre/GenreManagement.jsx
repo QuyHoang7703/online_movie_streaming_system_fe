@@ -1,4 +1,4 @@
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled, PlusCircleFilled } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
 import "@styles/styles.css";
 import InputSearch from "@components/InputSearch";
@@ -199,9 +199,10 @@ const GenreManagement = () => {
           Danh sách thể loại
         </p>
         <Button
-          className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
+          className="btn-create"
           type="primary"
           onClick={() => handleCreateOrUpdateGenre()}
+          icon={<PlusCircleFilled />}
         >
           Tạo thể loại
         </Button>

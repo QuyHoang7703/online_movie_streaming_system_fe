@@ -176,7 +176,7 @@ const SubscriptionPlanManage = () => {
           type="primary"
           icon={<PlusCircleFilled size={50} />}
           onClick={() => handleShowSubscriptionPlanModal()}
-          className="border-none bg-createButton p-5 font-bold text-white hover:!bg-createButton/80 hover:text-white"
+          className="btn-create"
         >
           Thêm gói mới
         </Button>
