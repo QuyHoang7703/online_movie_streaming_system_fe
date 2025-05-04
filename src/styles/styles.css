@@ -108,3 +108,41 @@
 .ant-upload-list-item-action {
   color: #fff !important;
 }
+
+/* src/styles/admin.css hoặc file CSS của bạn */
+.custom-tabs .ant-tabs-nav {
+  margin-bottom: 24px;
+}
+
+.custom-tabs .ant-tabs-tab {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #a0aec0;
+}
+
+.custom-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  color: white;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background-color: #10b981; /* hoặc màu primary của bạn */
+}
+
+.custom-tabs .ant-tabs-content {
+  background-color: #1f2937; /* hoặc màu nền tối hơn */
+  border-radius: 8px;
+  padding: 4px;
+}
+
+/* Đảm bảo mỗi tab chiếm 50% chiều ngang */
+.custom-tabs .ant-tabs-nav-list {
+  width: 100%;
+  display: flex;
+}
+
+.custom-tabs .ant-tabs-tab {
+  flex: 1 1 0;
+  justify-content: center;
+  text-align: center;
+  margin: 0 !important; /* Xóa margin mặc định */
+}

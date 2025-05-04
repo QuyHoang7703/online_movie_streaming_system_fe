@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormField from "@components/FormField";
-import { Button } from "antd";
+import { Button, Tabs } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useNavigate, useParams } from "react-router-dom";
 import MovieActor from "@components/layout/admin/movie/MovieActor";
@@ -14,7 +14,10 @@ import MediaField from "./fields/MediaField";
 import { useGetSeriesMovieDetailQuery } from "@service/admin/seriesMovieApi";
 import dayjs from "dayjs";
 import { useMovieCRUD } from "@hooks/useMovieCRUD";
-import { Form } from "antd";
+import "@styles/styles.css";
+import CustomTextAreaField from "@components/customeField/CustomTextAreaField";
+import VideoSourceInput from "@components/customeField/VideoSourceInput";
+import MovieAccessType from "@components/customeField/MovieAccessType";
 
 const MovieFormInfo = () => {
   // Kiểm tra form đang là form cập nhập hay form thêm movie
@@ -24,8 +27,10 @@ const MovieFormInfo = () => {
 
   const [filePosterList, setFilePosterList] = useState([]);
   const [fileBackdropList, setFileBackdropList] = useState([]);
-  const [isFree, setIsFree] = useState(true);
+  const [fileVideoList, setFileVideoList] = useState([]);
   const [trailer, setTrailer] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const [activeTab, setActiveTab] = useState("basic");
 
   const navigate = useNavigate();
 
@@ -42,18 +47,23 @@ const MovieFormInfo = () => {
           characterName: yup.string().required("Nhập tên nhân vật"),
         }),
       ),
-      subscriptionPlan: yup.string().default("FREE"),
+
       trailerUrl: yup.string().required("Trailer không được để trống"),
-      poster: yup
-        .mixed()
-        .test("required", "Poster không được để trống", (value) => {
-          return filePosterList && filePosterList.length > 0;
-        }),
+      poster: yup.mixed().test("required", "Poster không được để trống", () => {
+        return filePosterList && filePosterList.length > 0;
+      }),
       backdrop: yup
         .mixed()
-        .test("required", "Backdrop không được để trống", (value) => {
+        .test("required", "Backdrop không được để trống", () => {
           return fileBackdropList && fileBackdropList.length > 0;
         }),
+
+      subscriptionPlanIds: yup.array().when("free", {
+        is: (free) => free === false,
+        then: (schema) =>
+          schema.min(1, "Bạn phải chọn ít nhất 1 gói cho phim này!"),
+        otherwise: (schema) => schema,
+      }),
     };
 
     if (movieType === "STANDALONE") {
@@ -91,13 +101,18 @@ const MovieFormInfo = () => {
     formState: { errors },
     reset,
     setError,
+    watch,
+    setValue,
   } = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
       genreIds: [],
-      subscriptionPlan: "FREE",
+      videoSource: "url",
+      free: true,
+      subscriptionPlanIds: [],
     },
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "movieActors",
@@ -132,6 +147,10 @@ const MovieFormInfo = () => {
               season: movieDetail.season,
               episodeNumber: movieDetail.episodeNumber,
             };
+
+      // Check if movie is free
+      const free = movieDetail.free === true;
+
       reset({
         title: movieDetail.title,
         description: movieDetail.description,
@@ -145,9 +164,15 @@ const MovieFormInfo = () => {
         genreIds: movieDetail?.genres
           ? movieDetail.genres.map((genre) => genre.id)
           : [],
-
         movieActors: movieDetail.movieActors || [],
         ...extraFields,
+        videoSource: "url",
+        free: free,
+        subscriptionPlanIds: free
+          ? []
+          : movieDetail.subscriptionPlans?.map(
+              (subscriptionPlan) => subscriptionPlan.id,
+            ) || [],
       });
       if (movieDetail.posterUrl) {
         setFilePosterList([
@@ -164,7 +189,13 @@ const MovieFormInfo = () => {
         ]);
       }
     }
-  }, [movieDetailResponse, setFileBackdropList, setFilePosterList, reset]);
+  }, [
+    movieDetailResponse,
+    setFileBackdropList,
+    setFilePosterList,
+    reset,
+    setValue,
+  ]);
 
   const handleChangePoster = ({ fileList: newList }) =>
     setFilePosterList(newList);
@@ -206,6 +237,11 @@ const MovieFormInfo = () => {
       : isUpdateSeriesLoading;
 
   const handleOnSubmit = async (data) => {
+    console.log({ submitMovie: data });
+    console.log("Form errors on submit:", errors);
+    console.log("Subscription Plans:", data.subscriptionPlanIds);
+    console.log("Is Free:", data.free);
+
     // Kiểm tra poster và backdrop khi submit
     if (filePosterList.length === 0) {
       setError("poster", {
@@ -227,8 +263,10 @@ const MovieFormInfo = () => {
       data,
       filePosterList,
       fileBackdropList,
+      fileVideoList,
       movieType,
-      isFree,
+      data.free,
+      data.free ? [] : data.subscriptionPlanIds || [],
     );
 
     try {
@@ -249,25 +287,30 @@ const MovieFormInfo = () => {
         onSubmit={handleSubmit(handleOnSubmit)}
       >
         <div className="flex w-full flex-col gap-10 px-20 py-7">
-          <p className="border-b border-white pb-5 text-xl font-bold text-white sm:text-2xl">
-            {isUpdate ? "CHI TIẾT" : "THÊM"} PHIM{" "}
-            {movieType === "STANDALONE" ? "LẺ" : "BỘ"}
-          </p>
-          {movieType === "SERIES" && isUpdate && (
-            <Button
-              type="primary"
-              onClick={() =>
-                navigate(`/admin/series-movie/${movieId}/episodes`)
-              }
-              className="ml-auto"
-            >
-              Quản lý tập phim
-            </Button>
-          )}
-          <BasisInfoFields
+          <div className="flex items-center justify-between">
+            <p className="text-xl font-bold text-white sm:text-2xl">
+              {isUpdate ? "CHI TIẾT" : "THÊM"} PHIM{" "}
+              {movieType === "STANDALONE" ? "LẺ" : "BỘ"}
+            </p>
+
+            {movieType === "SERIES" && isUpdate && (
+              <Button
+                className="btn-create"
+                onClick={() =>
+                  navigate(`/admin/series-movie/${movieId}/episodes`)
+                }
+              >
+                Quản lý tập phim
+              </Button>
+            )}
+          </div>
+          {/* <BasisInfoFields
             control={control}
             errors={errors}
             movieType={movieType}
+            fileList={fileList}
+            setFileList={setFileList}
+            watch={watch}
           />
 
           <MediaField
@@ -283,30 +326,110 @@ const MovieFormInfo = () => {
             setTrailer={setTrailer}
           />
           <div>
-            <Form.Item
+            <FormField
+              control={control}
+              name="description"
               label="Mô tả"
-              validateStatus={errors?.description ? "error" : ""}
-              help={errors?.description?.message}
-              labelCol={{ span: 24 }}
-              className="[&_.ant-form-item-explain-error]:font-base [&_.ant-form-item-explain-error]:mt-2 [&_.ant-form-item-explain-error]:text-red-400 [&_.ant-form-item-label>label]:font-bold [&_.ant-form-item-label>label]:text-white"
-            >
-              <FormField
-                control={control}
-                name="description"
-                Component={(props) => <TextArea {...props} rows={6} />}
-                className="col-span-2"
-              />
-            </Form.Item>
-            <div>
-              <MovieActor
-                fields={fields}
-                append={append}
-                remove={remove}
-                control={control}
-                errors={errors?.movieActors}
-              />
-            </div>
+              Component={CustomTextAreaField}
+              error={errors.description?.message}
+              rows={6}
+            />
           </div>
+          <VideoSourceInput
+            control={control}
+            watch={watch}
+            errors={errors}
+            fileList={fileList}
+            setFileList={setFileList}
+          />
+          <div>
+            <MovieActor
+              fields={fields}
+              append={append}
+              remove={remove}
+              control={control}
+              errors={errors?.movieActors}
+            />
+          </div> */}
+          {/* Tabs phần form */}
+          <Tabs
+            activeKey={activeTab}
+            onChange={setActiveTab}
+            className="custom-tabs mt-1"
+            items={[
+              {
+                key: "basic",
+                label: "Thông tin cơ bản",
+                children: (
+                  <div className="p-4">
+                    <BasisInfoFields
+                      control={control}
+                      errors={errors}
+                      movieType={movieType}
+                      fileList={fileList}
+                      setFileList={setFileList}
+                      watch={watch}
+                      setValue={setValue}
+                    />
+                    <MediaField
+                      control={control}
+                      errors={errors}
+                      filePosterList={filePosterList}
+                      setFilePosterList={setFilePosterList}
+                      handleChangePoster={handleChangePoster}
+                      fileBackdropList={fileBackdropList}
+                      setFileBackdropList={setFileBackdropList}
+                      handleChangeBackdrop={handleChangeBackdrop}
+                      trailer={trailer}
+                      setTrailer={setTrailer}
+                    />
+                    <div className="mt-5">
+                      <FormField
+                        control={control}
+                        name="description"
+                        label="Mô tả"
+                        Component={CustomTextAreaField}
+                        error={errors.description?.message}
+                        rows={6}
+                      />
+                    </div>
+                    <MovieAccessType
+                      control={control}
+                      watch={watch}
+                      errors={errors}
+                      setValue={setValue}
+                    />
+                    {isUpdate && movieType === "STANDALONE" && (
+                      <VideoSourceInput
+                        control={control}
+                        watch={watch}
+                        errors={errors}
+                        fileList={fileVideoList}
+                        setFileList={setFileVideoList}
+                      />
+                    )}
+                  </div>
+                ),
+              },
+
+              {
+                key: "actors",
+                label: "Diễn viên",
+                children: (
+                  <div className="py-4">
+                    <MovieActor
+                      fields={fields}
+                      append={append}
+                      remove={remove}
+                      control={control}
+                      errors={errors?.movieActors}
+                    />
+                  </div>
+                ),
+              },
+            ]}
+          />
+
           <div className="mt-4 flex justify-center gap-10">
             <Button
               color="cyan"

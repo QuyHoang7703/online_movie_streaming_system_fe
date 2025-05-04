@@ -22,9 +22,9 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         url: `subscription-plans/${subscriptionPlanId}`,
       }),
     }),
-    getParentSubscriptionPlanOptions: builder.query({
+    getSubscriptionPlanOptions: builder.query({
       query: (currentSubscriptionPlanId) => ({
-        url: "subscription-plans/parent-options",
+        url: "subscription-plans/options",
         params: { currentSubscriptionPlanId },
       }),
     }),
@@ -43,6 +43,11 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "SubscriptionPlans", id: "List" }],
     }),
+    getSubscriptionPlanTree: builder.query({
+      query: () => ({
+        url: "subscription-plans/tree",
+      }),
+    }),
   }),
 });
 
@@ -50,7 +55,8 @@ export const {
   useGetSubscriptionPlansQuery,
   useCreateSubscriptionPlanMutation,
   useGetSubscriptionPlanDetailQuery,
-  useGetParentSubscriptionPlanOptionsQuery,
+  useGetSubscriptionPlanOptionsQuery,
   useUpdateSubscriptionPlanMutation,
   useDeleteSubscriptionPlanMutation,
+  useGetSubscriptionPlanTreeQuery,
 } = subscriptionPlanApi;

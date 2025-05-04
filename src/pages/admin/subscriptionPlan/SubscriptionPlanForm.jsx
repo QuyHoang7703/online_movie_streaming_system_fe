@@ -1,7 +1,7 @@
 import { Input, InputNumber, Select, Button } from "antd";
 import { DeleteOutlined, PlusCircleFilled } from "@ant-design/icons";
 import {
-  useGetParentSubscriptionPlanOptionsQuery,
+  useGetSubscriptionPlanOptionsQuery,
   useGetSubscriptionPlanDetailQuery,
 } from "@service/admin/subscriptionPlanApi";
 import { useEffect } from "react";
@@ -58,7 +58,7 @@ const SubscriptionPlanForm = ({
     });
 
   const { data: parentPlanOptions, isLoading: isLoadingParentOptions } =
-    useGetParentSubscriptionPlanOptionsQuery(
+    useGetSubscriptionPlanOptionsQuery(
       isUpdate && subscriptionPlanId ? subscriptionPlanId : undefined,
       { skip: false },
     );

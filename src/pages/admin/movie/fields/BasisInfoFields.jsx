@@ -2,10 +2,14 @@ import FormField from "@components/FormField";
 import InputField from "@components/InputField";
 import SelectField from "@components/SelectField";
 import { useGetGenresQuery } from "@service/admin/genresApi";
-import { DatePicker, Select } from "antd";
-import { useEffect, useState } from "react";
 
-const BasisInfoFields = ({ control, errors, movieType }) => {
+import { DatePicker, Tooltip, Tag, Radio } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import CustomSelectField from "@components/customeField/CustomSelectField";
+import { getStatusOptionsByType } from "@consts/statusMovie";
+
+const BasisInfoFields = ({ control, errors, movieType, watch, setValue }) => {
   // Load genre data
   const genreData = useGetGenresQuery({});
   const [genreOptions, setGenreOptions] = useState([]);
@@ -18,6 +22,8 @@ const BasisInfoFields = ({ control, errors, movieType }) => {
       setGenreOptions(options);
     }
   }, [genreData]);
+  const statusOptions = getStatusOptionsByType(movieType);
+
   return (
     <div className="flex w-full flex-col gap-10 py-7">
       {" "}
@@ -83,55 +89,18 @@ const BasisInfoFields = ({ control, errors, movieType }) => {
           )}
           error={errors?.genreIds?.message}
         />
-        <FormField
-          control={control}
-          name="subscriptionPlanIds"
-          label="Gói"
-          // status={errors?.genre ? "error" : undefined}
-          Component={({ value, onChange, error, ...props }) => (
-            <SelectField
-              {...props}
-              value={value || []}
-              onChange={onChange}
-              size="large"
-              mode="multiple"
-              style={{ width: "100%" }}
-              placeholder="Chọn gói"
-              options={[
-                { label: "Miễn phí", value: 1 },
-                { label: "Gói cơ bản", value: 2 },
-                { label: "Gói nâng cao", value: 3 },
-                { label: "Gói VIP", value: 4 },
-              ]}
-              showSearch
-              optionFilterProp="label"
-              error={error}
-            />
-          )}
-          error={errors?.genreIds?.message}
-        />
-        {/* <FormField
-          control={control}
-          name="subscriptionPlanIds"
-          label="Gói Subscription"
-          Component={(props) => (
-            <SelectField
-              {...props}
-              size="large"
-              style={{ width: "100%" }}
-              placeholder="Chọn gói"
-              mode="multiple"
-              showSearch
-              options={[
-                { label: "Miễn phí", value: 1 },
-                { label: "Gói cơ bản", value: 2 },
-                { label: "Gói nâng cao", value: 3 },
-                { label: "Gói VIP", value: 4 },
-              ]}
-            />
-          )}
-          error={errors?.subscriptionPlan?.message}
-        /> */}
+
+        <div className="flex flex-col">
+          <FormField
+            control={control}
+            name="status"
+            label="Trạng thái"
+            Component={CustomSelectField}
+            error={errors?.status?.message}
+            size="large"
+            options={statusOptions}
+          />
+        </div>
       </div>
       {movieType === "STANDALONE" && (
         <div className="grid grid-cols-2 gap-12">
@@ -144,10 +113,10 @@ const BasisInfoFields = ({ control, errors, movieType }) => {
           />
           <FormField
             control={control}
-            name="videoUrl"
-            label="Video URL"
+            name="budget"
+            label="Ngân sách"
             Component={InputField}
-            error={errors?.videoUrl?.message}
+            error={errors?.budget?.message}
           />
         </div>
       )}

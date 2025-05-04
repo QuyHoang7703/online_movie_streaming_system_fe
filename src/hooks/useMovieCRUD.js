@@ -108,21 +108,23 @@ export const useMovieCRUD = () => {
     data,
     filePosterList,
     fileBackdropList,
+    fileVideoList,
     movieType,
-    isFree,
+    free,
+    subscriptionPlanIds,
   ) => {
     // Tạo base data chung
     const baseData = {
       title: data.title,
-      country: data.country,
-      director: data.director,
       description: data.description,
+      director: data.director,
+      country: data.country,
+      releaseDate: data.releaseDate,
+      free: free,
+      trailerUrl: data.trailerUrl,
       genreIds: (data.genreIds || []).map(Number),
       movieActors: data.movieActors || [],
-      subscriptionPlan: data.subscriptionPlan,
-      trailerUrl: data.trailerUrl,
-      releaseDate: data.releaseDate,
-      isFree: isFree,
+      subscriptionPlanIds: subscriptionPlanIds,
     };
 
     // Thêm các trường riêng cho từng loại phim
@@ -148,12 +150,28 @@ export const useMovieCRUD = () => {
       new Blob([JSON.stringify(submitData)], { type: "application/json" }),
     );
 
-    if (filePosterList && filePosterList.length > 0) {
+    if (
+      filePosterList &&
+      filePosterList.length > 0 &&
+      filePosterList[0]?.originFileObj
+    ) {
       formData.append("poster", filePosterList[0].originFileObj);
     }
 
-    if (fileBackdropList && fileBackdropList.length > 0) {
+    if (
+      fileBackdropList &&
+      fileBackdropList.length > 0 &&
+      fileBackdropList[0]?.originFileObj
+    ) {
       formData.append("backdrop", fileBackdropList[0].originFileObj);
+    }
+
+    if (
+      fileVideoList &&
+      fileVideoList.length > 0 &&
+      fileVideoList[0]?.originFileObj
+    ) {
+      formData.append("video", fileVideoList[0].originFileObj);
     }
 
     return formData;

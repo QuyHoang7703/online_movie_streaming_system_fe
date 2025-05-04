@@ -11,6 +11,7 @@ const FormField = ({
   error,
   onChange,
   status,
+  ...rest
 }) => {
   return (
     <div>
@@ -29,6 +30,7 @@ const FormField = ({
               control={control}
               error={error}
               status={status}
+              {...rest}
               // onChange={(e) => {
               //   field.onChange(e); // cập nhật form state
               //   if (onChange) onChange(e); // gọi hàm onChange truyền từ ngoài vào
@@ -46,7 +48,6 @@ const FormField = ({
           );
         }}
       />
-      {/* {error && <div className="mt-1 text-xs text-red-500">{error}</div>} */}
     </div>
   );
 };
