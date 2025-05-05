@@ -90,8 +90,8 @@ const OTPVerifyPage = () => {
             Xác nhận OTP
           </p>
           <p className="mt-2 text-sm italic text-white/80 sm:text-base">
-            Vui lòng nhập mã OTP đã được gửi đến email {email} của bạn để xác
-            nhận đăng ký tài khoản
+            Vui lòng nhập mã OTP đã được gửi đến email {email ? email : "..."}
+            của bạn để xác nhận đăng ký tài khoản
           </p>
           <InputOTP
             inputMode="numeric"

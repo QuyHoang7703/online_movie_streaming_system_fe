@@ -26,7 +26,7 @@ const FormField = ({
               {...field}
               // onChange={field.onChange}
               type={type}
-              label={label}
+              label={label ? label : ""}
               control={control}
               error={error}
               status={status}

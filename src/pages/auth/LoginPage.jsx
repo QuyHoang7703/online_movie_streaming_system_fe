@@ -20,8 +20,6 @@ const LoginPage = () => {
   const onSubmit = async (formData) => {
     try {
       const result = await loginApi(formData).unwrap();
-
-      console.log({ result });
       console.log("Login success", result?.data?.userInfo);
       showNotification("success", "Thông báo", "Đăng nhập thành công");
       dispatch(saveUserInfo(result?.data?.userInfo));
