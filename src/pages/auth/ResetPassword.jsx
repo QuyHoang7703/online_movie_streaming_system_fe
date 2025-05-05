@@ -46,7 +46,17 @@ const ResetPassword = () => {
       }
     } catch (error) {
       console.log(error);
-      showNotification("error", error.data.message);
+      // showNotification("error", error.data.message);
+      navigate("/reset-password/error", {
+        replace: true,
+        state: {
+          title: "Token đã hết hạn hoặc không hợp lệ",
+          description: "Vui lòng thử lại hoặc liên hệ hỗ trợ để được hỗ trợ.",
+          image: "/error-image.png",
+          actionText: "Quay lại trang đăng nhập",
+          actionLink: "/login",
+        },
+      });
     }
   };
 

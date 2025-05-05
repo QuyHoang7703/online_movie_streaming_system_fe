@@ -21,6 +21,7 @@ import ForgotPassword from "@pages/auth/ForgotPassword";
 import ResetPassword from "@pages/auth/ResetPassword";
 import ErrorPage from "@pages/auth/ErrorPage";
 import CheckResetToken from "@pages/auth/CheckResetToken";
+import GoogleCallbackPage from "@pages/auth/GoogleCallbackPage";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password/error",
     element: <ErrorPage />,
+  },
+  {
+    path: "/oauth2/callback",
+    element: <GoogleCallbackPage />,
   },
 
   {

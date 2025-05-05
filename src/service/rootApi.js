@@ -124,6 +124,15 @@ export const rootApi = createApi({
           };
         },
       }),
+      loginWithGoogle: builder.mutation({
+        query: (code) => {
+          return {
+            url: "auth/oauth2/login/google",
+            method: "POST",
+            params: { code },
+          };
+        },
+      }),
     };
   },
 });
@@ -138,4 +147,5 @@ export const {
   useForgotPasswordMutation,
   useVerifyTokenQuery,
   useResetPasswordMutation,
+  useLoginWithGoogleMutation,
 } = rootApi;

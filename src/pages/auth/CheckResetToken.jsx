@@ -22,7 +22,7 @@ const CheckResetToken = () => {
         navigate("/reset-password/error", {
           replace: true,
           state: {
-            title: "Token không hợp lệ",
+            title: "Token đã hết hạn hoặc không hợp lệ",
             description: "Vui lòng thử lại hoặc liên hệ hỗ trợ để được hỗ trợ.",
             image: "/error-image.png",
             actionText: "Quay lại trang đăng nhập",

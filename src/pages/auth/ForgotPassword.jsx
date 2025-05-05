@@ -108,7 +108,7 @@ const ForgotPassword = () => {
         }),
       );
     } catch (error) {
-      console.log(error);
+      console.log({ error });
       showNotification("error", error?.data?.message);
     }
   };

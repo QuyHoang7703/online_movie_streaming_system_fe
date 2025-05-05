@@ -1,15 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { saveUserInfo } from "@redux/slides/authSlice";
-import { useGetAuthUserQuery } from "@service/rootApi";
+
 import { Suspense, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
 import AdminSidebar from "@components/layout/AdminSidebar";
 import AdminHeader from "@components/layout/AdminHeader";
 import "@styles/styles.css";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoadingComponent from "@context/LoadingComponent";
 import { LoadingProvider } from "@context/LoadingContext";
 
@@ -38,17 +35,17 @@ const ProtectedLayout = () => {
   return (
     <div>
       <Suspense fallback={<LoadingComponent />}>
-        <LoadingProvider>
-          <Layout className="min-h-screen">
-            <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-            <Layout>
-              <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-              <Content>
-                <Outlet />
-              </Content>
-            </Layout>
+        {/* <LoadingProvider> */}
+        <Layout className="min-h-screen">
+          <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+          <Layout>
+            <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+            <Content>
+              <Outlet />
+            </Content>
           </Layout>
-        </LoadingProvider>
+        </Layout>
+        {/* </LoadingProvider> */}
       </Suspense>
     </div>
   );

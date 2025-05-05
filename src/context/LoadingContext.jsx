@@ -36,7 +36,7 @@ export const LoadingProvider = ({ children }) => {
             zIndex: 9999,
           }}
         >
-          <Spin size="large" tip="Đang xử lý..." style={{ color: "white" }} />
+          <Spin size="large" tip="Đang xử lý..." className="text-primary" />
         </div>
       )}
     </LoadingContext.Provider>
