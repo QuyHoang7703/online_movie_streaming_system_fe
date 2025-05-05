@@ -17,6 +17,11 @@ import MovieFilter from "@components/MovieFilter";
 import SubscriptionPlanManage from "@pages/admin/subscriptionPlan/SubscriptionPlanManage";
 
 import Episode from "@pages/admin/movie/EpisodeManagement";
+import ForgotPassword from "@pages/auth/ForgotPassword";
+import ResetPassword from "@pages/auth/ResetPassword";
+import ErrorPage from "@pages/auth/ErrorPage";
+import CheckResetToken from "@pages/auth/CheckResetToken";
+import GoogleCallbackPage from "@pages/auth/GoogleCallbackPage";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
   {
@@ -31,6 +36,26 @@ const router = createBrowserRouter([
   {
     path: "/otp-verify",
     element: <OTPVerifyPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "/reset-password",
+    element: <CheckResetToken />,
+  },
+  {
+    path: "/reset-password/form",
+    element: <ResetPassword />,
+  },
+  {
+    path: "/reset-password/error",
+    element: <ErrorPage />,
+  },
+  {
+    path: "/oauth2/callback",
+    element: <GoogleCallbackPage />,
   },
 
   {

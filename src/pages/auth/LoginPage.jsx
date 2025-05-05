@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { mapErrorMessage } from "@consts/messages";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "@redux/slides/authSlice";
+import { OAuthConfig } from "@configuration/configuration";
 const LoginPage = () => {
   // eslint-disable-next-line no-unused-vars
   const [loginApi, { data, isLoading, isError, error, isSuccess }] =
@@ -20,8 +21,6 @@ const LoginPage = () => {
   const onSubmit = async (formData) => {
     try {
       const result = await loginApi(formData).unwrap();
-
-      console.log({ result });
       console.log("Login success", result?.data?.userInfo);
       showNotification("success", "Thông báo", "Đăng nhập thành công");
       dispatch(saveUserInfo(result?.data?.userInfo));
@@ -52,6 +51,20 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
+  const handleLoginWithGoogle = () => {
+    const callbackUrl = OAuthConfig.redirectUri;
+    const authUrl = OAuthConfig.authUri;
+    const googleClientId = OAuthConfig.clientId;
+
+    const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+      callbackUrl,
+    )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile&prompt=select_account`;
+
+    console.log({ targetUrl });
+
+    window.location.href = targetUrl;
+  };
 
   return (
     <div className="flex h-screen w-full flex-col justify-between bg-[#1B2431] p-5 lg:flex-row">
@@ -126,6 +139,7 @@ const LoginPage = () => {
           icon={
             <img src="/google-logo.png" alt="google-logo" className="h-5 w-5" />
           }
+          onClick={handleLoginWithGoogle}
         >
           Đăng nhập bằng Google
         </Button>

@@ -10,7 +10,8 @@
       "@service/*": ["src/service/*"],
       "@routes/*": ["src/routes/*"],
       "@consts/*": ["src/consts/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@configuration/*": ["src/configuration/*"]
     }
   }
 }
