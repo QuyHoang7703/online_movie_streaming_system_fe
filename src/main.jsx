@@ -10,18 +10,21 @@ import { PersistGate } from "redux-persist/integration/react";
 import AppProvider from "@components/AppProvider";
 import "@styles/styles.css";
 import { LoadingProvider } from "@context/LoadingContext";
+import { AuthProvider } from "@context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <PersistGate loading={<p>Loading...</p>} persistor={persistor}>
       <LoadingProvider>
-        {/* <React.StrictMode> */}
-        <AppProvider>
-          <AntdApp>
-            <RouterProvider router={router} />
-          </AntdApp>
-        </AppProvider>
-        {/* </React.StrictMode> */}
+        <AuthProvider>
+          {/* <React.StrictMode> */}
+          <AppProvider>
+            <AntdApp>
+              <RouterProvider router={router} />
+            </AntdApp>
+          </AppProvider>
+          {/* </React.StrictMode> */}
+        </AuthProvider>
       </LoadingProvider>
     </PersistGate>
   </Provider>,

@@ -1,41 +1,41 @@
 /* eslint-disable no-unused-vars */
 
-import { Suspense, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Suspense, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Spin } from "antd";
-
+import { useState } from "react";
 import AdminSidebar from "@components/layout/AdminSidebar";
 import AdminHeader from "@components/layout/AdminHeader";
 import "@styles/styles.css";
 import LoadingComponent from "@context/LoadingComponent";
-import { LoadingProvider } from "@context/LoadingContext";
+import { useAuth } from "@context/AuthContext";
 
 const { Content } = Layout;
 const ProtectedLayout = () => {
-  // const navigate = useNavigate();
-  // const response = useGetAuthUserQuery();
-  // const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
+  const { user, isAuthenticated, hasRole, isLoading } = useAuth();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (response.error) {
-  //     window.location.href = "/login";
-  //   }
-  //   if (response.isSuccess) {
-  //     dispatch(saveUserInfo(response.data.data));
-  //   }
-  // }, [response, navigate, dispatch]);
+  useEffect(() => {
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (!isLoading && !isAuthenticated()) {
+      navigate("/login");
+      return;
+    }
 
-  // if (response.isLoading || response.isFetching) {
-  //   return <div>Loading...</div>;
-  // }
-  // <DotLottieReact src="/animation-loading.lottie" loop autoplay />
-  // <Spin tip="Loading" size="large" fullscreen="true"></Spin>
+    // Kiểm tra quyền admin
+    if (!isLoading && !hasRole("ADMIN")) {
+      navigate("/unauthorized");
+    }
+  }, [isAuthenticated, hasRole, navigate, isLoading]);
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <div>
       <Suspense fallback={<LoadingComponent />}>
-        {/* <LoadingProvider> */}
         <Layout className="min-h-screen">
           <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout>
@@ -45,7 +45,6 @@ const ProtectedLayout = () => {
             </Content>
           </Layout>
         </Layout>
-        {/* </LoadingProvider> */}
       </Suspense>
     </div>
   );
