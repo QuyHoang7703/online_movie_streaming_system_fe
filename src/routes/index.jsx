@@ -22,8 +22,11 @@ import ResetPassword from "@pages/auth/ResetPassword";
 import ErrorPage from "@pages/auth/ErrorPage";
 import CheckResetToken from "@pages/auth/CheckResetToken";
 import GoogleCallbackPage from "@pages/auth/GoogleCallbackPage";
+import { RequireRole } from "@context/AuthContext";
+import UnauthorizedPage from "@pages/auth/UnauthorizedPage";
 const HomePage = lazy(() => import("@pages/HomePage.jsx"));
 const router = createBrowserRouter([
+  // Public routes
   {
     path: "/register",
     element: <RegisterPage />,
@@ -57,52 +60,99 @@ const router = createBrowserRouter([
     path: "/oauth2/callback",
     element: <GoogleCallbackPage />,
   },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
+  },
 
+  // Admin route
   {
     element: <ProtectedLayout />,
     children: [
       {
         path: "/admin",
-        element: <HomePage />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <HomePage />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/genres",
-        element: <GenreManagement />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <GenreManagement />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/actors",
-        element: <ActorManagement />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <ActorManagement />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/create-actor",
-        element: <ActorForm />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <ActorForm />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/movies",
-        element: <MovieManagement />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <MovieManagement />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/movies/create/:movieType",
-        element: <MovieFormInfo />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <MovieFormInfo />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/movies/update/:movieType/:movieId",
-        element: <MovieFormInfo />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <MovieFormInfo />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/movies/create/media",
-        element: <MovieFilter />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <MovieFilter />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/subscription-plans",
-        element: <SubscriptionPlanManage />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <SubscriptionPlanManage />
+          </RequireRole>
+        ),
       },
       {
         path: "/admin/series-movie/:movieId/episodes",
-        element: <Episode />,
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <Episode />
+          </RequireRole>
+        ),
       },
     ],
   },
+
+  // User route
 ]);
 
 export default router;
