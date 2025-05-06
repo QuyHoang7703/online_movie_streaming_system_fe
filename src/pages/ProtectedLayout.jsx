@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { Suspense, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
 import AdminSidebar from "@components/layout/AdminSidebar";
@@ -9,28 +9,29 @@ import AdminHeader from "@components/layout/AdminHeader";
 import "@styles/styles.css";
 import LoadingComponent from "@context/LoadingComponent";
 import { LoadingProvider } from "@context/LoadingContext";
+import { useAuth } from "@context/AuthContext";
 
 const { Content } = Layout;
 const ProtectedLayout = () => {
-  // const navigate = useNavigate();
-  // const response = useGetAuthUserQuery();
-  // const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
+  // const navigate = useNavigate();
+  // const { isLoading, hasRole, isAuthenticated } = useAuth();
 
   // useEffect(() => {
-  //   if (response.error) {
-  //     window.location.href = "/login";
+  //   if (!isLoading && !isAuthenticated) {
+  //     navigate("/login");
   //   }
-  //   if (response.isSuccess) {
-  //     dispatch(saveUserInfo(response.data.data));
-  //   }
-  // }, [response, navigate, dispatch]);
+  // }, [isLoading, isAuthenticated, navigate]);
 
-  // if (response.isLoading || response.isFetching) {
-  //   return <div>Loading...</div>;
+  // useEffect(() => {
+  //   if (!isLoading && !hasRole("ADMIN")) {
+  //     navigate("/unauthorized");
+  //   }
+  // }, [isLoading, hasRole, navigate]);
+
+  // if (isLoading) {
+  //   return <LoadingComponent />;
   // }
-  // <DotLottieReact src="/animation-loading.lottie" loop autoplay />
-  // <Spin tip="Loading" size="large" fullscreen="true"></Spin>
 
   return (
     <div>
