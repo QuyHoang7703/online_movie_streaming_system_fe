@@ -24,7 +24,9 @@ import CheckResetToken from "@pages/auth/CheckResetToken";
 import GoogleCallbackPage from "@pages/auth/GoogleCallbackPage";
 import { RequireRole } from "@context/AuthContext";
 import UnauthorizedPage from "@pages/auth/UnauthorizedPage";
-const HomePage = lazy(() => import("@pages/HomePage.jsx"));
+import HomePage from "@pages/user/HomePage";
+
+const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
   // Public routes
   {
@@ -64,6 +66,10 @@ const router = createBrowserRouter([
     path: "/unauthorized",
     element: <UnauthorizedPage />,
   },
+  {
+    path: "/",
+    element: <HomePage />,
+  },
 
   // Admin route
   {
@@ -73,7 +79,7 @@ const router = createBrowserRouter([
         path: "/admin",
         element: (
           <RequireRole allowedRoles={"ADMIN"}>
-            <HomePage />
+            <HomePageAdmin />
           </RequireRole>
         ),
       },

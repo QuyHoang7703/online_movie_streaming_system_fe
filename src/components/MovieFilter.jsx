@@ -1,8 +1,6 @@
 import { FilterFilled } from "@ant-design/icons";
 import { useGetAllGenresQuery } from "@service/admin/genresApi";
 import { useGetCountriesOfMoviesQuery } from "@service/admin/movieApi";
-import { Button } from "antd";
-import { use, useState } from "react";
 
 const movieTypes = [
   { label: "Tất cả", value: "Tất cả" },

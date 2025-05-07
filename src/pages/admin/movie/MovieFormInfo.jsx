@@ -4,9 +4,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormField from "@components/FormField";
 import { Button, Tabs } from "antd";
-import TextArea from "antd/es/input/TextArea";
+
 import { useNavigate, useParams } from "react-router-dom";
-import MovieActor from "@components/layout/admin/movie/MovieActor";
+import MovieActor from "@components/admin/movie/MovieActor";
 import { useGetGenresQuery } from "@service/admin/genresApi";
 import { useGetStandaloneMovieDetailQuery } from "@service/admin/standaloneMovieApi";
 import BasisInfoFields from "./fields/BasisInfoFields";

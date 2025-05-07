@@ -1,0 +1,91 @@
+/** @jsxImportSource react */
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import MoviePreviewCard from "./MoviePreviewCard";
+
+const HotMovieCard = ({ movie, rank, index }) => {
+  const [showPreview, setShowPreview] = useState(false);
+
+  // Determine clip path based on index (odd or even)
+  const clipPathStyle =
+    index % 2 === 0
+      ? "polygon(0 0, 100% 10%, 100% 100%, 0 100%)" // Even index: right to left slant
+      : "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"; // Odd index: left to right slant
+
+  return (
+    <div className="flex w-full max-w-[230px] flex-col items-center">
+      <div
+        className="group relative w-full"
+        onMouseEnter={() => setShowPreview(true)}
+        onMouseLeave={() => setShowPreview(false)}
+      >
+        <Link to={`/movie/${movie.id}`} className="block w-full">
+          <div className="relative transform overflow-hidden rounded-lg transition-all duration-500 ease-in-out hover:scale-105">
+            <div
+              className="relative aspect-[2/3] w-full overflow-hidden sm:aspect-[1/1.5]"
+              style={{
+                clipPath: clipPathStyle,
+              }}
+            >
+              <img
+                src={movie.poster}
+                alt={movie.title}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </div>
+
+            {/* Badges */}
+            <div className="absolute bottom-2 left-2 flex gap-1">
+              {movie.subtitled && (
+                <span className="rounded bg-gray-700 px-1 py-0.5 text-[10px] font-medium text-white sm:text-xs">
+                  PĐ {movie.subtitled}
+                </span>
+              )}
+              {movie.episodes && (
+                <span className="rounded bg-blue-600 px-1 py-0.5 text-[10px] font-medium text-white sm:text-xs">
+                  TM {movie.episodes}
+                </span>
+              )}
+            </div>
+          </div>
+        </Link>
+
+        {/* Preview Card */}
+        {showPreview && (
+          <div className="absolute top-0 z-50">
+            <MoviePreviewCard movie={movie} />
+          </div>
+        )}
+      </div>
+
+      {/* Thông tin phim */}
+      <div className="mt-2 flex w-full items-center justify-center sm:mt-4 md:mt-6">
+        <div className="mr-2 sm:mr-4 md:mr-6">
+          <span
+            className="text-2xl font-bold italic text-mainUserColor-200 sm:text-3xl md:text-4xl lg:text-5xl"
+            style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}
+          >
+            {rank}
+          </span>
+        </div>
+        <div className="flex-1">
+          <h3 className="mb-0.5 line-clamp-1 text-xs font-medium text-white sm:mb-1 sm:text-sm">
+            {movie.title}
+          </h3>
+          <p className="line-clamp-1 text-[10px] text-gray-400 sm:text-xs">
+            {movie.englishTitle}
+          </p>
+          <div className="mt-0.5 flex items-center gap-1 text-[10px] text-gray-400 sm:mt-1 sm:gap-2 sm:text-xs">
+            <span>T{movie.type || "16"}</span>
+            <span>•</span>
+            <span>Phần {movie.season || "1"}</span>
+            <span>•</span>
+            <span>Tập {movie.episodes || "?"}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HotMovieCard;

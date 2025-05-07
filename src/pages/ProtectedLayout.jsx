@@ -4,8 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
-import AdminSidebar from "@components/layout/AdminSidebar";
-import AdminHeader from "@components/layout/AdminHeader";
+import AdminSidebar from "@components/admin/layout/AdminSidebar";
+import AdminHeader from "@components/admin/layout/AdminHeader";
 import "@styles/styles.css";
 import LoadingComponent from "@context/LoadingComponent";
 import { LoadingProvider } from "@context/LoadingContext";
