@@ -13,7 +13,7 @@ import MovieManagement from "@pages/admin/movie/MovieManagement";
 
 import MovieFormInfo from "@pages/admin/movie/MovieFormInfo";
 
-import MovieFilter from "@components/MovieFilter";
+import MovieFilter from "@components/common/MovieFilter";
 import SubscriptionPlanManage from "@pages/admin/subscriptionPlan/SubscriptionPlanManage";
 
 import Episode from "@pages/admin/movie/EpisodeManagement";
@@ -25,6 +25,10 @@ import GoogleCallbackPage from "@pages/auth/GoogleCallbackPage";
 import { RequireRole } from "@context/AuthContext";
 import UnauthorizedPage from "@pages/auth/UnauthorizedPage";
 import HomePage from "@pages/user/HomePage";
+import UserLayout from "@layouts/UserLayout";
+
+import MovieList from "@pages/user/MovieList";
+import DetailMovie from "@pages/user/DetailMovie";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -65,10 +69,6 @@ const router = createBrowserRouter([
   {
     path: "/unauthorized",
     element: <UnauthorizedPage />,
-  },
-  {
-    path: "/",
-    element: <HomePage />,
   },
 
   // Admin route
@@ -159,6 +159,23 @@ const router = createBrowserRouter([
   },
 
   // User route
+  {
+    element: <UserLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/phim/:movieId",
+        element: <DetailMovie />,
+      },
+      {
+        path: "/:movieType",
+        element: <MovieList />,
+      },
+    ],
+  },
 ]);
 
 export default router;

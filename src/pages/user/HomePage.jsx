@@ -2,7 +2,7 @@ import { Layout } from "antd";
 import UserHeader from "@components/user/layout/UserHeader";
 import FeatureMovie from "@components/user/movie/FeatureMovie";
 import HotMovieByCountry from "@components/user/movie/HotMovieByCountry";
-import HotStandAloneMovie from "@components/user/movie/HotStandAloneMovie";
+import HotMovieSection from "@components/user/movie/HotMovieSection";
 const { Content } = Layout;
 
 // Dữ liệu mẫu cho phim Hàn Quốc
@@ -169,14 +169,77 @@ const chineseMovies = [
   },
 ];
 
+// Dữ liệu mẫu phim lẻ
+const singleMovies = [
+  {
+    id: 19,
+    title: "Biệt Đội Marvel",
+    englishTitle: "The Marvels",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/tUtgLOESpCx7ue4BaeCTqp3vn1b.jpg",
+    subtitled: "Full",
+    year: "2023",
+    duration: "1h 45m",
+  },
+  {
+    id: 20,
+    title: "Vầng Trăng Máu",
+    englishTitle: "Killers of the Flower Moon",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg",
+    subtitled: "Full",
+    year: "2023",
+    duration: "3h 26m",
+  },
+  {
+    id: 21,
+    title: "Kẻ Săn Mồi: Báo Thù",
+    englishTitle: "Predator: Prey",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg",
+    subtitled: "Full",
+    year: "2022",
+    duration: "1h 40m",
+  },
+  {
+    id: 22,
+    title: "Dune: Hành Tinh Cát Phần Hai",
+    englishTitle: "Dune: Part Two",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/Avid9MkOaPrcYxSlCU0iiQZHzM.jpg",
+    subtitled: "Full",
+    year: "2024",
+    duration: "2h 46m",
+  },
+  {
+    id: 23,
+    title: "Quỷ Ám: Bởi Vì Có Quỷ 2",
+    englishTitle: "The Exorcist: Believer",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/mmGiMvT19sGNMDICEBJLOZnKsRZ.jpg",
+    subtitled: "Full",
+    year: "2023",
+    duration: "1h 51m",
+  },
+  {
+    id: 24,
+    title: "Quyền Lực Của Chó",
+    englishTitle: "The Power of the Dog",
+    poster:
+      "https://media.themoviedb.org/t/p/w440_and_h660_face/kEy48iCzGnp0ao1cZbNeWR6yIhC.jpg",
+    subtitled: "Full",
+    year: "2021",
+    duration: "2h 6m",
+  },
+];
+
 const HomePage = () => {
   return (
-    <Layout className="min-h-screen bg-dark-400">
-      <UserHeader />
-      <Content className="mx-auto max-w-full lg:max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px]">
-        {/* Feature movie */}
-        <FeatureMovie />
+    <div className="relative">
+      {/* Feature movie */}
+      <FeatureMovie />
 
+      <div className="mx-auto max-w-full pt-8 lg:max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px]">
         {/* Phân loại phim theo quốc gia */}
         <div className="mt-3 px-2 sm:px-4 md:px-6">
           <div className="rounded-lg border border-gray-700 bg-dark-300 p-3 sm:p-4 md:p-5">
@@ -188,22 +251,28 @@ const HomePage = () => {
             />
 
             {/* Phim Trung Quốc Mới */}
-            {/* <HotMovieByCountry
+            <HotMovieByCountry
               title="Phim Trung Quốc mới"
               movies={chineseMovies}
               viewAllLink="/quoc-gia/trung-quoc"
-            /> */}
+            />
           </div>
         </div>
         {/* Top 10 phim bộ */}
-        <div>
-          <HotStandAloneMovie
-            movies={koreanMovies}
-            title="Top 10 phim bộ hôm nay"
-          />
-        </div>
-      </Content>
-    </Layout>
+        <HotMovieSection
+          movies={koreanMovies}
+          title="Top 10 phim bộ hôm nay"
+          viewAllLink="/phim-bo"
+        />
+
+        {/* Top 10 phim lẻ */}
+        <HotMovieSection
+          movies={singleMovies}
+          title="Top 10 phim lẻ đặc sắc"
+          viewAllLink="/phim-le"
+        />
+      </div>
+    </div>
   );
 };
 

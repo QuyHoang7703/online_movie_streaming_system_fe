@@ -399,7 +399,7 @@ const MovieFormInfo = () => {
                       errors={errors}
                       setValue={setValue}
                     />
-                    {isUpdate && movieType === "STANDALONE" && (
+                    {movieType === "STANDALONE" && (
                       <VideoSourceInput
                         control={control}
                         watch={watch}

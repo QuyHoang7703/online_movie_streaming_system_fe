@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import MovieTypeModal from "@pages/admin/movie/MovieTypeModal";
 import GenericModal from "@context/GenericModal";
 import { useGetMoviesQuery } from "@service/admin/movieApi";
-import MovieFilter from "@components/MovieFilter";
+import MovieFilter from "@components/common/MovieFilter";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 import { useNotification } from "@hooks/useNotification";

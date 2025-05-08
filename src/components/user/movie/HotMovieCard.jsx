@@ -1,10 +1,13 @@
 /** @jsxImportSource react */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import MoviePreviewCard from "./MoviePreviewCard";
+import { usePreviewPosition } from "../../../hooks/usePreviewPosition";
 
 const HotMovieCard = ({ movie, rank, index }) => {
   const [showPreview, setShowPreview] = useState(false);
+  const cardRef = useRef(null);
+  const isNearRightEdge = usePreviewPosition(cardRef, showPreview, "default");
 
   // Determine clip path based on index (odd or even)
   const clipPathStyle =
@@ -35,7 +38,7 @@ const HotMovieCard = ({ movie, rank, index }) => {
             </div>
 
             {/* Badges */}
-            <div className="absolute bottom-2 left-2 flex gap-1">
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 transform gap-1">
               {movie.subtitled && (
                 <span className="rounded bg-gray-700 px-1 py-0.5 text-[10px] font-medium text-white sm:text-xs">
                   PĐ {movie.subtitled}
@@ -51,11 +54,15 @@ const HotMovieCard = ({ movie, rank, index }) => {
         </Link>
 
         {/* Preview Card */}
-        {showPreview && (
-          <div className="absolute top-0 z-50">
-            <MoviePreviewCard movie={movie} />
-          </div>
-        )}
+        <div ref={cardRef}>
+          {showPreview && (
+            <MoviePreviewCard
+              movie={movie}
+              isNearRightEdge={isNearRightEdge}
+              variant="default"
+            />
+          )}
+        </div>
       </div>
 
       {/* Thông tin phim */}

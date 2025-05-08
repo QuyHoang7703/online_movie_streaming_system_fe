@@ -55,7 +55,7 @@ const CategoryDropdown = ({ title, items, columnCount = 3 }) => {
         padding: 0,
       }}
     >
-      <div className="flex cursor-pointer items-center gap-1.5 text-white transition-colors duration-200 hover:text-mainColor">
+      <div className="flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-white transition-colors duration-200 hover:text-mainColor">
         {title} <CaretDownOutlined className="text-xs" />
       </div>
     </Dropdown>

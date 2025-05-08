@@ -3,16 +3,27 @@ import {
   InfoCircleOutlined,
   PlayCircleFilled,
 } from "@ant-design/icons";
+import VARIANTS from "@consts/variants";
 import { Button } from "antd";
 import React from "react";
 
-const MoviePreviewCard = ({ movie }) => {
+const MoviePreviewCard = ({
+  movie,
+  isNearRightEdge,
+  variant = "default", // Thêm variant prop
+}) => {
   const genres = movie.genres || ["Hành Động", "Phiêu Lưu"];
 
+  // Lấy cấu hình dựa theo variant
+  const config = VARIANTS[variant] || VARIANTS.default;
+
   return (
-    <div className="absolute left-0 top-[-10px] z-50 mt-2 w-[380px] overflow-hidden rounded-lg bg-dark-300 shadow-xl">
+    <div
+      className={`absolute ${config.positionClass} z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
+      style={{ width: config.width }}
+    >
       {/* Preview Image */}
-      <div className="relative h-[169px] w-full">
+      <div className="relative w-full" style={{ height: config.imageHeight }}>
         <img
           src={movie.backdrop || movie.poster}
           alt={movie.title}
