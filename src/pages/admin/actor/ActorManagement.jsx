@@ -85,7 +85,7 @@ const ActorManagement = () => {
   const [searchDebounced, setSearchDebounced] = useState("");
   const [pagination, setPagination] = useState({
     pageNumber: 1,
-    pageSize: 4,
+    pageSize: 8,
   });
   // Tạo debounce function
   const debouncedSearch = debounce((value) => {

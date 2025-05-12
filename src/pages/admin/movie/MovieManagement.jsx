@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import MovieTypeModal from "@pages/admin/movie/MovieTypeModal";
 import GenericModal from "@context/GenericModal";
 import { useGetMoviesQuery } from "@service/admin/movieApi";
-import MovieFilter from "@components/MovieFilter";
+import MovieFilter from "@components/common/MovieFilter";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 import { useNotification } from "@hooks/useNotification";
@@ -67,15 +67,20 @@ const MovieManagement = () => {
       dataIndex: "title",
       key: "title",
     },
-    {
-      title: "Đạo diễn",
-      dataIndex: "director",
-      key: "director",
-    },
+    // {
+    //   title: "Đạo diễn",
+    //   dataIndex: "director",
+    //   key: "director",
+    // },
     {
       title: "Loại phim",
       dataIndex: "movieType",
       key: "movieType",
+      render: (movieType) => {
+        if (movieType === "STANDALONE") return "Phim lẻ";
+        if (movieType === "SERIES") return "Phim bộ";
+        return movieType;
+      },
     },
     {
       title: "Thể loại",
@@ -104,6 +109,7 @@ const MovieManagement = () => {
       title: "Thao tác",
       dataIndex: "actions",
       key: "actions",
+      width: "10%",
       // eslint-disable-next-line no-unused-vars
       render: (_, record) => (
         <Space size="middle">

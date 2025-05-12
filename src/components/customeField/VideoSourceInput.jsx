@@ -15,13 +15,19 @@ const VideoSourceInput = ({
   errors,
   fileList,
   setFileList,
+  fieldNamePrefix = "",
 }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  // Add prefix to field names
+  const videoSourceName = `${fieldNamePrefix}videoSource`;
+  const videoUrlName = `${fieldNamePrefix}videoUrl`;
+  const videoFileName = `${fieldNamePrefix}videoFile`;
+
   // Theo dõi nguồn video được chọn
-  const videoSource = watch("videoSource");
+  const videoSource = watch(videoSourceName);
 
   // Xử lý upload video
   const handleFileChange = (info) => {
@@ -65,11 +71,27 @@ const VideoSourceInput = ({
     setFileList(newFileList);
   };
 
+  // Helper function to get error message for a field
+  const getError = (fieldName) => {
+    if (!errors || !fieldName) return null;
+
+    // Handle nested paths like 'videoVersions.0.videoUrl'
+    const parts = fieldName.split(".");
+    let current = errors;
+
+    for (const part of parts) {
+      if (!current[part]) return null;
+      current = current[part];
+    }
+
+    return current?.message;
+  };
+
   return (
     <div>
       <label className="mb-2 block text-white">Nguồn video</label>
       <Controller
-        name="videoSource"
+        name={videoSourceName}
         control={control}
         render={({ field }) => (
           <Radio.Group {...field} className="mb-4" buttonStyle="solid">
@@ -88,14 +110,14 @@ const VideoSourceInput = ({
         <div>
           <FormField
             control={control}
-            name="videoUrl"
+            name={videoUrlName}
             label="URL video"
             Component={CustomInputField}
-            error={errors.videoUrl?.message}
+            error={getError(videoUrlName)}
           />
 
           {/* Preview video nếu có URL */}
-          {watch("videoUrl") && (
+          {watch(videoUrlName) && (
             <div className="mt-4">
               <div className="mb-2 flex items-center">
                 <label className="mr-4 text-white">Xem thử video</label>
@@ -117,9 +139,9 @@ const VideoSourceInput = ({
                   <div className="bg-black">
                     <ReactPlayer
                       url={
-                        watch("videoUrl").includes("player.phimapi.com")
-                          ? watch("videoUrl").split("url=")[1] // Trích xuất URL thực từ player URL
-                          : watch("videoUrl")
+                        watch(videoUrlName).includes("player.phimapi.com")
+                          ? watch(videoUrlName).split("url=")[1] // Trích xuất URL thực từ player URL
+                          : watch(videoUrlName)
                       }
                       controls={true}
                       width="100%"
@@ -158,7 +180,7 @@ const VideoSourceInput = ({
                     <Button
                       size="small"
                       type="link"
-                      href={watch("videoUrl")}
+                      href={watch(videoUrlName)}
                       target="_blank"
                       className="text-blue-500"
                     >
@@ -174,7 +196,7 @@ const VideoSourceInput = ({
         <div>
           <label className="mb-2 block text-white">Upload file video</label>
           <Controller
-            name="videoFile"
+            name={videoFileName}
             control={control}
             render={({ field }) => (
               <div>
@@ -229,8 +251,8 @@ const VideoSourceInput = ({
               </div>
             )}
           />
-          {errors.videoFile && (
-            <div className="mt-1 text-red-500">{errors.videoFile.message}</div>
+          {getError(videoFileName) && (
+            <div className="mt-1 text-red-500">{getError(videoFileName)}</div>
           )}
           <p className="mt-2 text-xs text-gray-400">
             Hỗ trợ định dạng: MP4, MOV, AVI, MKV. Kích thước tối đa: 500MB

@@ -64,7 +64,7 @@ const GenreManagement = () => {
   const [searchDebounced, setSearchDebounced] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 1,
+    pageSize: 5,
   });
 
   // Tạo debounce function

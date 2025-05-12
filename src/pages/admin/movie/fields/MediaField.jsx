@@ -39,9 +39,9 @@ const MediaField = ({
             </div>
           </div>
         </div> */}
-        <div className="flex h-full w-full flex-col">
+        <div className="flex h-full w-full flex-col border-2 border-dashed">
           <p className="mb-1 p-2 pb-1 font-medium text-white">Hình ảnh</p>
-          <div className="border-dark-300 flex h-full flex-col items-center justify-center gap-5 border-2 border-dashed p-4 md:flex-row">
+          <div className="flex h-full flex-col items-center justify-center gap-5 border-2 border-dashed border-dark-300 p-4 md:flex-row">
             <div className="w-full md:w-1/2">
               <p className="font-base mb-1 text-white">Poster</p>
               <ImageUpload
@@ -135,12 +135,12 @@ const MediaField = ({
                   Trình duyệt của bạn không hỗ trợ video.
                 </video>
               ) : (
-                <div className="bg-dark-300 flex h-[315px] w-full items-center justify-center rounded text-white">
+                <div className="flex h-[315px] w-full items-center justify-center rounded bg-dark-300 text-white">
                   Định dạng trailer không hợp lệ
                 </div>
               )
             ) : (
-              <div className="bg-dark-300 flex h-[315px] w-full items-center justify-center rounded text-white">
+              <div className="flex h-[315px] w-full items-center justify-center rounded bg-dark-300 text-white">
                 Chưa có trailer
               </div>
             )}

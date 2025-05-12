@@ -125,20 +125,21 @@
 }
 
 .custom-tabs .ant-tabs-ink-bar {
-  background-color: #10b981; /* hoặc màu primary của bạn */
+  background-color: #10b981;
+  height: 1px !important;
 }
 
 .custom-tabs .ant-tabs-content {
-  background-color: #1f2937; /* hoặc màu nền tối hơn */
-  border-radius: 8px;
-  padding: 4px;
+  /* background-color: #1f2937;  */
+  /* border-radius: 8px;
+  padding: 4px; */
 }
 
 /* Đảm bảo mỗi tab chiếm 50% chiều ngang */
-.custom-tabs .ant-tabs-nav-list {
+/* .custom-tabs .ant-tabs-nav-list {
   width: 100%;
   display: flex;
-}
+} */
 
 .custom-tabs .ant-tabs-tab {
   flex: 1 1 0;
