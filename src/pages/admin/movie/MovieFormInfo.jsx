@@ -16,8 +16,8 @@ import dayjs from "dayjs";
 import { useMovieCRUD } from "@hooks/useMovieCRUD";
 import "@styles/styles.css";
 import CustomTextAreaField from "@components/customeField/CustomTextAreaField";
-import VideoSourceInput from "@components/customeField/VideoSourceInput";
 import MovieAccessType from "@components/customeField/MovieAccessType";
+import VideoSourceInput from "@components/customeField/VideoSourceInput";
 
 const MovieFormInfo = () => {
   // Kiểm tra form đang là form cập nhập hay form thêm movie
@@ -27,17 +27,34 @@ const MovieFormInfo = () => {
 
   const [filePosterList, setFilePosterList] = useState([]);
   const [fileBackdropList, setFileBackdropList] = useState([]);
+  /*
+   * fileVideoList is used in prepareFormData but setFileVideoList has been moved
+   * to the VideoVersionInput component. We're keeping the state here for form submission
+   * but the UI for video management is now in its own tab.
+   */
+  // eslint-disable-next-line no-unused-vars
   const [fileVideoList, setFileVideoList] = useState([]);
   const [trailer, setTrailer] = useState("");
   const [fileList, setFileList] = useState([]);
   const [activeTab, setActiveTab] = useState("basic");
+
+  // Add debug state
+  const [formDebug, setFormDebug] = useState({
+    submitted: false,
+    lastSubmitTime: null,
+    submitCount: 0,
+    lastValidationErrors: null,
+  });
+
+  // Debug mode flag
+  const showDebugPanel = true;
 
   const navigate = useNavigate();
 
   const createFormSchema = (movieType) => {
     const baseSchema = {
       title: yup.string().required("Tên phim không được để trống"),
-      country: yup.string().required("Quốc gia không được để trống"),
+      countryIds: yup.array().min(1, "Quốc gia không được để trống"),
       director: yup.string().required("Đạo diễn không được để trống"),
       description: yup.string().required("Mô tả không được để trống"),
       genreIds: yup.array().min(1, "Thể loại không được để trống"),
@@ -69,12 +86,11 @@ const MovieFormInfo = () => {
     if (movieType === "STANDALONE") {
       return yup.object().shape({
         ...baseSchema,
-        duration: yup
-          .number()
-          .typeError("Thời lượng phải là một số")
-          .required("Thời lượng không được để trống")
-          .positive("Thời lượng phải lớn hơn 0"),
-        videoUrl: yup.string().required("Nguồn phim không được để trống"),
+        // duration: yup
+        //   .number()
+        //   .typeError("Thời lượng phải là một số")
+        //   .required("Thời lượng không được để trống")
+        //   .positive("Thời lượng phải lớn hơn 0"),
       });
     } else {
       return yup.object().shape({
@@ -140,22 +156,24 @@ const MovieFormInfo = () => {
       const extraFields =
         movieType === "STANDALONE"
           ? {
-              duration: movieDetail.duration,
-              videoUrl: movieDetail.videoUrl,
+              budget: movieDetail.budget,
+              revenue: movieDetail.revenue,
             }
           : {
               season: movieDetail.season,
-              episodeNumber: movieDetail.episodeNumber,
+              totalEpisodes: movieDetail.totalEpisodes,
             };
 
       // Check if movie is free
       const free = movieDetail.free === true;
 
-      reset({
+      // Prepare default form values
+      const defaultValues = {
         title: movieDetail.title,
+        originalTitle: movieDetail.originalTitle,
         description: movieDetail.description,
         director: movieDetail.director,
-        country: movieDetail.country,
+        countryIds: movieDetail?.countries?.map((country) => country.id) || [],
         releaseDate: movieDetail.releaseDate
           ? dayjs(movieDetail.releaseDate)
           : null,
@@ -168,12 +186,18 @@ const MovieFormInfo = () => {
         ...extraFields,
         videoSource: "url",
         free: free,
+        quality: movieDetail.quality,
+        status: movieDetail.status,
         subscriptionPlanIds: free
           ? []
           : movieDetail.subscriptionPlans?.map(
               (subscriptionPlan) => subscriptionPlan.id,
             ) || [],
-      });
+      };
+
+      reset(defaultValues);
+      console.log("Set form values:", defaultValues);
+
       if (movieDetail.posterUrl) {
         setFilePosterList([
           {
@@ -195,6 +219,7 @@ const MovieFormInfo = () => {
     setFilePosterList,
     reset,
     setValue,
+    movieType,
   ]);
 
   const handleChangePoster = ({ fileList: newList }) =>
@@ -204,14 +229,9 @@ const MovieFormInfo = () => {
 
   // Load genre data
   const genreData = useGetGenresQuery({});
-  const [genreOptions, setGenreOptions] = useState([]);
   useEffect(() => {
     if (genreData?.data?.data?.result) {
-      const options = genreData.data.data.result.map((genre) => ({
-        label: genre.name,
-        value: genre.id,
-      }));
-      setGenreOptions(options);
+      console.log("Genre data loaded");
     }
   }, [genreData]);
 
@@ -237,8 +257,30 @@ const MovieFormInfo = () => {
       : isUpdateSeriesLoading;
 
   const handleOnSubmit = async (data) => {
-    console.log({ submitMovie: data });
-    console.log("Form errors on submit:", errors);
+    console.log("Form submitted");
+    console.log("FULL FORM DATA:", JSON.stringify(data, null, 2));
+    console.log("Form errors:", errors);
+
+    // Update debug state
+    setFormDebug((prev) => ({
+      ...prev,
+      submitted: true,
+      lastSubmitTime: new Date().toISOString(),
+      submitCount: prev.submitCount + 1,
+    }));
+
+    // Log all errors in detail for debugging
+    if (Object.keys(errors).length > 0) {
+      console.error("VALIDATION ERRORS:", JSON.stringify(errors, null, 2));
+      alert(
+        "Form has validation errors: " +
+          Object.keys(errors)
+            .map((key) => `${key}: ${errors[key]?.message}`)
+            .join(", "),
+      );
+      return;
+    }
+
     console.log("Subscription Plans:", data.subscriptionPlanIds);
     console.log("Is Free:", data.free);
 
@@ -280,8 +322,19 @@ const MovieFormInfo = () => {
     }
   };
 
+  // Add an effect to log validation errors
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      console.log("Current validation errors:", errors);
+      setFormDebug((prev) => ({
+        ...prev,
+        lastValidationErrors: errors,
+      }));
+    }
+  }, [errors]);
+
   return (
-    <div className="mx-auto flex h-full w-full flex-col items-center justify-center bg-dark-200 p-10">
+    <div className="mx-auto flex h-full w-full flex-col items-center justify-center bg-dark-200 p-8">
       <form
         className="mt-3 flex w-full gap-5 rounded-lg bg-dark-100 p-7"
         onSubmit={handleSubmit(handleOnSubmit)}
@@ -304,53 +357,7 @@ const MovieFormInfo = () => {
               </Button>
             )}
           </div>
-          {/* <BasisInfoFields
-            control={control}
-            errors={errors}
-            movieType={movieType}
-            fileList={fileList}
-            setFileList={setFileList}
-            watch={watch}
-          />
 
-          <MediaField
-            control={control}
-            errors={errors}
-            filePosterList={filePosterList}
-            setFilePosterList={setFilePosterList}
-            handleChangePoster={handleChangePoster}
-            fileBackdropList={fileBackdropList}
-            setFileBackdropList={setFileBackdropList}
-            handleChangeBackdrop={handleChangeBackdrop}
-            trailer={trailer}
-            setTrailer={setTrailer}
-          />
-          <div>
-            <FormField
-              control={control}
-              name="description"
-              label="Mô tả"
-              Component={CustomTextAreaField}
-              error={errors.description?.message}
-              rows={6}
-            />
-          </div>
-          <VideoSourceInput
-            control={control}
-            watch={watch}
-            errors={errors}
-            fileList={fileList}
-            setFileList={setFileList}
-          />
-          <div>
-            <MovieActor
-              fields={fields}
-              append={append}
-              remove={remove}
-              control={control}
-              errors={errors?.movieActors}
-            />
-          </div> */}
           {/* Tabs phần form */}
           <Tabs
             activeKey={activeTab}
@@ -399,15 +406,6 @@ const MovieFormInfo = () => {
                       errors={errors}
                       setValue={setValue}
                     />
-                    {movieType === "STANDALONE" && (
-                      <VideoSourceInput
-                        control={control}
-                        watch={watch}
-                        errors={errors}
-                        fileList={fileVideoList}
-                        setFileList={setFileVideoList}
-                      />
-                    )}
                   </div>
                 ),
               },
@@ -444,6 +442,7 @@ const MovieFormInfo = () => {
               size="large"
               color="red"
               variant="solid"
+              htmlType="button"
               onClick={() => {
                 navigate("/admin/movies");
               }}
@@ -451,6 +450,41 @@ const MovieFormInfo = () => {
               Thoát
             </Button>
           </div>
+
+          {/* Debug panel - always visible while debugging */}
+          {showDebugPanel && (
+            <div className="mt-8 rounded border border-gray-500 bg-gray-800 p-4">
+              <h3 className="mb-2 text-white">Debug Information</h3>
+              <div className="text-sm text-gray-400">
+                <p>Submit Count: {formDebug.submitCount}</p>
+                <p>Last Submit: {formDebug.lastSubmitTime}</p>
+                <p>
+                  Has Errors: {Object.keys(errors).length > 0 ? "Yes" : "No"}
+                </p>
+                {Object.keys(errors).length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-red-400">Validation Errors:</p>
+                    <pre className="max-h-40 overflow-auto rounded bg-gray-900 p-2 text-xs">
+                      {JSON.stringify(errors, null, 2)}
+                    </pre>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                className="mt-2 rounded bg-blue-600 px-3 py-1 text-sm text-white"
+                onClick={() =>
+                  console.log("Form State:", {
+                    errors,
+                    values: watch(),
+                    debug: formDebug,
+                  })
+                }
+              >
+                Log Form State
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>

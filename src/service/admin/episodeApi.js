@@ -5,7 +5,7 @@ export const episodeApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
     getEpisodes: builder.query({
       query: ({ seriesMovieId, page, size }) => ({
-        url: `/series-movie/${seriesMovieId}/episodes`,
+        url: `/video-versions/${seriesMovieId}/episodes`,
         params: { page, size },
       }),
       providesTags: [{ type: "Episodes", id: "LIST" }],
@@ -21,7 +21,7 @@ export const episodeApi = rootApi.injectEndpoints({
           formData.append("video", video);
         }
         return {
-          url: `/series-movie/${seriesMovieId}/episodes`,
+          url: `/video-versions/${seriesMovieId}/episodes`,
           method: "POST",
           body: formData,
           // Bỏ headers hoặc để undefined, để browser tự thêm boundary cho formData

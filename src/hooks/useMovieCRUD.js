@@ -58,6 +58,24 @@ export const useMovieCRUD = () => {
   // Handle create movie
   const handleCreateMovie = async (formData, movieType) => {
     try {
+      console.log("Sending data to backend:", formData);
+
+      // Log formData content for debugging
+      for (let [key, value] of formData.entries()) {
+        if (key === "movieInfo") {
+          try {
+            const movieInfo = JSON.parse(value);
+            console.log("movieInfo:", movieInfo);
+            // Kiểm tra cụ thể status
+            console.log("Status being sent:", movieInfo.status);
+          } catch {
+            console.log(`${key}:`, value);
+          }
+        } else {
+          console.log(`${key}:`, value);
+        }
+      }
+
       let response;
       if (movieType === "STANDALONE") {
         response = await createStandaloneMovie(formData).unwrap();
@@ -76,6 +94,24 @@ export const useMovieCRUD = () => {
   // Handle update movie
   const handleUpdateMovie = async (formData, movieId, movieType) => {
     try {
+      console.log("Updating movie with ID:", movieId, "Type:", movieType);
+
+      // Log formData content for debugging
+      for (let [key, value] of formData.entries()) {
+        if (key === "movieInfo") {
+          try {
+            const movieInfo = JSON.parse(value);
+            console.log("Update movieInfo:", movieInfo);
+            // Kiểm tra cụ thể status
+            console.log("Status being updated:", movieInfo.status);
+          } catch {
+            console.log(`${key}:`, value);
+          }
+        } else {
+          console.log(`${key}:`, value);
+        }
+      }
+
       let response;
       if (movieType === "STANDALONE") {
         response = await updateStandaloneMovie({
@@ -113,16 +149,25 @@ export const useMovieCRUD = () => {
     free,
     subscriptionPlanIds,
   ) => {
+    console.log("Preparing form data with:", {
+      data,
+      movieType,
+      status: data.status,
+    });
+
     // Tạo base data chung
     const baseData = {
       title: data.title,
+      originalTitle: data.originalTitle,
       description: data.description,
       director: data.director,
-      country: data.country,
       releaseDate: data.releaseDate,
       free: free,
       trailerUrl: data.trailerUrl,
+      status: data.status,
+      quality: data.quality,
       genreIds: (data.genreIds || []).map(Number),
+      countryIds: data.countryIds || [],
       movieActors: data.movieActors || [],
       subscriptionPlanIds: subscriptionPlanIds,
     };
@@ -133,16 +178,14 @@ export const useMovieCRUD = () => {
       movieType: movieType === "STANDALONE" ? "STANDALONE" : "SERIES",
       ...(movieType === "STANDALONE"
         ? {
-            duration: Number(data.duration),
-            videoUrl: data.videoUrl,
+            budget: Number(data.budget || 0),
+            revenue: Number(data.revenue || 0),
           }
         : {
             season: Number(data.season),
             episodeNumber: Number(data.episodeNumber),
           }),
     };
-
-    console.log("Prepared submit data:", submitData);
 
     const formData = new FormData();
     formData.append(
@@ -166,7 +209,9 @@ export const useMovieCRUD = () => {
       formData.append("backdrop", fileBackdropList[0].originFileObj);
     }
 
+    // Thêm các file video nếu là phim lẻ, đặt tên đúng với API backend
     if (
+      movieType === "STANDALONE" &&
       fileVideoList &&
       fileVideoList.length > 0 &&
       fileVideoList[0]?.originFileObj

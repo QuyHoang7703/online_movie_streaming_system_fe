@@ -47,7 +47,7 @@ const UnifiedMovieCard = ({
             </div>
 
             {/* Badges */}
-            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 transform flex-nowrap items-center justify-center gap-1">
+            {/* <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 transform flex-nowrap items-center justify-center gap-1">
               {movie.subtitled && (
                 <span className="whitespace-nowrap rounded bg-gray-700 px-1 py-0.5 text-[10px] font-medium text-white sm:text-xs">
                   PĐ {movie.subtitled}
@@ -58,7 +58,7 @@ const UnifiedMovieCard = ({
                   TM {movie.episodes}
                 </span>
               )}
-            </div>
+            </div> */}
           </div>
         </Link>
 

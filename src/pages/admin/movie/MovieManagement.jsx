@@ -67,15 +67,20 @@ const MovieManagement = () => {
       dataIndex: "title",
       key: "title",
     },
-    {
-      title: "Đạo diễn",
-      dataIndex: "director",
-      key: "director",
-    },
+    // {
+    //   title: "Đạo diễn",
+    //   dataIndex: "director",
+    //   key: "director",
+    // },
     {
       title: "Loại phim",
       dataIndex: "movieType",
       key: "movieType",
+      render: (movieType) => {
+        if (movieType === "STANDALONE") return "Phim lẻ";
+        if (movieType === "SERIES") return "Phim bộ";
+        return movieType;
+      },
     },
     {
       title: "Thể loại",
@@ -104,6 +109,7 @@ const MovieManagement = () => {
       title: "Thao tác",
       dataIndex: "actions",
       key: "actions",
+      width: "10%",
       // eslint-disable-next-line no-unused-vars
       render: (_, record) => (
         <Space size="middle">
