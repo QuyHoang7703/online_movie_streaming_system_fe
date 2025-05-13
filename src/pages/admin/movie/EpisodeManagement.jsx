@@ -1,55 +1,36 @@
-import React, { useState, useEffect, Component } from "react";
-import { Button, Card, Tooltip, Spin, Pagination } from "antd";
+import React, { useState } from "react";
+import { Button, Card, Tooltip, Pagination } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
-  PlusCircleOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  PlayCircleOutlined,
   PlusCircleFilled,
 } from "@ant-design/icons";
 import { useParams, useNavigate } from "react-router-dom";
-import FormField from "@components/FormField";
-import { useGetEpisodesQuery } from "@service/admin/episodeApi";
-import { useEpisodeMutations } from "@hooks/useEpisodeMutations";
-import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 import GenericModal from "@context/GenericModal";
 import EpisodeFormInfo from "./EpisodeFormInfo";
+import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 
 const EpisodeManagement = () => {
   const { movieId } = useParams();
-  console.log({ movieId });
   const navigate = useNavigate();
-  const [episodes, setEpisodes] = useState([]);
+
+  // Mock data for episodes
+  const [episodes, setEpisodes] = useState([
+    { id: 1, episodeNumber: 1, title: "Khởi đầu cuộc hành trình" },
+    { id: 2, episodeNumber: 2, title: "Gặp gỡ những người bạn mới" },
+    { id: 3, episodeNumber: 3, title: "Thử thách đầu tiên" },
+    { id: 4, episodeNumber: 4, title: "Kẻ thù xuất hiện" },
+    { id: 5, episodeNumber: 5, title: "Bí mật được hé lộ" },
+  ]);
+
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
-    total: 0,
+    total: 5,
   });
+
   const [modalContent, setModalContent] = useState(null);
-
-  const params = {
-    seriesMovieId: movieId,
-    page: pagination.current,
-    size: pagination.pageSize,
-  };
-
-  const episodeData = useGetEpisodesQuery(params);
-  console.log({ episodeData });
-
-  // Get episodes data
-  useEffect(() => {
-    if (episodeData.isSuccess && episodeData?.data?.data) {
-      const { result, meta } = episodeData.data.data;
-      setEpisodes(result || []);
-      setPagination({
-        current: meta.currentPage,
-        pageSize: meta.pageSize,
-        total: meta.totalElements,
-      });
-    }
-  }, [episodeData]);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const handleChangePage = (page, pageSize) => {
     setPagination({
@@ -60,7 +41,15 @@ const EpisodeManagement = () => {
   };
 
   // function handle delete episode
-  const { handleDeleteEpisode, isDeleteLoading } = useEpisodeMutations();
+  const handleDeleteEpisode = ({ episodeId }) => {
+    setIsDeleteLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setEpisodes(episodes.filter((episode) => episode.id !== episodeId));
+      setIsDeleteLoading(false);
+    }, 1000);
+  };
+
   // Open modal delete episode
   const handleOpenModalDelete = (episodeId) => {
     setModalContent({
@@ -114,13 +103,12 @@ const EpisodeManagement = () => {
             Quay lại
           </Button>
           <span className="text-xl font-bold text-white">
-            {/* Danh sách tập phim: {seriesInfo.title} */}
+            Danh sách tập phim
           </span>
         </div>
         <Button
           type="primary"
           icon={<PlusCircleFilled />}
-          // onClick={() => handleOpenModal()}
           className="btn-create"
           onClick={() =>
             handleOpenModalCreateOrUpdate({
@@ -133,19 +121,12 @@ const EpisodeManagement = () => {
         </Button>
       </div>
 
-      {episodeData.isLoading && (
-        <div className="my-8 flex justify-center">
-          <Spin size="large" />
-        </div>
-      )}
-
       <div className="grid grid-cols-1 gap-4">
         {episodes?.length > 0 &&
           episodes?.map((episode) => (
             <Card
               key={episode.id}
               className="border border-gray-700 bg-dark-100 shadow-md transition-all hover:border-gray-500"
-              // bodyStyle={{ padding: "16px" }}
             >
               <div className="flex items-center justify-between text-white">
                 <div className="flex items-center">
@@ -154,9 +135,6 @@ const EpisodeManagement = () => {
                   </div>
                   <div>
                     <div className="text-lg font-semibold">{`Tập ${episode.episodeNumber}: ${episode.title}`}</div>
-                    {/* <div className="text-sm text-gray-400">
-                      Video URL: {episode.videoUrl} 
-                    </div> */}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -193,14 +171,13 @@ const EpisodeManagement = () => {
             </Card>
           ))}
 
-        {episodes.length === 0 && !episodeData.isLoading && (
+        {episodes.length === 0 && (
           <div className="my-10 rounded-lg border border-dashed border-gray-700 p-10 text-center text-gray-400">
             <p className="text-lg">Chưa có tập phim nào. Hãy thêm tập mới!</p>
             <Button
               color="primary"
               type="primary"
-              icon={<PlusCircleOutlined />}
-              // onClick={() => handleOpenModal()}
+              icon={<PlusCircleFilled />}
               onClick={() =>
                 handleOpenModalCreateOrUpdate({ isUpdate: false, movieId })
               }

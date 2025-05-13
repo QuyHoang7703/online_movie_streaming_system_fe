@@ -15,14 +15,13 @@ export const useEpisodeMutations = () => {
     useCreateEpisodeMutation();
 
   const handleCreateEpisode = async ({
-    seriesMovieId,
+    videoVersionId,
     episodeInfo,
     video,
-    onSuccess,
   }) => {
     try {
       const result = await createEpisode({
-        seriesMovieId,
+        videoVersionId,
         episodeInfo,
         video,
       }).unwrap();
@@ -33,14 +32,6 @@ export const useEpisodeMutations = () => {
         "success",
         result?.message || "Thêm tập phim thành công",
       );
-
-      // Gọi callback onSuccess sau khi API thành công
-      if (onSuccess && typeof onSuccess === "function") {
-        onSuccess();
-      } else {
-        // Nếu không có callback, chuyển hướng trang
-        navigate(`/admin/series-movie/${seriesMovieId}/episodes`);
-      }
     } catch (error) {
       console.error("Create episode error:", error);
       showNotification(
@@ -54,10 +45,7 @@ export const useEpisodeMutations = () => {
   const [updateEpisode, { data: updateResponse, isLoading: isUpdateLoading }] =
     useUpdateEpisodeMutation();
 
-  const handleUpdateEpisode = async (
-    { episodeId, episodeInfo, video, onSuccess },
-    movieId,
-  ) => {
+  const handleUpdateEpisode = async ({ episodeId, episodeInfo, video }) => {
     try {
       const result = await updateEpisode({
         episodeId,
@@ -71,14 +59,6 @@ export const useEpisodeMutations = () => {
         "success",
         result?.message || "Cập nhật tập phim thành công",
       );
-
-      // Gọi callback onSuccess sau khi API thành công
-      if (onSuccess && typeof onSuccess === "function") {
-        onSuccess();
-      } else {
-        // Nếu không có callback, chuyển hướng trang
-        navigate(`/admin/series-movie/${movieId}/episodes`);
-      }
     } catch (error) {
       console.error("Update episode error:", error);
       showNotification(
@@ -92,12 +72,11 @@ export const useEpisodeMutations = () => {
   const [deleteEpisode, { data: deleteResponse, isLoading: isDeleteLoading }] =
     useDeleteEpisodeMutation();
 
-  const handleDeleteEpisode = async ({ episodeId, movieId }) => {
+  const handleDeleteEpisode = async ({ episodeId }) => {
     try {
       const result = await deleteEpisode(episodeId).unwrap();
       console.log("Delete episode success:", result);
       showNotification("success", result?.message || "Xóa tập phim thành công");
-      navigate(`/admin/series-movie/${movieId}/episodes`);
     } catch (error) {
       console.error("Delete episode error:", error);
       showNotification(

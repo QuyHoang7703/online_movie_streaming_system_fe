@@ -1,16 +1,15 @@
 import FormField from "@components/FormField";
-import { Button, Spin } from "antd";
+import { Button } from "antd";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomInputField from "@components/customeField/CustomInputField";
 import CustomInputNumberField from "@components/customeField/CustomInputNumberField";
-import { useGetDetailEpisodeQuery } from "@service/admin/episodeApi";
 import VideoSourceInput from "@components/customeField/VideoSourceInput";
-import { useEpisodeMutations } from "@hooks/useEpisodeMutations";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useLazyGetDetailEpisodeQuery } from "@service/admin/episodeApi";
+import { useEpisodeMutations } from "@hooks/useEpisodeMutations";
 import { useLoading } from "@context/LoadingContext";
 
 // Schema validation
@@ -37,11 +36,11 @@ const episodeSchema = yup.object().shape({
 
 const EpisodeFormInfo = ({
   isUpdate = false,
-  movieId = null,
   onSuccess,
+  onCancel,
   episodeId = null,
+  videoVersionId = null,
 }) => {
-  const { showLoading, hideLoading } = useLoading();
   const {
     control,
     handleSubmit,
@@ -55,17 +54,37 @@ const EpisodeFormInfo = ({
     },
   });
 
-  console.log({ errors });
-
-  const navigate = useNavigate();
   const [fileList, setFileList] = useState([]);
+  const [getEpisodeDetail, { data: episodeDetailData, isSuccess }] =
+    useLazyGetDetailEpisodeQuery();
 
-  const { data: episodeDetailResponse } = useGetDetailEpisodeQuery(episodeId);
-  const episodeDetail = episodeDetailResponse?.data;
+  const {
+    handleUpdateEpisode,
+    handleCreateEpisode,
+    isCreateLoading,
+    isUpdateLoading,
+  } = useEpisodeMutations();
 
-  // Set data khi xem chi tiết
+  const isLoading = isUpdate ? isUpdateLoading : isCreateLoading;
+  const { showLoading, hideLoading } = useLoading();
+
   useEffect(() => {
-    if (isUpdate && episodeDetail) {
+    if (isLoading) {
+      showLoading();
+    } else {
+      hideLoading();
+    }
+  }, [isLoading, showLoading, hideLoading]);
+
+  useEffect(() => {
+    if (isUpdate && episodeId) {
+      getEpisodeDetail(episodeId);
+    }
+  }, [isUpdate, episodeId, getEpisodeDetail]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const episodeDetail = episodeDetailData.data;
       reset({
         title: episodeDetail.title,
         episodeNumber: episodeDetail.episodeNumber,
@@ -74,56 +93,29 @@ const EpisodeFormInfo = ({
         videoSource: "url",
       });
     }
-  }, [isUpdate, episodeDetail, reset]);
+  }, [isSuccess, episodeDetailData, reset]);
 
-  const {
-    handleCreateEpisode,
-    handleUpdateEpisode,
-    isCreateLoading,
-    isUpdateLoading,
-  } = useEpisodeMutations();
+  const handleOnSubmit = async (data) => {
+    console.log("data", data);
+    showLoading();
 
-  // Hiển thị loading khi bắt đầu và ẩn khi kết thúc
-  useEffect(() => {
-    console.log("Loading state changed:", { isCreateLoading, isUpdateLoading });
-
-    if (isCreateLoading || isUpdateLoading) {
-      showLoading();
-    } else {
-      // Đảm bảo luôn gọi hideLoading khi không còn loading
+    try {
+      if (videoVersionId) {
+        await handleCreateEpisode({
+          videoVersionId,
+          episodeInfo: data,
+          video: data.videoSource === "upload" ? data.videoFile : null,
+        });
+      } else {
+        await handleUpdateEpisode({
+          episodeId,
+          episodeInfo: data,
+          video: data.videoSource === "upload" ? data.videoFile : null,
+        });
+      }
+      onSuccess?.();
+    } finally {
       hideLoading();
-    }
-
-    // Cleanup function để đảm bảo hideLoading được gọi khi component unmount
-    return () => {
-      hideLoading();
-    };
-  }, [isCreateLoading, isUpdateLoading, showLoading, hideLoading]);
-
-  const handleOnSubmit = (data) => {
-    // Xử lý submit
-    if (!isUpdate) {
-      handleCreateEpisode({
-        seriesMovieId: movieId,
-        episodeInfo: data,
-        video: fileList[0]?.originFileObj,
-        onSuccess: () => {
-          // Force ẩn loading và gọi callback
-          hideLoading();
-          onSuccess?.();
-        },
-      });
-    } else {
-      handleUpdateEpisode({
-        episodeId: episodeId,
-        episodeInfo: data,
-        video: fileList[0]?.originFileObj,
-        onSuccess: () => {
-          // Force ẩn loading và gọi callback
-          hideLoading();
-          onSuccess?.();
-        },
-      });
     }
   };
 
@@ -146,7 +138,7 @@ const EpisodeFormInfo = ({
               <FormField
                 control={control}
                 name="episodeNumber"
-                label="Số tập"
+                label="Tập số"
                 Component={CustomInputNumberField}
                 error={errors.episodeNumber?.message}
               />
@@ -180,29 +172,19 @@ const EpisodeFormInfo = ({
                 htmlType="submit"
                 size="large"
                 className="bg-blue-500 text-white"
-                loading={!isUpdate ? isCreateLoading : isUpdateLoading}
-                icon={
-                  (!isUpdate ? isCreateLoading : isUpdateLoading) ? (
-                    <LoadingOutlined />
-                  ) : null
-                }
-                disabled={!isUpdate ? isCreateLoading : isUpdateLoading}
+                loading={isLoading}
+                icon={isLoading ? <LoadingOutlined /> : null}
+                disabled={isLoading}
               >
-                {(!isUpdate ? isCreateLoading : isUpdateLoading)
-                  ? "Đang xử lý..."
-                  : !isUpdate
-                    ? "Thêm"
-                    : "Cập nhập"}
+                {isLoading ? "Đang xử lý..." : !isUpdate ? "Thêm" : "Cập nhập"}
               </Button>
               <Button
                 size="large"
                 color="red"
                 variant="solid"
-                onClick={() => {
-                  navigate("/admin/movies");
-                }}
+                onClick={onCancel}
                 className="bg-red-500 text-white"
-                disabled={!isUpdate ? isCreateLoading : isUpdateLoading}
+                disabled={isLoading}
               >
                 Thoát
               </Button>

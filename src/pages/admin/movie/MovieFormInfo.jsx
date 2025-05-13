@@ -17,7 +17,6 @@ import { useMovieCRUD } from "@hooks/useMovieCRUD";
 import "@styles/styles.css";
 import CustomTextAreaField from "@components/customeField/CustomTextAreaField";
 import MovieAccessType from "@components/customeField/MovieAccessType";
-import VideoSourceInput from "@components/customeField/VideoSourceInput";
 
 const MovieFormInfo = () => {
   // Kiểm tra form đang là form cập nhập hay form thêm movie
@@ -346,14 +345,18 @@ const MovieFormInfo = () => {
               {movieType === "STANDALONE" ? "LẺ" : "BỘ"}
             </p>
 
-            {movieType === "SERIES" && isUpdate && (
+            {isUpdate && (
               <Button
                 className="btn-create"
-                onClick={() =>
-                  navigate(`/admin/series-movie/${movieId}/episodes`)
-                }
+                onClick={() => {
+                  navigate(`/admin/movies/${movieId}/video-versions`, {
+                    state: {
+                      movieType,
+                    },
+                  });
+                }}
               >
-                Quản lý tập phim
+                Phiên bản chiếu
               </Button>
             )}
           </div>

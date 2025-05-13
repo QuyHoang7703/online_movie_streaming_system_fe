@@ -29,6 +29,7 @@ import UserLayout from "@layouts/UserLayout";
 
 import MovieList from "@pages/user/MovieList";
 import DetailMovie from "@pages/user/DetailMovie";
+import VideoVersionManage from "@pages/admin/videoVersion/VideoVersionManage";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -148,13 +149,21 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/admin/series-movie/:movieId/episodes",
+        path: "/admin/movies/:movieId/video-versions",
         element: (
           <RequireRole allowedRoles={"ADMIN"}>
-            <Episode />
+            <VideoVersionManage />
           </RequireRole>
         ),
       },
+      // {
+      //   path: "/admin/video-versions/:videoVersionId/episodes",
+      //   element: (
+      //     <RequireRole allowedRoles={"ADMIN"}>
+      //       <Episode />
+      //     </RequireRole>
+      //   ),
+      // },
     ],
   },
 
