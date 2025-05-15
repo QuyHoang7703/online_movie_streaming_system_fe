@@ -147,3 +147,17 @@
   text-align: center;
   margin: 0 !important; /* Xóa margin mặc định */
 }
+
+/* Ghi đè class active của tab card */
+.video-version-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply !text-white hover:!text-white/80;
+}
+
+.video-version-tabs .ant-tabs-tab-active {
+  background-color: #16a34a !important;
+  border: none !important;
+}
+
+.video-version-tabs .ant-tabs-tab {
+  @apply text-base hover:!text-white/80;
+}

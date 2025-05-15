@@ -33,7 +33,7 @@ const baseQueryForceLogout = async (args, api, extraOptions) => {
       // ✅ Gọi trong hàm luôn
       console.log({ result });
       console.log("Force logout");
-      window.location.href = "/login";
+      // window.location.href = "/login";
       api.dispatch(logout());
     }
   }

@@ -3,16 +3,21 @@ import {
   InfoCircleOutlined,
   PlayCircleFilled,
 } from "@ant-design/icons";
+import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import VARIANTS from "@consts/variants";
 import { Button } from "antd";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MoviePreviewCard = ({
   movie,
   isNearRightEdge,
   variant = "default", // Thêm variant prop
 }) => {
-  const genres = movie.genres || ["Hành Động", "Phiêu Lưu"];
+  const genres = movie.genres.map((genre) => genre.name) || [
+    "Hành Động",
+    "Phiêu Lưu",
+  ];
 
   // Lấy cấu hình dựa theo variant
   const config = VARIANTS[variant] || VARIANTS.default;
@@ -25,7 +30,7 @@ const MoviePreviewCard = ({
       {/* Preview Image */}
       <div className="relative w-full" style={{ height: config.imageHeight }}>
         <img
-          src={movie.backdrop || movie.poster}
+          src={movie.backdropUrl || movie.posterUrl}
           alt={movie.title}
           className="h-full w-full object-cover"
         />
@@ -53,14 +58,18 @@ const MoviePreviewCard = ({
           >
             Thích
           </Button>
-          <Button
-            icon={<InfoCircleOutlined />}
-            size="middle"
-            type="text"
-            className="!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700"
+          <Link
+            to={`/${movieTypeUrlMapperReverse[movie.movieType]}/${movie.movieId}`}
           >
-            Thông tin
-          </Button>
+            <Button
+              icon={<InfoCircleOutlined />}
+              size="middle"
+              type="text"
+              className="!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700"
+            >
+              Thông tin
+            </Button>
+          </Link>
         </div>
 
         {/* Info Row */}
@@ -74,7 +83,7 @@ const MoviePreviewCard = ({
 
         {/* Genres */}
         <div className="mb-3 flex flex-wrap gap-2">
-          {genres.map((genre, index) => (
+          {(genres || []).map((genre, index) => (
             <React.Fragment key={index}>
               <span className="rounded bg-gray-800 p-1 text-xs text-gray-300">
                 {genre}

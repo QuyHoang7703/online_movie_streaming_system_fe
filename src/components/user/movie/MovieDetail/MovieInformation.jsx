@@ -1,50 +1,94 @@
+import { InfoCircleFilled } from "@ant-design/icons";
 import MovieGenres from "@components/user/movie/MovieDetail/MovieGenres";
 import MovieTags from "@components/user/movie/MovieDetail/MovieTags";
+import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
+import { convertMinutesToHourMinute } from "@utils/timeUtils";
+import { Link } from "react-router-dom";
 
-const MovieInformation = () => {
+const MovieInformation = ({ movieDetail, layout = "vertical" }) => {
+  const isHorizontal = layout === "horizontal";
+
   return (
-    <div className="flex flex-col gap-5 text-white">
-      <img
-        src="https://static.nutscdn.com/vimg/300-0/6591ac85c0e2c6475caeb282fba760b4.jpg"
-        alt=""
-        className="h-[240px] w-[160px] rounded-xl"
-      />
-      <p className="mt-2 text-2xl font-bold text-white">
-        Đầu Xuôi Đuôi Đút Lót
-      </p>
-      <MovieTags
-        rating={7.5}
-        year={2024}
-        duration="1h 46m"
-        type="Phim lẻ"
-        simple={true}
-      />
-      <MovieGenres />
-      <p className="text-base font-medium">Giới thiệu: </p>
-      <p className="text-gray-500">
-        Yoon Chang Wook - CEO một công ty công nghệ nhỏ, giỏi nghiên cứu nhưng
-        mù tịt chuyện thương trường. Khi công ty sắp sập tiệm vì bị “bạn thân”
-        cũ Son Gwang-woo đâm sau lưng bằng chiêu trò đút lót để giành lấy dự án
-        quốc gia, Chang-wook buộc phải bước vào một cuộc chơi hoàn toàn xa lạ:
-        đút lót bằng golf - “môn thể thao quyền lực” của giới làm ăn. Một trận
-        đấu thầu có một không hai, nơi những cú đánh trượt là chiến lược, còn
-        đút lót là kỹ năng, tạo nên trận đấu vừa hài hước, vừa châm biếm về
-        thương trường thời hiện đại.
-      </p>
-      <p>
-        <span className="min-w-5 font-medium">Thời lượng: </span>{" "}
-        <span className="font-light">1h 46m</span>
-      </p>
-      <p>
-        <span className="min-w-5 font-medium">Quốc gia: </span>{" "}
-        <span className="font-light text-white">Hàn Quốc</span>
-      </p>
-      <p>
-        <span className="min-w-5 font-medium">Đạo diễn: </span>{" "}
-        <span className="font-light text-white">
-          Kim Tae-yong, Ha Jung-woo, Park Ho-chan, Choi Rin
-        </span>
-      </p>
+    <div
+      className={`flex flex-col gap-5 text-white ${isHorizontal ? "mt-6" : ""}`}
+    >
+      <div
+        className={`${
+          isHorizontal ? "flex items-start gap-6" : "flex flex-col gap-3"
+        } `}
+      >
+        <div className={isHorizontal ? "flex-shrink-0" : ""}>
+          <img
+            src={movieDetail.posterUrl}
+            alt=""
+            className={`rounded-xl ${isHorizontal ? "h-[150px] w-[100px]" : "h-[240px] w-[160px]"}`}
+          />
+        </div>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-1">
+            <p
+              className={`mb-2 font-bold text-white ${isHorizontal ? "text-xl" : "mt-2 text-2xl"}`}
+            >
+              {movieDetail.title}
+            </p>
+            <p className="mt-1 text-sm text-mainUserColor-100">
+              {movieDetail.originalTitle}
+            </p>
+          </div>
+
+          <MovieTags
+            rating={movieDetail.voteAverage?.toFixed(1)}
+            year={movieDetail.releaseDate?.split("-")[0]}
+            duration={convertMinutesToHourMinute(movieDetail.duration)}
+            type="16"
+            quality={movieDetail.quality}
+          />
+
+          <MovieGenres genres={movieDetail.genres} />
+        </div>
+      </div>
+
+      {!isHorizontal && (
+        <>
+          <div>
+            <p className="mb-3 text-base font-medium">Giới thiệu: </p>
+            <p className="text-gray-500">{movieDetail.description}</p>
+          </div>
+          <p>
+            <span className="min-w-5 font-medium">Thời lượng: </span>{" "}
+            <span className="font-light text-gray-400">
+              {convertMinutesToHourMinute(movieDetail.duration)}
+            </span>
+          </p>
+          <p>
+            <span className="min-w-5 font-medium">Quốc gia: </span>{" "}
+            <span className="font-light text-white">
+              {movieDetail.countries?.map((country) => country.name).join(", ")}
+            </span>
+          </p>
+          <p>
+            <span className="min-w-5 font-medium">Đạo diễn: </span>{" "}
+            <span className="font-light text-white">
+              {movieDetail.director}
+            </span>
+          </p>
+        </>
+      )}
+
+      {isHorizontal && (
+        <div className="mt-2">
+          <p className="mb-2 text-base font-medium">Giới thiệu: </p>
+          <p className="mb-4 text-gray-500">{movieDetail.description}</p>
+          <Link
+            to={`/${movieTypeUrlMapperReverse[movieDetail.movieType]}/${movieDetail.id}`}
+            className="text-mainUserColor-100"
+          >
+            <span>
+              Thông tin chi tiết <InfoCircleFilled />
+            </span>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

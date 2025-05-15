@@ -30,6 +30,13 @@ export const movieApi = rootApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Movies", id: "List" }],
     }),
+    getMovieForUser: builder.query({
+      query: ({ title, genreNames, countries, page, size, movieType }) => ({
+        url: "/user/movies",
+        method: "GET",
+        params: { title, genreNames, countries, page, size, movieType },
+      }),
+    }),
   }),
 });
 
@@ -37,4 +44,5 @@ export const {
   useGetMoviesQuery,
   useGetCountriesOfMoviesQuery,
   useDeleteMovieMutation,
+  useGetMovieForUserQuery,
 } = movieApi;

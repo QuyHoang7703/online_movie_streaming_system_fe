@@ -1,0 +1,16 @@
+export const COUNTRY_NAME_MAP = {
+  Austria: "Áo",
+  Belgium: "Bỉ",
+  Canada: "Canada",
+  Switzerland: "Thụy Sĩ",
+  China: "Trung Quốc",
+  Germany: "Đức",
+  Spain: "Tây Ban Nha",
+  France: "Pháp",
+  "United Kingdom": "Anh",
+  India: "Ấn Độ",
+  Japan: "Nhật Bản",
+  "South Korea": "Hàn Quốc",
+  Sweden: "Thụy Điển",
+  "United States of America": "Mỹ",
+};

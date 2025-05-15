@@ -1,20 +1,23 @@
 import { Tag } from "antd";
 
-const MovieTags = () => {
+const MovieTags = ({ rating, year, duration, type, quality }) => {
   return (
     <div className="mb-4 flex items-center gap-3">
       <Tag className="!text-blac !border-none !bg-mainUserColor-100 p-1 text-[0.8vw]">
-        IMDb 5.7
+        IMDb {rating}
       </Tag>
       <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        T16
+        T{type}
       </Tag>
       <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        2025
+        {year}
       </Tag>
 
       <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        1h 46m
+        {duration}
+      </Tag>
+      <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
+        {quality}
       </Tag>
     </div>
   );

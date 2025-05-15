@@ -4,14 +4,14 @@ import { rootApi } from "@service/rootApi";
 export const episodeApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
     getEpisodes: builder.query({
-      query: ({ seriesMovieId, page, size }) => ({
-        url: `/video-versions/${seriesMovieId}/episodes`,
+      query: ({ videoVersionId, page, size }) => ({
+        url: `/video-versions/${videoVersionId}/episodes`,
         params: { page, size },
       }),
       providesTags: [{ type: "Episodes", id: "LIST" }],
     }),
     createEpisode: builder.mutation({
-      query: ({ seriesMovieId, episodeInfo, video }) => {
+      query: ({ videoVersionId, episodeInfo, video }) => {
         const formData = new FormData();
         formData.append(
           "episodeInfo",
@@ -21,7 +21,7 @@ export const episodeApi = rootApi.injectEndpoints({
           formData.append("video", video);
         }
         return {
-          url: `/video-versions/${seriesMovieId}/episodes`,
+          url: `/video-versions/${videoVersionId}/episodes`,
           method: "POST",
           body: formData,
           // Bỏ headers hoặc để undefined, để browser tự thêm boundary cho formData
@@ -71,8 +71,10 @@ export const episodeApi = rootApi.injectEndpoints({
 
 export const {
   useGetEpisodesQuery,
+  useLazyGetEpisodesQuery,
   useCreateEpisodeMutation,
   useGetDetailEpisodeQuery,
+  useLazyGetDetailEpisodeQuery,
   useUpdateEpisodeMutation,
   useDeleteEpisodeMutation,
 } = episodeApi;

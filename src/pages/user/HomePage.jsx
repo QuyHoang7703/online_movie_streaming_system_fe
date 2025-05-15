@@ -8,228 +8,579 @@ const { Content } = Layout;
 // Dữ liệu mẫu cho phim Hàn Quốc
 const koreanMovies = [
   {
-    id: 1,
+    movieId: 1,
+    movieType: "SERIES",
     title: "Người Hùng Yếu Đuối",
-    englishTitle: "Weak Hero Class",
-    poster:
+    originalTitle: "Weak Hero Class",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "8",
-    episodes: "8",
-    quality: "4K",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 1,
+        videoType: "VIETSUB",
+        episodeCount: 8,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 8,
   },
   {
-    id: 2,
+    movieId: 2,
+    movieType: "SERIES",
     title: "Chuyến Đời Bác Sĩ Nội Trú",
-    englishTitle: "Resident Playbook",
-    poster:
+    originalTitle: "Resident Playbook",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "8",
-    episodes: "8",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 2,
+        videoType: "VIETSUB",
+        episodeCount: 8,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 8,
   },
   {
-    id: 3,
+    movieId: 3,
+    movieType: "SERIES",
     title: "Bảo Hiểm Ly Hôn",
-    englishTitle: "The Divorce Insurance",
-    poster:
+    originalTitle: "The Divorce Insurance",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "11",
-    episodes: "8",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 3,
+        videoType: "VIETSUB",
+        episodeCount: 11,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 8,
   },
   {
-    id: 4,
+    movieId: 4,
+    movieType: "SERIES",
     title: "Cung Điện Ma Ám",
-    englishTitle: "The Haunted Palace",
-    poster:
+    originalTitle: "The Haunted Palace",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "6",
-    episodes: "4",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 4,
+        videoType: "VIETSUB",
+        episodeCount: 6,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 4,
   },
   {
-    id: 5,
+    movieId: 5,
+    movieType: "SERIES",
     title: "Đẹp Hơn Thiên Đường",
-    englishTitle: "Heavenly Ever After",
-    poster:
+    originalTitle: "Heavenly Ever After",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "6",
-    episodes: "4",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 5,
+        videoType: "VIETSUB",
+        episodeCount: 6,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 4,
   },
   {
-    id: 6,
+    movieId: 6,
+    movieType: "SERIES",
     title: "Nữ Hoàng Nước Mắt",
-    englishTitle: "The Queen of Tears",
-    poster:
+    originalTitle: "The Queen of Tears",
+    posterUrl:
       "https://www.themoviedb.org/t/p/w1280/xRw3akJQdfgqx0x4fiHW7nIkEUJ.jpg",
-    subtitled: "16",
-    episodes: "16",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 6,
+        videoType: "VIETSUB",
+        episodeCount: 16,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 16,
   },
   {
-    id: 7,
+    movieId: 7,
+    movieType: "SERIES",
     title: "Dưới Những Tán Hoa",
-    englishTitle: "Under the Flowers",
-    poster:
+    originalTitle: "Under the Flowers",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "12",
-    episodes: "12",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 7,
+        videoType: "VIETSUB",
+        episodeCount: 12,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 12,
   },
   {
-    id: 8,
+    movieId: 8,
+    movieType: "SERIES",
     title: "Chuyện Ma Trưa 12 Giờ",
-    englishTitle: "Midnight Horror Story",
-    poster:
+    originalTitle: "Midnight Horror Story",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "8",
-    episodes: "8",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 8,
+        videoType: "VIETSUB",
+        episodeCount: 8,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 8,
   },
   {
-    id: 9,
+    movieId: 9,
+    movieType: "SERIES",
     title: "Dạ Điểu",
-    englishTitle: "Nightbird",
-    poster:
+    originalTitle: "Nightbird",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "6",
-    episodes: "6",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 9,
+        videoType: "VIETSUB",
+        episodeCount: 6,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 6,
   },
   {
-    id: 10,
+    movieId: 10,
+    movieType: "SERIES",
     title: "Truy Bắt Sát Nhân",
-    englishTitle: "A Killer Paradox",
-    poster:
+    originalTitle: "A Killer Paradox",
+    posterUrl:
       "https://static.nutscdn.com/vimg/400-0/09ddb13727f7653f4c34e311c853c860.jpg",
-    subtitled: "8",
-    episodes: "8",
+    backdropUrl: null,
+    voteAverage: 0,
+    year: null,
+    genres: [],
+    videoVersions: [
+      {
+        id: 10,
+        videoType: "VIETSUB",
+        episodeCount: 8,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 8,
   },
 ];
 
 // Dữ liệu mẫu phim Trung Quốc
 const chineseMovies = [
   {
-    id: 11,
+    movieId: 11,
+    movieType: "SERIES",
     title: "Hoài Thủy Trúc Đinh",
-    englishTitle: "Love in Pavilion",
-    poster:
+    originalTitle: "Love in Pavilion",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/AbkZUxhgq5nLrMHuipmXpKNlqDE.jpg",
-    subtitled: "22",
-    episodes: "22",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 1,
+        videoType: "VIETSUB",
+        episodeCount: 22,
+      },
+      {
+        id: 2,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 22,
   },
   {
-    id: 12,
+    movieId: 12,
+    movieType: "SERIES",
     title: "Mưa Hoa Rơi Gặp Lại Chàng",
-    englishTitle: "Love Never Fails",
-    poster:
+    originalTitle: "Love Never Fails",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/nTPFkLUARmo1bYHfkfdNyCE3LiI.jpg",
-    subtitled: "17",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 3,
+        videoType: "VIETSUB",
+        episodeCount: 17,
+      },
+      {
+        id: 4,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 17,
   },
   {
-    id: 13,
+    movieId: 13,
+    movieType: "SERIES",
     title: "Danh Bất Hư Truyền",
-    englishTitle: "He Kills It",
-    poster:
+    originalTitle: "He Kills It",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/rUKcCHC7j3t2YqXqywy0XGChVJL.jpg",
-    subtitled: "22",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 5,
+        videoType: "VIETSUB",
+        episodeCount: 22,
+      },
+      {
+        id: 6,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 22,
   },
   {
-    id: 14,
+    movieId: 14,
+    movieType: "SERIES",
     title: "Bằng Thượng Giai Tế",
-    englishTitle: "Serendipity",
-    poster:
+    originalTitle: "Serendipity",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/9eSoJrj8LkbUzuPUgQTY5EXzCyD.jpg",
-    subtitled: "22",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 7,
+        videoType: "VIETSUB",
+        episodeCount: 22,
+      },
+      {
+        id: 8,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 22,
   },
   {
-    id: 15,
+    movieId: 15,
+    movieType: "SERIES",
     title: "Tôi Là Triệu Giáp Đệ: Phong Mang",
-    englishTitle: "The Rise of Zhao Jiaodi",
-    poster:
+    originalTitle: "The Rise of Zhao Jiaodi",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/vZ5U5X6BF3aD15F4B1jcSSvFdFq.jpg",
-    subtitled: "13",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 9,
+        videoType: "VIETSUB",
+        episodeCount: 13,
+      },
+      {
+        id: 10,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 13,
   },
   {
-    id: 16,
+    movieId: 16,
+    movieType: "SERIES",
     title: "Phong Khởi Lạc Dương",
-    englishTitle: "Wind Rises in Luoyang",
-    poster:
+    originalTitle: "Wind Rises in Luoyang",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/2Wf5ySuUXXwXBJoStpuYHPTXRzu.jpg",
-    subtitled: "24",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 11,
+        videoType: "VIETSUB",
+        episodeCount: 24,
+      },
+      {
+        id: 12,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 24,
   },
   {
-    id: 17,
+    movieId: 17,
+    movieType: "SERIES",
     title: "Trường An Như Cố",
-    englishTitle: "The Eternal Love",
-    poster:
+    originalTitle: "The Eternal Love",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/79UovXztD64EUVPCTkOmsgXPTcE.jpg",
-    subtitled: "24",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 13,
+        videoType: "VIETSUB",
+        episodeCount: 24,
+      },
+      {
+        id: 14,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 24,
   },
   {
-    id: 18,
+    movieId: 18,
+    movieType: "SERIES",
     title: "Bạch Lộc",
-    englishTitle: "One and Only",
-    poster:
+    originalTitle: "One and Only",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/9wHJwm6gYcCpxXZqxYrjdDJMBXZ.jpg",
-    subtitled: "24",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 15,
+        videoType: "VIETSUB",
+        episodeCount: 24,
+      },
+      {
+        id: 16,
+        videoType: "VOICEOVER",
+        episodeCount: 0,
+      },
+    ],
+    duration: 0,
+    season: 1,
+    totalEpisodes: 24,
   },
 ];
-
 // Dữ liệu mẫu phim lẻ
 const singleMovies = [
   {
-    id: 19,
+    movieId: 19,
+    movieType: "SINGLE",
     title: "Biệt Đội Marvel",
-    englishTitle: "The Marvels",
-    poster:
+    originalTitle: "The Marvels",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/tUtgLOESpCx7ue4BaeCTqp3vn1b.jpg",
-    subtitled: "Full",
-    year: "2023",
-    duration: "1h 45m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2023,
+    genres: [],
+    videoVersions: [
+      {
+        id: 1,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 105,
+    season: 0,
+    totalEpisodes: 1,
   },
   {
-    id: 20,
+    movieId: 20,
+    movieType: "SINGLE",
     title: "Vầng Trăng Máu",
-    englishTitle: "Killers of the Flower Moon",
-    poster:
+    originalTitle: "Killers of the Flower Moon",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg",
-    subtitled: "Full",
-    year: "2023",
-    duration: "3h 26m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2023,
+    genres: [],
+    videoVersions: [
+      {
+        id: 2,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 206,
+    season: 0,
+    totalEpisodes: 1,
   },
   {
-    id: 21,
+    movieId: 21,
+    movieType: "SINGLE",
     title: "Kẻ Săn Mồi: Báo Thù",
-    englishTitle: "Predator: Prey",
-    poster:
+    originalTitle: "Predator: Prey",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg",
-    subtitled: "Full",
-    year: "2022",
-    duration: "1h 40m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2022,
+    genres: [],
+    videoVersions: [
+      {
+        id: 3,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 100,
+    season: 0,
+    totalEpisodes: 1,
   },
   {
-    id: 22,
+    movieId: 22,
+    movieType: "SINGLE",
     title: "Dune: Hành Tinh Cát Phần Hai",
-    englishTitle: "Dune: Part Two",
-    poster:
+    originalTitle: "Dune: Part Two",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/Avid9MkOaPrcYxSlCU0iiQZHzM.jpg",
-    subtitled: "Full",
-    year: "2024",
-    duration: "2h 46m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2024,
+    genres: [],
+    videoVersions: [
+      {
+        id: 4,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 166,
+    season: 0,
+    totalEpisodes: 1,
   },
   {
-    id: 23,
+    movieId: 23,
+    movieType: "SINGLE",
     title: "Quỷ Ám: Bởi Vì Có Quỷ 2",
-    englishTitle: "The Exorcist: Believer",
-    poster:
+    originalTitle: "The Exorcist: Believer",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/mmGiMvT19sGNMDICEBJLOZnKsRZ.jpg",
-    subtitled: "Full",
-    year: "2023",
-    duration: "1h 51m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2023,
+    genres: [],
+    videoVersions: [
+      {
+        id: 5,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 111,
+    season: 0,
+    totalEpisodes: 1,
   },
   {
-    id: 24,
+    movieId: 24,
+    movieType: "SINGLE",
     title: "Quyền Lực Của Chó",
-    englishTitle: "The Power of the Dog",
-    poster:
+    originalTitle: "The Power of the Dog",
+    posterUrl:
       "https://media.themoviedb.org/t/p/w440_and_h660_face/kEy48iCzGnp0ao1cZbNeWR6yIhC.jpg",
-    subtitled: "Full",
-    year: "2021",
-    duration: "2h 6m",
+    backdropUrl: "",
+    voteAverage: 0,
+    year: 2021,
+    genres: [],
+    videoVersions: [
+      {
+        id: 6,
+        videoType: "VIETSUB",
+        episodeCount: 1,
+      },
+    ],
+    duration: 126,
+    season: 0,
+    totalEpisodes: 1,
   },
 ];
 

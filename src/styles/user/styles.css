@@ -1,0 +1,19 @@
+.custom-tabs-user .ant-tabs-ink-bar {
+  display: none !important;
+}
+
+.custom-tabs .ant-tabs-nav::before {
+  border-bottom: none !important; /* Xóa line dưới thanh nav */
+}
+
+.custom-tabs-user .ant-tabs-tab {
+  @apply !mr-5;
+}
+
+.custom-tabs-user .ant-tabs-tab-btn {
+  @apply !mr-5 !bg-dark-100 !text-white;
+}
+
+.custom-tabs-user .ant-tabs-tab-active {
+  @apply !bg-dark-100 !text-white;
+}
