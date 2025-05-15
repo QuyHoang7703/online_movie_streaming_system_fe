@@ -13,10 +13,8 @@ import MovieManagement from "@pages/admin/movie/MovieManagement";
 
 import MovieFormInfo from "@pages/admin/movie/MovieFormInfo";
 
-import MovieFilter from "@components/common/MovieFilter";
 import SubscriptionPlanManage from "@pages/admin/subscriptionPlan/SubscriptionPlanManage";
 
-import Episode from "@pages/admin/movie/EpisodeManagement";
 import ForgotPassword from "@pages/auth/ForgotPassword";
 import ResetPassword from "@pages/auth/ResetPassword";
 import ErrorPage from "@pages/auth/ErrorPage";
@@ -28,8 +26,9 @@ import HomePage from "@pages/user/HomePage";
 import UserLayout from "@layouts/UserLayout";
 
 import MovieList from "@pages/user/MovieList";
-import DetailMovie from "@pages/user/DetailMovie";
 import VideoVersionManage from "@pages/admin/videoVersion/VideoVersionManage";
+import MovieDetail from "@pages/user/MovieDetail";
+import MovieWatching from "@pages/user/MovieWatching";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -132,14 +131,7 @@ const router = createBrowserRouter([
           </RequireRole>
         ),
       },
-      {
-        path: "/admin/movies/create/media",
-        element: (
-          <RequireRole allowedRoles={"ADMIN"}>
-            <MovieFilter />
-          </RequireRole>
-        ),
-      },
+
       {
         path: "/admin/subscription-plans",
         element: (
@@ -176,12 +168,20 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/phim/:movieId",
-        element: <DetailMovie />,
+        path: "/:movieType/:movieId",
+        element: <MovieDetail />,
       },
       {
-        path: "/:movieType",
-        element: <MovieList />,
+        path: "/xem-phim/:movieType/:movieId",
+        element: <MovieWatching />,
+      },
+      {
+        path: "/phim-le",
+        element: <MovieList movieType="phim-le" />,
+      },
+      {
+        path: "/phim-bo",
+        element: <MovieList movieType="phim-bo" />,
       },
     ],
   },

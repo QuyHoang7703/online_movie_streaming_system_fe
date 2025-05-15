@@ -1,17 +1,38 @@
+import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import { videoVersionTypes } from "@consts/videoVersionTypes";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const VideoVersionCard = ({
   videoVersion,
   handleOpenViewDetailEpisodeModal,
   handleDeleteVideoVersion,
+  isUserView = false,
+  movieDetail,
+  setChosenEpisode,
 }) => {
+  const navigate = useNavigate();
+
+  const handleWatchMovie = () => {
+    setChosenEpisode(videoVersion.episodeIdOfStandaloneMovie);
+    // Navigate to the MovieWatching page with videoVersion information
+    navigate(
+      `/xem-phim/${movieTypeUrlMapperReverse[movieDetail.movieType]}/${movieDetail.id}`,
+      {
+        state: {
+          episodeId: videoVersion.episodeIdOfStandaloneMovie,
+          movieDetail: movieDetail,
+        },
+      },
+    );
+  };
+
   return (
     <div>
-      <div className="relative h-[200px] w-[350px] overflow-hidden rounded-lg">
+      <div className="relative h-[150px] w-[300px] overflow-hidden rounded-lg">
         {/* Background image */}
         <img
-          alt="Fan Nữ Số Một"
+          alt={videoVersion.title || "Movie poster"}
           src={videoVersion.backdropUrl}
           className="h-full w-full object-cover"
         />
@@ -31,31 +52,43 @@ const VideoVersionCard = ({
               <p className="m-0 text-lg font-medium">
                 {videoVersion.movieTitle}
               </p>
-              <div className="mt-4 flex gap-2">
-                <Button
-                  className="w-fit"
-                  type="default"
-                  onClick={() =>
-                    handleOpenViewDetailEpisodeModal({
-                      episodeId: videoVersion.episodeIdOfStandaloneMovie,
-                    })
-                  }
-                >
-                  Xem bản này
-                </Button>
-                <Button
-                  className="w-fit"
-                  type="default"
-                  danger
-                  onClick={() =>
-                    handleDeleteVideoVersion(
-                      videoVersion.id,
-                      videoVersion.videoType,
-                    )
-                  }
-                >
-                  Xóa
-                </Button>
+              <div className="mt-3 flex gap-2">
+                {isUserView ? (
+                  <Button
+                    className="w-fit"
+                    type="default"
+                    onClick={handleWatchMovie}
+                  >
+                    Xem bản này
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-fit"
+                    type="default"
+                    onClick={() =>
+                      handleOpenViewDetailEpisodeModal({
+                        episodeId: videoVersion.episodeIdOfStandaloneMovie,
+                      })
+                    }
+                  >
+                    Xem bản này
+                  </Button>
+                )}
+                {handleDeleteVideoVersion && (
+                  <Button
+                    className="w-fit"
+                    type="default"
+                    danger
+                    onClick={() =>
+                      handleDeleteVideoVersion(
+                        videoVersion.id,
+                        videoVersion.videoType,
+                      )
+                    }
+                  >
+                    Xóa
+                  </Button>
+                )}
               </div>
             </div>
           </div>

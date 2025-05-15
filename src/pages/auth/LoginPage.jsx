@@ -24,7 +24,11 @@ const LoginPage = () => {
       console.log("Login success", result?.data?.userInfo);
       showNotification("success", "Thông báo", "Đăng nhập thành công");
       dispatch(saveUserInfo(result?.data?.userInfo));
-      navigate("/admin");
+      if (result.data.userInfo.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
     }

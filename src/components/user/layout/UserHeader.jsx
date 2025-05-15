@@ -1,8 +1,17 @@
-import { Button, Input, Layout } from "antd";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { Badge, Button, Input, Layout } from "antd";
+import {
+  BellFilled,
+  LogoutOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import CategoryDropdown from "@components/common/CategoryDropdown";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useLogout from "@hooks/useLogout";
+import UserDropdown from "@components/UserDropdown";
 const { Header } = Layout;
 
 // Dữ liệu mẫu cho thể loại
@@ -41,6 +50,22 @@ const countryItems = [
 
 const UserHeader = () => {
   const [scrolled, setScrolled] = useState(false);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log({ userInfo });
+  const { handleLogout } = useLogout();
+  const menu = [
+    {
+      key: "1",
+      label: "Cài đặt tài khoản",
+      icon: <SettingOutlined />,
+    },
+    {
+      key: "2",
+      label: "Đăng xuất",
+      icon: <LogoutOutlined />,
+      onClick: handleLogout,
+    },
+  ];
 
   // Theo dõi scroll và cập nhật trạng thái
   useEffect(() => {
@@ -65,9 +90,11 @@ const UserHeader = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="mr-6">
-        <img src="/emovie-logo.png" alt="emovie-logo" className="h-[20px]" />
-      </div>
+      <Link to="/">
+        <div className="mr-6">
+          <img src="/emovie-logo.png" alt="emovie-logo" className="h-[20px]" />
+        </div>
+      </Link>
       <Input
         placeholder="Tìm kiếm phim, diễn viên"
         className="!w-1/4 !rounded !border-none !bg-[#323D4E] !px-3 !py-2 font-medium !text-white"
@@ -107,16 +134,26 @@ const UserHeader = () => {
           </li>
         </ul>
       </nav>
-      <div className="ml-auto">
-        <Button
-          icon={<UserOutlined />}
-          type="primary"
-          className="text-dark-200 hover:!text-dark-300"
-          // className="!flex !h-8 !items-center !justify-center !rounded !border-mainColor !bg-transparent !px-4 !text-mainColor hover:!border-mainColor hover:!bg-mainColor/10 hover:!text-mainColor"
-        >
-          <Link to="/login">Đăng nhập</Link>
-        </Button>
-      </div>
+
+      {userInfo ? (
+        <div className="ml-auto flex items-center gap-3">
+          <Badge count={5} size="small" offset={[-2, 2]}>
+            <BellFilled className="cursor-pointer text-2xl text-blue-500" />
+          </Badge>
+          <UserDropdown menuItems={menu} />
+        </div>
+      ) : (
+        <div className="ml-auto">
+          <Button
+            icon={<UserOutlined />}
+            type="primary"
+            className="text-dark-200 hover:!text-dark-300"
+            // className="!flex !h-8 !items-center !justify-center !rounded !border-mainColor !bg-transparent !px-4 !text-mainColor hover:!border-mainColor hover:!bg-mainColor/10 hover:!text-mainColor"
+          >
+            <Link to="/login">Đăng nhập</Link>
+          </Button>
+        </div>
+      )}
     </Header>
   );
 };

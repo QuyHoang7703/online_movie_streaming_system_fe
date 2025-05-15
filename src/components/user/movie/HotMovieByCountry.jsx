@@ -112,7 +112,7 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
             <div
               className={`grid ${gridCols} gap-2 transition-all duration-300 sm:gap-3 md:gap-5`}
             >
-              {visibleMovies.map((movie) => (
+              {(visibleMovies || []).map((movie) => (
                 <div
                   key={movie.id}
                   className="transition-all duration-500 ease-in-out"

@@ -6,8 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import HotMovieCard from "./HotMovieCard";
-import UnifiedMovieCard from "./UnifiedMovieCard";
+import MovieCard from "@components/user/movie/MovieCard";
 
 const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
   const containerRef = useRef(null);
@@ -116,7 +115,7 @@ const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
                 key={movie.id}
                 className="transition-all duration-500 ease-in-out"
               >
-                <UnifiedMovieCard
+                <MovieCard
                   movie={movie}
                   rank={startIndex + index + 1}
                   index={startIndex + index}

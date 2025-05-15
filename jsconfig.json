@@ -12,7 +12,9 @@
       "@consts/*": ["src/consts/*"],
       "@styles/*": ["src/styles/*"],
       "@configuration/*": ["src/configuration/*"],
-      "@layouts/*": ["src/layouts/*"]
+      "@layouts/*": ["src/layouts/*"],
+      "@context/*": ["src/context/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

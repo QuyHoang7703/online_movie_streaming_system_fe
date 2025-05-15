@@ -1,4 +1,4 @@
-import UnifiedMovieCard from "./UnifiedMovieCard";
+import MovieCard from "./MovieCard";
 
 // Example usage of the unified component
 const UsageExamples = () => {
@@ -17,7 +17,7 @@ const UsageExamples = () => {
   return (
     <div className="p-4">
       <h2 className="mb-4 text-lg font-bold text-white">
-        Ví dụ sử dụng UnifiedMovieCard
+        Ví dụ sử dụng MovieCard
       </h2>
 
       <div className="mb-8">
@@ -25,7 +25,7 @@ const UsageExamples = () => {
           1. Sử dụng như MovieCard thông thường:
         </h3>
         <div className="w-48">
-          <UnifiedMovieCard movie={sampleMovie} />
+          <MovieCard movie={sampleMovie} />
         </div>
       </div>
 
@@ -34,12 +34,7 @@ const UsageExamples = () => {
           2. Sử dụng như HotMovieCard:
         </h3>
         <div className="w-48">
-          <UnifiedMovieCard
-            movie={sampleMovie}
-            variant="hot"
-            rank={1}
-            index={0}
-          />
+          <MovieCard movie={sampleMovie} variant="hot" rank={1} index={0} />
         </div>
       </div>
     </div>

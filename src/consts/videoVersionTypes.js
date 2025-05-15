@@ -1,5 +1,5 @@
 export const videoVersionTypes = {
   VOICEOVER: "Lồng tiếng",
-  VIETSUB: "Phụ đề tiếng việt",
+  VIETSUB: "Phụ đề",
   DUBBED: "Thuyết minh",
 };
