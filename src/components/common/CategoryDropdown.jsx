@@ -1,13 +1,58 @@
 import { useState } from "react";
 import { Dropdown } from "antd";
-import { CaretDownOutlined, DownOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { CaretDownOutlined } from "@ant-design/icons";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-const CategoryDropdown = ({ title, items, columnCount = 3 }) => {
+const CategoryDropdown = ({
+  title,
+  items,
+  columnCount = 3,
+  filterType = "genre",
+  onItemClick,
+}) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOpenChange = (flag) => {
     setOpen(flag);
+  };
+
+  // Handle item click to add filter params
+  const handleItemClick = (item, e) => {
+    e.preventDefault();
+
+    // If external handler is provided, call it and return
+    if (onItemClick) {
+      onItemClick(item);
+      setOpen(false);
+      return;
+    }
+
+    // Otherwise use the default navigation behavior
+    // Get the current path without the search parameters
+    const baseMovieListPath = location.pathname;
+
+    // Create new search params based on current URL
+    const searchParams = new URLSearchParams(location.search);
+
+    // Clear any existing params of the same type (genre or country)
+    searchParams.delete(filterType);
+
+    // Add the new filter
+    searchParams.append(filterType, item.value || item.label);
+
+    // Determine the target page based on current page
+    let targetPath = baseMovieListPath;
+
+    // If we're not already on a movie list page, redirect to the appropriate one
+    if (!baseMovieListPath.includes("phim-")) {
+      targetPath = "/phim-le";
+    }
+
+    // Navigate to the new URL with the filter parameter
+    navigate(`${targetPath}?${searchParams.toString()}`);
+    setOpen(false);
   };
 
   // Chia các items thành nhiều cột
@@ -30,12 +75,13 @@ const CategoryDropdown = ({ title, items, columnCount = 3 }) => {
         <ul key={colIndex} className="m-0 list-none p-0">
           {column.map((item, index) => (
             <li key={index} className="py-2">
-              <Link
-                to={item.link}
+              <a
+                href={item.link}
                 className="block text-white transition-colors duration-200 hover:text-mainColor"
+                onClick={(e) => handleItemClick(item, e)}
               >
                 {item.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>

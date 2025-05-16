@@ -1,4 +1,5 @@
 import { Image } from "antd";
+import { Link } from "react-router-dom";
 
 const MovieActors = ({ movieActors = [], isDetail = false }) => {
   return (
@@ -14,9 +15,10 @@ const MovieActors = ({ movieActors = [], isDetail = false }) => {
         }`}
       >
         {movieActors.map((actor) => (
-          <div
+          <Link
+            to={`/dien-vien/${actor.actorId}`}
             key={actor.actorId}
-            className={`relative overflow-hidden ${
+            className={`relative overflow-hidden hover:brightness-75 ${
               isDetail ? "w-[90%] rounded-xl shadow-lg" : "text-center"
             }`}
           >
@@ -48,7 +50,7 @@ const MovieActors = ({ movieActors = [], isDetail = false }) => {
                 </p>
               </>
             )}
-          </div>
+          </Link>
         ))}
       </div>
     </div>

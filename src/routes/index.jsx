@@ -29,6 +29,8 @@ import MovieList from "@pages/user/MovieList";
 import VideoVersionManage from "@pages/admin/videoVersion/VideoVersionManage";
 import MovieDetail from "@pages/user/MovieDetail";
 import MovieWatching from "@pages/user/MovieWatching";
+import ActorsPage from "@pages/user/ActorsPage";
+import ActorDetail from "@pages/user/ActorDetail";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -182,6 +184,18 @@ const router = createBrowserRouter([
       {
         path: "/phim-bo",
         element: <MovieList movieType="phim-bo" />,
+      },
+      {
+        path: "/phim",
+        element: <MovieList movieType="phim" />,
+      },
+      {
+        path: "/dien-vien",
+        element: <ActorsPage />,
+      },
+      {
+        path: "/dien-vien/:actorId",
+        element: <ActorDetail />,
       },
     ],
   },
