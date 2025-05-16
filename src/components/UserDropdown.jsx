@@ -21,7 +21,9 @@ const UserDropdown = ({ menuItems }) => {
           style={{ backgroundColor: "#1890ff" }}
           className="text-white"
         >
-          {!userInfo?.avatarUrl && userInfo?.name?.charAt(0)?.toUpperCase()}
+          {!userInfo?.avatarUrl &&
+            (userInfo?.name?.charAt(0)?.toUpperCase() ||
+              userInfo?.email?.charAt(0)?.toUpperCase())}
         </Avatar>
         <CaretDownFilled className="ml-2 text-white" size={20} />
       </div>

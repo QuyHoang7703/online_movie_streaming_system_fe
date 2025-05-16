@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import MoviePreviewCard from "./MoviePreviewCard";
 import { usePreviewPosition } from "../../../hooks/usePreviewPosition";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
+import ImageWithPlaceholder from "@components/common/ImageWithPlaceholder ";
+import { Image } from "antd";
 
 const VideoVersionMapper = {
   VIETSUB: { label: "P.Đ", color: "bg-green-600" },
@@ -48,7 +50,7 @@ const MovieCard = ({
                 clipPath: clipPathStyle,
               }}
             >
-              <img
+              <Image
                 src={movie.posterUrl}
                 alt={movie.title}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"

@@ -8,50 +8,29 @@ import {
 } from "@ant-design/icons";
 import CategoryDropdown from "@components/common/CategoryDropdown";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useLogout from "@hooks/useLogout";
 import UserDropdown from "@components/UserDropdown";
+import { useGetCountriesQuery } from "@service/admin/countryApi";
+import { useGetAllGenresQuery } from "@service/admin/genresApi";
+import { useLoading } from "@context/LoadingContext";
+import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 const { Header } = Layout;
 
-// Dữ liệu mẫu cho thể loại
-const genreItems = [
-  { label: "Anime", link: "/the-loai/anime" },
-  { label: "Bí Ẩn", link: "/the-loai/bi-an" },
-  { label: "Chiến Tranh", link: "/the-loai/chien-tranh" },
-  { label: "Chiếu Rạp", link: "/the-loai/chieu-rap" },
-  { label: "Chuyện Thế", link: "/the-loai/chuyen-the" },
-  { label: "Chính Kịch", link: "/the-loai/chinh-kich" },
-  { label: "Chính Luận", link: "/the-loai/chinh-luan" },
-  { label: "Chính Trị", link: "/the-loai/chinh-tri" },
-  { label: "Cổ Trang", link: "/the-loai/co-trang" },
-  { label: "Cố Tích", link: "/the-loai/co-tich" },
-  { label: "Cố Điển", link: "/the-loai/co-dien" },
-  { label: "DC", link: "/the-loai/dc" },
-  { label: "Gia Đình", link: "/the-loai/gia-dinh" },
-  { label: "Giả Tưởng", link: "/the-loai/gia-tuong" },
-  { label: "Hài", link: "/the-loai/hai" },
-  { label: "Hành Động", link: "/the-loai/hanh-dong" },
-];
-
-// Dữ liệu mẫu cho quốc gia
-const countryItems = [
-  { label: "Việt Nam", link: "/quoc-gia/viet-nam" },
-  { label: "Mỹ", link: "/quoc-gia/my" },
-  { label: "Hàn Quốc", link: "/quoc-gia/han-quoc" },
-  { label: "Nhật Bản", link: "/quoc-gia/nhat-ban" },
-  { label: "Trung Quốc", link: "/quoc-gia/trung-quoc" },
-  { label: "Thái Lan", link: "/quoc-gia/thai-lan" },
-  { label: "Ấn Độ", link: "/quoc-gia/an-do" },
-  { label: "Anh", link: "/quoc-gia/anh" },
-  { label: "Pháp", link: "/quoc-gia/phap" },
-  { label: "Canada", link: "/quoc-gia/canada" },
-];
+// Dữ liệu mẫu cho thể loại và quốc gia đã được thay thế bằng API calls
 
 const UserHeader = () => {
   const [scrolled, setScrolled] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log({ userInfo });
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Lưu trữ thể loại và quốc gia đã chọn
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+
   const { handleLogout } = useLogout();
   const menu = [
     {
@@ -82,6 +61,84 @@ const UserHeader = () => {
     };
   }, [scrolled]);
 
+  const { data: countriesResponse, isLoading: isCountryLoading } =
+    useGetCountriesQuery();
+  const { data: genresResponse, isLoading: isGenreLoading } =
+    useGetAllGenresQuery();
+
+  const { showLoading, hideLoading } = useLoading();
+
+  useEffect(() => {
+    if (isGenreLoading || isCountryLoading) {
+      showLoading();
+    } else {
+      hideLoading();
+    }
+  }, [isGenreLoading, isCountryLoading, showLoading, hideLoading]);
+
+  // Cập nhật lựa chọn từ URL
+  useEffect(() => {
+    const genre = searchParams.get("genre");
+    const country = searchParams.get("country");
+
+    if (genre) {
+      setSelectedGenre(genre);
+    }
+
+    if (country) {
+      setSelectedCountry(country);
+    }
+  }, [searchParams]);
+
+  // Handle genre selection - chỉ chọn một
+  const handleGenreClick = (item) => {
+    const params = new URLSearchParams(searchParams);
+
+    // Nếu giống với thể loại đã chọn, bỏ chọn
+    if (selectedGenre === item.value) {
+      setSelectedGenre("");
+      params.delete("genre");
+    } else {
+      // Nếu là thể loại mới, thay thế thể loại cũ và xóa quốc gia
+      setSelectedGenre(item.value);
+      setSelectedCountry(""); // Clear country selection
+      params.delete("genre");
+      params.delete("country"); // Clear country param
+      params.append("genre", item.value);
+    }
+
+    navigate(`/phim?${params.toString()}`, { state: { fromUrl: true } });
+  };
+
+  // Handle country selection - chỉ chọn một
+  const handleCountryClick = (item) => {
+    const params = new URLSearchParams(searchParams);
+
+    // Nếu giống với quốc gia đã chọn, bỏ chọn
+    if (selectedCountry === item.value) {
+      setSelectedCountry("");
+      params.delete("country");
+    } else {
+      // Nếu là quốc gia mới, thay thế quốc gia cũ và xóa thể loại
+      setSelectedCountry(item.value);
+      setSelectedGenre(""); // Clear genre selection
+      params.delete("country");
+      params.delete("genre"); // Clear genre param
+      params.append("country", item.value);
+    }
+
+    navigate(`/phim?${params.toString()}`, { state: { fromUrl: true } });
+  };
+
+  // Handle search
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchValue.trim()) {
+      const params = new URLSearchParams(searchParams);
+      params.set("q", searchValue.trim());
+      navigate(`/phim?${params.toString()}`);
+    }
+  };
+
   return (
     <Header
       className={`fixed left-0 right-0 top-0 z-50 flex h-16 items-center px-5 py-10 transition-all duration-300 ${
@@ -99,11 +156,24 @@ const UserHeader = () => {
         placeholder="Tìm kiếm phim, diễn viên"
         className="!w-1/4 !rounded !border-none !bg-[#323D4E] !px-3 !py-2 font-medium !text-white"
         prefix={<SearchOutlined className="text-white/70" />}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        onKeyDown={handleSearch}
       />
       <nav className="ml-9 hidden lg:block">
         <ul className="m-0 flex list-none gap-8 p-0 font-medium">
           <li>
-            <CategoryDropdown title="Thể loại" items={genreItems} />
+            <CategoryDropdown
+              title="Thể loại"
+              filterType="genre"
+              items={(genresResponse?.data || []).map((genre) => ({
+                label: genre.name,
+                value: genre.name,
+                link: `/the-loai/${genre.name}`,
+                isSelected: selectedGenre === genre.name,
+              }))}
+              onItemClick={handleGenreClick}
+            />
           </li>
           <li>
             <a
@@ -122,15 +192,25 @@ const UserHeader = () => {
             </a>
           </li>
           <li>
-            <CategoryDropdown title="Quốc gia" items={countryItems} />
+            <CategoryDropdown
+              title="Quốc gia"
+              filterType="country"
+              items={(countriesResponse?.data || []).map((country) => ({
+                label: COUNTRY_NAME_MAP[country.name],
+                value: country.name,
+                link: `/quoc-gia/${country.name}`,
+                isSelected: selectedCountry === country.name,
+              }))}
+              onItemClick={handleCountryClick}
+            />
           </li>
           <li>
-            <a
-              href="/dien-vien"
+            <Link
+              to="/dien-vien"
               className="whitespace-nowrap text-white transition-colors duration-200 hover:text-mainColor"
             >
               Diễn viên
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

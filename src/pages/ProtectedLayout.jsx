@@ -10,6 +10,7 @@ import "@styles/styles.css";
 import LoadingComponent from "@context/LoadingComponent";
 import { LoadingProvider } from "@context/LoadingContext";
 import { useAuth } from "@context/AuthContext";
+import ScrollToTop from "@components/common/ScrollToTop ";
 
 const { Content } = Layout;
 const ProtectedLayout = () => {
@@ -38,6 +39,7 @@ const ProtectedLayout = () => {
       <Suspense fallback={<LoadingComponent />}>
         {/* <LoadingProvider> */}
         <Layout className="min-h-screen">
+          <ScrollToTop />
           <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout>
             <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />

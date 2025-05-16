@@ -2,6 +2,7 @@ import { FilterFilled } from "@ant-design/icons";
 import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 import { useGetCountriesQuery } from "@service/admin/countryApi";
 import { useGetAllGenresQuery } from "@service/admin/genresApi";
+import { Button } from "antd";
 
 const movieTypes = [
   { label: "Tất cả", value: "Tất cả" },
@@ -66,7 +67,6 @@ const MovieFilter = ({
     }
   };
 
-  console.log({ countriesResponse: countriesResponse?.data?.data });
   return (
     <div className="">
       <div
@@ -78,7 +78,7 @@ const MovieFilter = ({
       </div>
       <div>
         {isVisibleFilter && (
-          <div className="rounded-md border-[1px] border-slate-700">
+          <div className="rounded-md border-[1px] border-slate-700 pb-5">
             <div className="ml-10 flex items-center gap-4 p-5">
               <div className="flex items-start gap-4">
                 <div className="min-w-[90px] pt-2 font-semibold text-slate-100">
@@ -151,23 +151,23 @@ const MovieFilter = ({
               </div>
             </div>
 
-            {/* <div className="ml-10 flex items-center justify-end gap-4">
-                <Button
-                  className="!bg-[#f9d373] p-3 font-semibold text-black hover:bg-[#f9d373] hover:text-black"
-                  size="medium"
-                >
-                  Lọc kết quả
-                </Button>
-                <Button
-                  className="!bg-[#f9d373] p-3 font-semibold text-black hover:bg-[#f9d373] hover:text-black"
-                  onClick={() => {
-                    setIsVisibleFilter(!isVisibleFilter);
-                  }}
-                  size="medium"
-                >
-                  Đóng
-                </Button>
-              </div> */}
+            {/* <div className="ml-10 flex items-center gap-4">
+              <Button
+                className="!bg-mainUserColor-100 p-3 font-semibold text-black hover:bg-mainUserColor-100 hover:!text-gray-800"
+                size="medium"
+              >
+                Lọc kết quả
+              </Button>
+              <Button
+                className="!border-white !bg-dark-100 p-3 font-semibold text-white hover:!bg-dark-100/80 hover:!text-gray-200"
+                onClick={() => {
+                  setIsVisibleFilter(!isVisibleFilter);
+                }}
+                size="medium"
+              >
+                Đóng
+              </Button>
+            </div> */}
           </div>
         )}
       </div>

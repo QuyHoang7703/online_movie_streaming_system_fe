@@ -5,6 +5,7 @@ import {
 } from "@ant-design/icons";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import VARIANTS from "@consts/variants";
+import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import { Button } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -24,7 +25,7 @@ const MoviePreviewCard = ({
 
   return (
     <div
-      className={`absolute ${config.positionClass} z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
+      className={`absolute ${config.positionClass} -top-8 z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
       style={{ width: config.width }}
     >
       {/* Preview Image */}
@@ -78,7 +79,7 @@ const MoviePreviewCard = ({
           <span>•</span>
           <span>{movie.year || "2024"}</span>
           <span>•</span>
-          <span>{movie.duration || "2h 30m"}</span>
+          <span>{convertMinutesToHourMinute(movie.duration) || "2h 30m"}</span>
         </div>
 
         {/* Genres */}
