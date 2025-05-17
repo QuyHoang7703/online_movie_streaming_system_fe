@@ -18,6 +18,7 @@ import { useGetCountriesQuery } from "@service/admin/countryApi";
 import { useGetAllGenresQuery } from "@service/admin/genresApi";
 import { useLoading } from "@context/LoadingContext";
 import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
+import InputSearch from "@components/common/InputSearch";
 const { Header } = Layout;
 
 // Dữ liệu mẫu cho thể loại và quốc gia đã được thay thế bằng API calls
@@ -164,14 +165,15 @@ const UserHeader = () => {
           <img src="/emovie-logo.png" alt="emovie-logo" className="h-[20px]" />
         </div>
       </Link>
-      <Input
+      {/* <Input
         placeholder="Tìm kiếm phim, diễn viên"
         className="!w-1/4 !rounded !border-none !bg-[#323D4E] !px-3 !py-2 font-medium !text-white"
         prefix={<SearchOutlined className="text-white/70" />}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={handleSearch}
-      />
+      /> */}
+      <InputSearch onKeyDown={handleSearch} />
       <nav className="ml-9 hidden lg:block">
         <ul className="m-0 flex list-none gap-8 p-0 font-medium">
           <li>

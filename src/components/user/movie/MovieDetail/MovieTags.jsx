@@ -1,24 +1,50 @@
 import { Tag } from "antd";
 
-const MovieTags = ({ rating, year, duration, type, quality }) => {
+const MovieTags = ({
+  rating,
+  year,
+  duration,
+  type,
+  quality,
+  size = "0.9em",
+}) => {
   return (
     <div className="mb-4 flex items-center gap-3">
-      <Tag className="!text-blac !border-none !bg-mainUserColor-100 p-1 text-[0.8vw]">
-        IMDb {rating}
-      </Tag>
-      <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        T{type}
-      </Tag>
-      <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        {year}
-      </Tag>
-
-      <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        {duration}
-      </Tag>
-      <Tag className="!border-none !bg-gray-700 p-1 text-[0.8vw] !text-white">
-        {quality}
-      </Tag>
+      {rating && (
+        <Tag
+          className={`!border-none !bg-mainUserColor-100 p-1 text-[${size}] !text-black`}
+        >
+          IMDb {rating}
+        </Tag>
+      )}
+      {type && (
+        <Tag
+          className={`!border-none !bg-gray-700 p-1 text-[${size}] !text-white`}
+        >
+          T{type}
+        </Tag>
+      )}
+      {year && (
+        <Tag
+          className={`!border-none !bg-gray-700 p-1 text-[${size}] !text-white`}
+        >
+          {year}
+        </Tag>
+      )}
+      {duration && (
+        <Tag
+          className={`!border-none !bg-gray-700 p-1 text-[${size}] !text-white`}
+        >
+          {duration}
+        </Tag>
+      )}
+      {quality && (
+        <Tag
+          className={`!border-none !bg-gray-700 p-1 text-[${size}] !text-white`}
+        >
+          {quality}
+        </Tag>
+      )}
     </div>
   );
 };
