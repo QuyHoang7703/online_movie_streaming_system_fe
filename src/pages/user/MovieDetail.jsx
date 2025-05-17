@@ -95,7 +95,7 @@ const MovieDetail = () => {
           <MovieActors movieActors={movieDetail.movieActors} />
         </div>
         <div className="flex-1 rounded-[3rem] bg-dark-400 p-8 text-white">
-          <MovieActions />
+          <MovieActions movieId={movieId} isFavorite={movieDetail.favorite} />
           <div className="mt-8">
             <MovieTabs
               movieDetail={movieDetail}

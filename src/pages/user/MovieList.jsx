@@ -271,7 +271,7 @@ const MovieList = ({ movieType }) => {
               pageSize={pagination.pageSize}
               total={totalElements}
               onChange={handlePageChange}
-              showSizeChanger
+              // showSizeChanger
               showQuickJumper
               className="custom-pagination"
             />

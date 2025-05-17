@@ -38,15 +38,6 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
       case "4":
         navigate("/admin/subscription-plans");
         break;
-      // case "5":
-      //   navigate("/admin/notifications");
-      //   break;
-      // case "6":
-      //   navigate("/admin/comments");
-      //   break;
-      // case "7":
-      //   navigate("/admin/promotions");
-      //   break;
       default:
         break;
     }

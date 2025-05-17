@@ -6,7 +6,6 @@ import "@styles/user/styles.css";
 import VideoVersionForSeriesMovie from "@components/user/movie/VideoVersionForSeriesMovie";
 
 const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
-  console.log("From MovieTabs", movieDetail);
   const videoVersionResponse = useGetVideoVersionQuery(movieDetail.id);
   const videoVersions = videoVersionResponse.isSuccess
     ? videoVersionResponse.data.data

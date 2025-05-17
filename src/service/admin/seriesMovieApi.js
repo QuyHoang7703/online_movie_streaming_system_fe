@@ -3,14 +3,6 @@ import { rootApi } from "@service/rootApi";
 export const seriesMovieApi = rootApi.injectEndpoints({
   endpoints: (builder) => {
     return {
-      getSeriesMovieDetail: builder.query({
-        query: (movieId) => ({
-          url: `series-movie/${movieId}`,
-        }),
-        providesTags: (result, error, movieId) => [
-          { type: "SeriesMovie", id: movieId },
-        ],
-      }),
       createSeriesMovie: builder.mutation({
         query: (formData) => {
           return {
@@ -21,6 +13,14 @@ export const seriesMovieApi = rootApi.injectEndpoints({
         },
         invalidatesTags: [{ type: "Movies", id: "List" }],
       }),
+      getSeriesMovieDetail: builder.query({
+        query: (movieId) => ({
+          url: `series-movie/${movieId}`,
+        }),
+        providesTags: (result, error, movieId) => [
+          { type: "MovieDetail", id: movieId },
+        ],
+      }),
       updateSeriesMovie: builder.mutation({
         query: ({ movieId, formData }) => ({
           url: `series-movie/${movieId}`,
@@ -28,7 +28,7 @@ export const seriesMovieApi = rootApi.injectEndpoints({
           body: formData,
         }),
         invalidatesTags: (result, error, { movieId }) => [
-          { type: "SeriesMovie", id: movieId },
+          { type: "MovieDetail", id: movieId },
           { type: "Movies", id: "List" },
         ],
       }),
