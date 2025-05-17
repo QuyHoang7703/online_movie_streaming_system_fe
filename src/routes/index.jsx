@@ -31,6 +31,9 @@ import MovieDetail from "@pages/user/MovieDetail";
 import MovieWatching from "@pages/user/MovieWatching";
 import ActorsPage from "@pages/user/ActorsPage";
 import ActorDetail from "@pages/user/ActorDetail";
+import AccountManagePage from "@pages/user/AccountManagePage";
+import FavoriteMovies from "@pages/user/FavoriteMovies";
+import UserInfoPage from "@pages/UserInfoPage";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -150,6 +153,7 @@ const router = createBrowserRouter([
           </RequireRole>
         ),
       },
+
       // {
       //   path: "/admin/video-versions/:videoVersionId/episodes",
       //   element: (
@@ -196,6 +200,20 @@ const router = createBrowserRouter([
       {
         path: "/dien-vien/:actorId",
         element: <ActorDetail />,
+      },
+      {
+        path: "/user/profile",
+        element: <AccountManagePage />,
+        children: [
+          {
+            path: "/user/profile/favorite-movies",
+            element: <FavoriteMovies />,
+          },
+          {
+            path: "/user/profile/info",
+            element: <UserInfoPage />,
+          },
+        ],
       },
     ],
   },

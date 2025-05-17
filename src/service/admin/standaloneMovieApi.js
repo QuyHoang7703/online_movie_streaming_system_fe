@@ -18,7 +18,7 @@ export const standaloneMovieApi = rootApi.injectEndpoints({
           url: `standalone-movies/${movieId}`,
         }),
         providesTags: (result, error, movieId) => [
-          { type: "StandaloneMovie", id: movieId },
+          { type: "MovieDetail", id: movieId },
         ],
       }),
       updateStandaloneMovie: builder.mutation({
@@ -28,7 +28,7 @@ export const standaloneMovieApi = rootApi.injectEndpoints({
           body: formData,
         }),
         invalidatesTags: (result, error, { movieId }) => [
-          { type: "StandaloneMovie", id: movieId },
+          { type: "MovieDetail", id: movieId },
           { type: "Movies", id: "List" },
         ],
       }),

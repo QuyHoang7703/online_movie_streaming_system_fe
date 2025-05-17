@@ -1,10 +1,12 @@
 import {
+  HeartFilled,
   HeartOutlined,
   InfoCircleOutlined,
   PlayCircleFilled,
 } from "@ant-design/icons";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import VARIANTS from "@consts/variants";
+import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
 import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import { Button } from "antd";
 import React from "react";
@@ -23,9 +25,11 @@ const MoviePreviewCard = ({
   // Lấy cấu hình dựa theo variant
   const config = VARIANTS[variant] || VARIANTS.default;
 
+  const { toggleFavorite, isProcessing } = useFavoriteMovie();
+
   return (
     <div
-      className={`absolute ${config.positionClass} -top-8 z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
+      className={`absolute ${config.positionClass} -top-[32px] z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
       style={{ width: config.width }}
     >
       {/* Preview Image */}
@@ -52,12 +56,19 @@ const MoviePreviewCard = ({
           </Button>
 
           <Button
-            icon={<HeartOutlined />}
+            icon={<HeartFilled />}
             size="middle"
             type="text"
-            className="!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700"
+            className={`!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700 ${movie.favorite ? "!text-mainUserColor-100" : ""}`}
+            loading={isProcessing}
+            onClick={() =>
+              toggleFavorite({
+                movieId: movie.movieId,
+                isFavorite: movie.favorite,
+              })
+            }
           >
-            Thích
+            {movie.favorite ? "Đã thích" : "Thích"}
           </Button>
           <Link
             to={`/${movieTypeUrlMapperReverse[movie.movieType]}/${movie.movieId}`}

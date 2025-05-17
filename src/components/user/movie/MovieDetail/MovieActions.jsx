@@ -6,9 +6,12 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import ActionButton from "@components/common/ActionButton";
+import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
 import { Button } from "antd";
 
-const MovieActions = () => {
+const MovieActions = ({ movieId, isFavorite }) => {
+  const { toggleFavorite, isProcessing } = useFavoriteMovie();
+  console.log({ isFavorite });
   return (
     <div className="flex items-center gap-10">
       <Button
@@ -21,8 +24,11 @@ const MovieActions = () => {
       <div className="flex gap-5">
         <ActionButton
           icon={<HeartFilled className="text-xl" />}
-          text="Yêu thích"
+          text={isFavorite ? "Đã thích" : "Yêu thích"}
           link="#"
+          className={`${isFavorite ? "!text-mainUserColor-200" : ""}`}
+          loading={isProcessing}
+          onClick={() => toggleFavorite({ movieId, isFavorite })}
         />
         <ActionButton
           icon={<PlusOutlined className="text-xl" />}

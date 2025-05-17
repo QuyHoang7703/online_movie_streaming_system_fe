@@ -1,6 +1,8 @@
 import { Badge, Button, Input, Layout } from "antd";
 import {
   BellFilled,
+  HeartFilled,
+  HeartOutlined,
   LogoutOutlined,
   SearchOutlined,
   SettingOutlined,
@@ -37,6 +39,7 @@ const UserHeader = () => {
       key: "1",
       label: "Cài đặt tài khoản",
       icon: <SettingOutlined />,
+      onClick: () => navigate("/user/profile/info"),
     },
     {
       key: "2",
@@ -45,6 +48,15 @@ const UserHeader = () => {
       onClick: handleLogout,
     },
   ];
+
+  if (userInfo && userInfo.role === "USER") {
+    menu.push({
+      key: "3",
+      label: "Yêu thích",
+      icon: <HeartOutlined />,
+      onClick: () => navigate("/user/profile/favorite-movies"),
+    });
+  }
 
   // Theo dõi scroll và cập nhật trạng thái
   useEffect(() => {

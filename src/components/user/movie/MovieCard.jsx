@@ -21,7 +21,6 @@ const MovieCard = ({
   const [showPreview, setShowPreview] = useState(false);
   const cardRef = useRef(null);
   const isNearRightEdge = usePreviewPosition(cardRef, showPreview, "default");
-  console.log({ movieTypeInPReview: movie.movieType });
   // Determine clip path based on index (odd or even) - only used for hot variant
   const clipPathStyle =
     variant === "hot" && index % 2 === 0

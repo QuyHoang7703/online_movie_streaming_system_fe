@@ -36,6 +36,7 @@ export const movieApi = rootApi.injectEndpoints({
         method: "GET",
         params: { title, genreNames, countries, page, size, movieType },
       }),
+      providesTags: [{ type: "MoviesUser", id: "List" }],
     }),
   }),
 });
