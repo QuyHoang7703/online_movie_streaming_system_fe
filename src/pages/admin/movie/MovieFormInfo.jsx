@@ -99,7 +99,7 @@ const MovieFormInfo = () => {
           .typeError("Mùa phải là một số")
           .required("Mùa không được để trống")
           .positive("Mùa phải lớn hơn 0"),
-        episodeNumber: yup
+        totalEpisodes: yup
           .number()
           .typeError("Số tập phải là một số")
           .required("Số tập không được để trống")

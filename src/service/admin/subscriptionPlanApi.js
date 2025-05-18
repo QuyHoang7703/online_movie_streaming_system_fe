@@ -15,7 +15,10 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: [{ type: "SubscriptionPlans", id: "List" }],
+      invalidatesTags: [
+        { type: "SubscriptionPlans", id: "List" },
+        { type: "SubscriptionPlans", id: "Options" },
+      ],
     }),
     getSubscriptionPlanDetail: builder.query({
       query: (subscriptionPlanId) => ({
@@ -27,6 +30,7 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         url: "subscription-plans/options",
         params: { currentSubscriptionPlanId },
       }),
+      providesTags: [{ type: "SubscriptionPlans", id: "Options" }],
     }),
     updateSubscriptionPlan: builder.mutation({
       query: ({ subscriptionPlanId, formData }) => ({
@@ -41,7 +45,10 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         url: `subscription-plans/${subscriptionPlanId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "SubscriptionPlans", id: "List" }],
+      invalidatesTags: [
+        { type: "SubscriptionPlans", id: "List" },
+        { type: "SubscriptionPlans", id: "Options" },
+      ],
     }),
     getSubscriptionPlanTree: builder.query({
       query: () => ({

@@ -183,7 +183,7 @@ export const useMovieCRUD = () => {
           }
         : {
             season: Number(data.season),
-            episodeNumber: Number(data.episodeNumber),
+            totalEpisodes: Number(data.totalEpisodes),
           }),
     };
 
