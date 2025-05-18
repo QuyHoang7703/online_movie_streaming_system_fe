@@ -2,7 +2,7 @@ import FormField from "@components/FormField";
 import InputField from "@components/InputField";
 import SelectField from "@components/SelectField";
 import { useGetAllGenresQuery } from "@service/admin/genresApi";
-import { DatePicker, Select } from "antd";
+import { DatePicker, InputNumber, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import CustomSelectField from "@components/customeField/CustomSelectField";
 import { getStatusOptionsByType } from "@consts/statusMovie";
@@ -190,7 +190,7 @@ const BasisInfoFields = ({ control, errors, movieType, watch, setValue }) => {
             control={control}
             name="totalEpisodes"
             label="Số tập"
-            Component={InputField}
+            Component={InputNumber}
             error={errors?.episodeNumber?.message}
           />
         </div>
