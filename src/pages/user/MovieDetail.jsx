@@ -9,53 +9,73 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLoading } from "@context/LoadingContext";
 import { movieTypeUrlMapper } from "@consts/movieTypeUrlMapper";
+import { useGetMovieDetail } from "@hooks/useGetMovieDetail";
 
 const MovieDetail = () => {
   const { movieType, movieId } = useParams();
   console.log("Route params:", { movieId, movieType });
 
-  const [movieDetail, setMovieDetail] = useState(null);
+  // const [movieDetail, setMovieDetail] = useState(null);
   const { showLoading, hideLoading } = useLoading();
   const [chosenEpisode, setChosenEpisode] = useState(null);
 
-  // Hiển thị chi tiết movie theo movieType
-  const {
-    data: standaloneMovieData,
-    isLoading: isStandaloneLoading,
-    error: standaloneError,
-    isSuccess: isStandaloneSuccess,
-  } = useGetStandaloneMovieDetailQuery(movieId, {
-    skip: movieType === "phim-bo",
+  // // Hiển thị chi tiết movie theo movieType
+  // const {
+  //   data: standaloneMovieData,
+  //   isLoading: isStandaloneLoading,
+  //   error: standaloneError,
+  //   isSuccess: isStandaloneSuccess,
+  // } = useGetStandaloneMovieDetailQuery(movieId, {
+  //   skip: movieType === "phim-bo",
+  // });
+
+  // const {
+  //   data: seriesMovieData,
+  //   isLoading: isSeriesLoading,
+  //   error: seriesError,
+  //   isSuccess: isSeriesSuccess,
+  // } = useGetSeriesMovieDetailQuery(movieId, {
+  //   skip: movieType === "phim-le",
+  // });
+
+  // // Debug API responses
+  // useEffect(() => {
+  //   if (standaloneError) {
+  //     console.error("Standalone movie API error:", standaloneError);
+  //   }
+  //   if (seriesError) {
+  //     console.error("Series movie API error:", seriesError);
+  //   }
+
+  //   console.log("Standalone data:", standaloneMovieData);
+  //   console.log("Series data:", seriesMovieData);
+  // }, [standaloneMovieData, seriesMovieData, standaloneError, seriesError]);
+
+  // const movieDetailResponse =
+  //   movieType === "phim-le" ? standaloneMovieData : seriesMovieData;
+  // console.log("Movie detail response:", movieDetailResponse);
+
+  // const isLoading = isSeriesLoading || isStandaloneLoading;
+  // const isSuccess = isSeriesSuccess || isStandaloneSuccess;
+
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     showLoading();
+  //   } else {
+  //     hideLoading();
+  //   }
+  // }, [isLoading, showLoading, hideLoading]);
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     const movieDetail = movieDetailResponse?.data;
+  //     setMovieDetail(movieDetail);
+  //   }
+  // }, [isSuccess, movieDetailResponse]);
+  const { movieDetail, isLoading, error } = useGetMovieDetail({
+    movieType,
+    movieId,
   });
-
-  const {
-    data: seriesMovieData,
-    isLoading: isSeriesLoading,
-    error: seriesError,
-    isSuccess: isSeriesSuccess,
-  } = useGetSeriesMovieDetailQuery(movieId, {
-    skip: movieType === "phim-le",
-  });
-
-  // Debug API responses
-  useEffect(() => {
-    if (standaloneError) {
-      console.error("Standalone movie API error:", standaloneError);
-    }
-    if (seriesError) {
-      console.error("Series movie API error:", seriesError);
-    }
-
-    console.log("Standalone data:", standaloneMovieData);
-    console.log("Series data:", seriesMovieData);
-  }, [standaloneMovieData, seriesMovieData, standaloneError, seriesError]);
-
-  const movieDetailResponse =
-    movieType === "phim-le" ? standaloneMovieData : seriesMovieData;
-  console.log("Movie detail response:", movieDetailResponse);
-
-  const isLoading = isSeriesLoading || isStandaloneLoading;
-  const isSuccess = isSeriesSuccess || isStandaloneSuccess;
 
   useEffect(() => {
     if (isLoading) {
@@ -66,11 +86,10 @@ const MovieDetail = () => {
   }, [isLoading, showLoading, hideLoading]);
 
   useEffect(() => {
-    if (isSuccess) {
-      const movieDetail = movieDetailResponse?.data;
-      setMovieDetail(movieDetail);
+    if (error) {
+      console.error("Movie detail API error:", error);
     }
-  }, [isSuccess, movieDetailResponse]);
+  }, [error]);
 
   // Don't render content until movie detail is loaded
   if (!movieDetail) {
@@ -95,7 +114,13 @@ const MovieDetail = () => {
           <MovieActors movieActors={movieDetail.movieActors} />
         </div>
         <div className="flex-1 rounded-[3rem] bg-dark-400 p-8 text-white">
-          <MovieActions movieId={movieId} isFavorite={movieDetail.favorite} />
+          <MovieActions
+            movieId={movieId}
+            isFavorite={movieDetail.favorite}
+            movieDetail={movieDetail}
+            setChosenEpisode={setChosenEpisode}
+            episodeId={chosenEpisode}
+          />
           <div className="mt-8">
             <MovieTabs
               movieDetail={movieDetail}

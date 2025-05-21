@@ -35,6 +35,10 @@ import AccountManagePage from "@pages/user/AccountManagePage";
 import FavoriteMovies from "@pages/user/FavoriteMovies";
 import UserInfoPage from "@pages/UserInfoPage";
 import SearchResults from "@pages/user/SearchResults";
+import SubscriptionPlan from "@pages/user/SubscriptionPlan";
+import PlanDurationPage from "@pages/user/PlanDurationPage";
+import PaymentSuccessPage from "@pages/user/PaymentSuccessPage";
+import PaymentErrorPage from "@pages/user/PaymentErrorPage";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -219,6 +223,22 @@ const router = createBrowserRouter([
             element: <UserInfoPage />,
           },
         ],
+      },
+      {
+        path: "/user/subscription-plan",
+        element: <SubscriptionPlan />,
+      },
+      {
+        path: "/user/subscription-plan/:subscriptionPlanId",
+        element: <PlanDurationPage />,
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccessPage />,
+      },
+      {
+        path: "/payment-failure",
+        element: <PaymentErrorPage />,
       },
     ],
   },

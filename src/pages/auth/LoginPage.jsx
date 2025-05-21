@@ -22,7 +22,7 @@ const LoginPage = () => {
     try {
       const result = await loginApi(formData).unwrap();
       console.log("Login success", result?.data?.userInfo);
-      showNotification("success", "Thông báo", "Đăng nhập thành công");
+      showNotification("success", "Đăng nhập thành công");
       dispatch(saveUserInfo(result?.data?.userInfo));
       if (result.data.userInfo.role === "ADMIN") {
         navigate("/admin");
@@ -30,7 +30,7 @@ const LoginPage = () => {
         navigate("/");
       }
     } catch (error) {
-      showNotification("error", "Lỗi", mapErrorMessage(error?.data?.message));
+      showNotification("error", mapErrorMessage(error?.data?.message));
     }
   };
 

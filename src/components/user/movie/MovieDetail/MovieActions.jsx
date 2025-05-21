@@ -1,26 +1,32 @@
-import {
-  CaretRightFilled,
-  HeartFilled,
-  MessageFilled,
-  PlusOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
+import { HeartFilled, MessageFilled, PlusOutlined } from "@ant-design/icons";
 import ActionButton from "@components/common/ActionButton";
 import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
-import { Button } from "antd";
+import WatchButton from "@components/user/movie/WatchButton";
+import { useDefaultEpisode } from "@hooks/useDefaultEpisode";
 
-const MovieActions = ({ movieId, isFavorite }) => {
+const MovieActions = ({
+  movieId,
+  isFavorite,
+  movieDetail,
+  episodeId,
+  setChosenEpisode,
+}) => {
   const { toggleFavorite, isProcessing } = useFavoriteMovie();
-  console.log({ isFavorite });
+  const { defaultEpisodeId } = useDefaultEpisode(movieDetail);
+
+  console.log("MovieActions - episodeId:", episodeId);
+  console.log("MovieActions - defaultEpisodeId:", defaultEpisodeId);
+
   return (
     <div className="flex items-center gap-10">
-      <Button
-        size="large"
-        className="!flex !items-center !gap-2 !rounded-full !border-none !bg-mainUserColor-100 !p-7 text-xl !font-medium !text-black hover:!opacity-90"
-      >
-        <CaretRightFilled className="relative top-[1px] text-2xl" />
-        Xem Ngay
-      </Button>
+      <WatchButton
+        movieDetail={movieDetail}
+        episodeId={episodeId || defaultEpisodeId}
+        setChosenEpisode={setChosenEpisode}
+        variant="action"
+        movieType={movieDetail.movieType}
+        movieId={movieId}
+      />
       <div className="flex gap-5">
         <ActionButton
           icon={<HeartFilled className="text-xl" />}
