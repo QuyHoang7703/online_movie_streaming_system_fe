@@ -9,7 +9,7 @@ export const useLogout = () => {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      dispatch(logoutAction);
+      dispatch(logoutAction());
       nagivate("/login", { replace: true });
     } catch (error) {
       console.log(error);

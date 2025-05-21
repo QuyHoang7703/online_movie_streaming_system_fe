@@ -1,7 +1,7 @@
-import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import { videoVersionTypes } from "@consts/videoVersionTypes";
+import GenericModal from "@context/GenericModal";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useMovieSubscription } from "@hooks/useMovieSubscription";
 
 const VideoVersionCard = ({
   videoVersion,
@@ -11,21 +11,7 @@ const VideoVersionCard = ({
   movieDetail,
   setChosenEpisode,
 }) => {
-  const navigate = useNavigate();
-
-  const handleWatchMovie = () => {
-    setChosenEpisode(videoVersion.episodeIdOfStandaloneMovie);
-    // Navigate to the MovieWatching page with videoVersion information
-    navigate(
-      `/xem-phim/${movieTypeUrlMapperReverse[movieDetail.movieType]}/${movieDetail.id}`,
-      {
-        state: {
-          episodeId: videoVersion.episodeIdOfStandaloneMovie,
-          movieDetail: movieDetail,
-        },
-      },
-    );
-  };
+  const { modalContent, handleWatchMovie } = useMovieSubscription();
 
   return (
     <div>
@@ -57,7 +43,13 @@ const VideoVersionCard = ({
                   <Button
                     className="w-fit"
                     type="default"
-                    onClick={handleWatchMovie}
+                    onClick={() =>
+                      handleWatchMovie({
+                        movieDetail,
+                        episodeId: videoVersion.episodeIdOfStandaloneMovie,
+                        setChosenEpisode,
+                      })
+                    }
                   >
                     Xem bản này
                   </Button>
@@ -94,6 +86,7 @@ const VideoVersionCard = ({
           </div>
         </div>
       </div>
+      {modalContent && <GenericModal {...modalContent} />}
     </div>
   );
 };

@@ -1,16 +1,13 @@
-import {
-  HeartFilled,
-  HeartOutlined,
-  InfoCircleOutlined,
-  PlayCircleFilled,
-} from "@ant-design/icons";
+import { HeartFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import VARIANTS from "@consts/variants";
 import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
+import { useDefaultEpisode } from "@hooks/useDefaultEpisode";
 import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import { Button } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import WatchButton from "./WatchButton";
 
 const MoviePreviewCard = ({
   movie,
@@ -21,6 +18,12 @@ const MoviePreviewCard = ({
     "Hành Động",
     "Phiêu Lưu",
   ];
+
+  // Lấy defaultEpisodeId cho movie này
+  const { defaultEpisodeId } = useDefaultEpisode({
+    movieId: movie.movieId,
+    movieType: movie.movieType,
+  });
 
   // Lấy cấu hình dựa theo variant
   const config = VARIANTS[variant] || VARIANTS.default;
@@ -47,13 +50,12 @@ const MoviePreviewCard = ({
         {/* Title */}
         <h3 className="mb-2 text-lg font-bold text-white">{movie.title}</h3>
         <div className="mb-3 flex gap-2">
-          <Button
-            icon={<PlayCircleFilled />}
-            size="middle"
-            className="!flex !items-center !rounded-full !border-none !bg-mainUserColor-100 !p-3 !font-medium !text-black hover:!opacity-90"
-          >
-            Xem Phim
-          </Button>
+          <WatchButton
+            episodeId={defaultEpisodeId}
+            movieId={movie.movieId}
+            movieType={movie.movieType}
+            variant="preview"
+          />
 
           <Button
             icon={<HeartFilled />}

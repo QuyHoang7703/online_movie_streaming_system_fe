@@ -230,11 +230,21 @@ const UserHeader = () => {
       </nav>
 
       {userInfo ? (
-        <div className="ml-auto flex items-center gap-3">
-          <Badge count={5} size="small" offset={[-2, 2]}>
-            <BellFilled className="cursor-pointer text-2xl text-blue-500" />
-          </Badge>
-          <UserDropdown menuItems={menu} />
+        <div className="ml-auto flex items-center gap-7">
+          <Link to="/user/subscription-plan">
+            <Button
+              type="primary"
+              className="p-4 font-semibold text-dark-200 hover:!text-dark-300"
+            >
+              Đăng ký gói
+            </Button>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Badge count={5} size="small" offset={[-2, 2]}>
+              <BellFilled className="cursor-pointer text-2xl text-blue-500" />
+            </Badge>
+            <UserDropdown menuItems={menu} />
+          </div>
         </div>
       ) : (
         <div className="ml-auto">

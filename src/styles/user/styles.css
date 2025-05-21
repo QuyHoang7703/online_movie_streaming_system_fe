@@ -17,3 +17,71 @@
 .custom-tabs-user .ant-tabs-tab-active {
   @apply !bg-dark-100 !text-white;
 }
+
+.custom-steps .ant-steps-item-process .ant-steps-icon {
+  color: white !important;
+}
+.custom-steps .ant-steps-item-process .ant-steps-item-title {
+  @apply !font-bold !text-white;
+}
+
+.custom-steps .ant-steps-item-title {
+  @apply !text-lg;
+}
+
+.custom-steps .ant-steps-item-container {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+/* Bước chưa tới: icon xám tròn + chữ xám */
+.custom-steps .ant-steps-item-wait .ant-steps-item-icon {
+  background-color: #555 !important; /* Xám đậm */
+  border-color: #555 !important;
+}
+.custom-steps .ant-steps-item-wait .ant-steps-icon {
+  color: white !important;
+}
+.custom-steps .ant-steps-item-title {
+  @apply !text-gray-400;
+}
+
+.custom-step-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #78b833;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Thêm animation cho step hiện tại */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(120, 184, 51, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(120, 184, 51, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(120, 184, 51, 0);
+  }
+}
+
+.custom-steps .ant-steps-item-process .ant-steps-item-icon {
+  animation: pulse 1.5s infinite;
+}
+
+.custom-steps .ant-steps-item-process .custom-step-icon {
+  animation: pulse 1.5s infinite;
+}
+
+/* Thêm transition cho icon */
+.custom-steps .ant-steps-item-icon,
+.custom-step-icon {
+  transition: all 0.5s ease;
+}

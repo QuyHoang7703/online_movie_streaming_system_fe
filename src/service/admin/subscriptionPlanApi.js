@@ -50,9 +50,9 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         { type: "SubscriptionPlans", id: "Options" },
       ],
     }),
-    getSubscriptionPlanTree: builder.query({
-      query: () => ({
-        url: "subscription-plans/tree",
+    getSubscriptionPlansForMovie: builder.query({
+      query: (movieId) => ({
+        url: `user/movies/${movieId}/subscription-plans`,
       }),
     }),
   }),
@@ -65,5 +65,5 @@ export const {
   useGetSubscriptionPlanOptionsQuery,
   useUpdateSubscriptionPlanMutation,
   useDeleteSubscriptionPlanMutation,
-  useGetSubscriptionPlanTreeQuery,
+  useGetSubscriptionPlansForMovieQuery,
 } = subscriptionPlanApi;

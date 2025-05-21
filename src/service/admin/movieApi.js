@@ -38,6 +38,12 @@ export const movieApi = rootApi.injectEndpoints({
       }),
       providesTags: [{ type: "MoviesUser", id: "List" }],
     }),
+    canUserWatchMovie: builder.query({
+      query: (movieId) => ({
+        url: `/user/movies/${movieId}/can-watch`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -46,4 +52,5 @@ export const {
   useGetCountriesOfMoviesQuery,
   useDeleteMovieMutation,
   useGetMovieForUserQuery,
+  useLazyCanUserWatchMovieQuery,
 } = movieApi;
