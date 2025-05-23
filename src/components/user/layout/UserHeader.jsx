@@ -19,6 +19,7 @@ import { useGetAllGenresQuery } from "@service/admin/genresApi";
 import { useLoading } from "@context/LoadingContext";
 import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 import InputSearch from "@components/common/InputSearch";
+import NotificationDropdown from "@components/common/NotificationDropdown";
 const { Header } = Layout;
 
 // Dữ liệu mẫu cho thể loại và quốc gia đã được thay thế bằng API calls
@@ -240,9 +241,10 @@ const UserHeader = () => {
             </Button>
           </Link>
           <div className="flex items-center gap-3">
-            <Badge count={5} size="small" offset={[-2, 2]}>
+            {/* <Badge count={5} size="small" offset={[-2, 2]}>
               <BellFilled className="cursor-pointer text-2xl text-blue-500" />
-            </Badge>
+            </Badge> */}
+            <NotificationDropdown />
             <UserDropdown menuItems={menu} />
           </div>
         </div>

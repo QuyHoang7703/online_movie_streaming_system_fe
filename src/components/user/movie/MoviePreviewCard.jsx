@@ -6,7 +6,7 @@ import { useDefaultEpisode } from "@hooks/useDefaultEpisode";
 import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import { Button } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import WatchButton from "./WatchButton";
 
 const MoviePreviewCard = ({
@@ -29,6 +29,7 @@ const MoviePreviewCard = ({
   const config = VARIANTS[variant] || VARIANTS.default;
 
   const { toggleFavorite, isProcessing } = useFavoriteMovie();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -72,7 +73,7 @@ const MoviePreviewCard = ({
           >
             {movie.favorite ? "Đã thích" : "Thích"}
           </Button>
-          <Link
+          {/* <Link
             to={`/${movieTypeUrlMapperReverse[movie.movieType]}/${movie.movieId}`}
           >
             <Button
@@ -83,7 +84,20 @@ const MoviePreviewCard = ({
             >
               Thông tin
             </Button>
-          </Link>
+          </Link> */}
+          <Button
+            icon={<InfoCircleOutlined />}
+            size="middle"
+            type="text"
+            className="!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700"
+            onClick={() =>
+              navigate(
+                `/${movieTypeUrlMapperReverse[movie.movieType]}/${movie.movieId}`,
+              )
+            }
+          >
+            Thông tin
+          </Button>
         </div>
 
         {/* Info Row */}
