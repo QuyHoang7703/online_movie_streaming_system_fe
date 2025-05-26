@@ -49,8 +49,8 @@ const MovieCard = ({
                 clipPath: clipPathStyle,
               }}
             >
-              <Image
-                src={movie.posterUrl}
+              <ImageWithPlaceholder
+                src={movie.posterUrl || "https://placehold.co/600x900"}
                 alt={movie.title}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
