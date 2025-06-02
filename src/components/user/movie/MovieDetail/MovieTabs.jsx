@@ -4,6 +4,9 @@ import { useGetVideoVersionQuery } from "@service/admin/videoVersionApi";
 import { Tabs } from "antd";
 import "@styles/user/styles.css";
 import VideoVersionForSeriesMovie from "@components/user/movie/VideoVersionForSeriesMovie";
+import { useGetRecommendationMoviesMutation } from "@service/admin/movieApi";
+import MovieCard from "@components/user/movie/MovieCard";
+import { useEffect } from "react";
 
 const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
   const videoVersionResponse = useGetVideoVersionQuery(movieDetail.id);
@@ -39,6 +42,40 @@ const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
   const renderActors = (movieActors) => {
     return <MovieActors movieActors={movieActors} isDetail={true} />;
   };
+
+  const [
+    getRecommendationMovies,
+    { data: recommendationResponse, isSuccess, isError, isLoading },
+  ] = useGetRecommendationMoviesMutation();
+
+  useEffect(() => {
+    if (movieDetail?.title) {
+      getRecommendationMovies({
+        title: movieDetail.originalTitle,
+        numRecommendations: 5,
+      });
+    }
+  }, [movieDetail, getRecommendationMovies]);
+
+  const renderRecommendationMovies = () => {
+    if (isLoading) return <p>Đang tải đề xuất...</p>;
+    if (isError)
+      return <p className="text-red-500">Không thể tải đề xuất phim 😢</p>;
+
+    if (isSuccess && recommendationResponse?.data) {
+      const recommendationMovies = recommendationResponse.data;
+      return (
+        <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+          {recommendationMovies.map((movie) => (
+            <MovieCard key={movie.movieId} movie={movie} variant="default" />
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   const items = [
     {
       key: "1",
@@ -53,7 +90,7 @@ const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
     {
       key: "3",
       label: "Đề xuất",
-      children: "Content of Tab Pane 3",
+      children: renderRecommendationMovies(),
     },
   ];
 

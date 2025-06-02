@@ -28,15 +28,25 @@ const MovieCard = ({
       : variant === "hot"
         ? "polygon(0 10%, 100% 0, 100% 100%, 0 100%)" // Odd index: left to right slant
         : "none"; // Default: no slant
+  const timeoutRef = useRef(null);
+  const handleMouseEnter = () => {
+    timeoutRef.current = setTimeout(() => {
+      setShowPreview(true);
+    }, 500); // 500ms delay
+  };
 
+  const handleMouseLeave = () => {
+    clearTimeout(timeoutRef.current); // hủy nếu chưa kịp set
+    setShowPreview(false); // ẩn luôn
+  };
   return (
     <div
       className={`flex ${variant === "hot" ? "w-full max-w-[230px]" : ""} flex-col items-center`}
     >
       <div
         className="group relative w-full"
-        onMouseEnter={() => setShowPreview(true)}
-        onMouseLeave={() => setShowPreview(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Link
           to={`/${movieTypeUrlMapperReverse[movie.movieType]}/${movie.movieId}`}
