@@ -44,6 +44,13 @@ export const movieApi = rootApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getRecommendationMovies: builder.mutation({
+      query: ({ title, numRecommendations }) => ({
+        url: "/user/movies/recommend",
+        method: "POST",
+        body: { title, numRecommendations },
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useDeleteMovieMutation,
   useGetMovieForUserQuery,
   useLazyCanUserWatchMovieQuery,
+  useGetRecommendationMoviesMutation,
 } = movieApi;

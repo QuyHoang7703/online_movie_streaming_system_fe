@@ -33,7 +33,7 @@ const MoviePreviewCard = ({
 
   return (
     <div
-      className={`absolute ${config.positionClass} -top-[32px] z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
+      className={`absolute ${config.positionClass} -top-[36px] z-50 mt-2 overflow-hidden rounded-lg bg-dark-300 shadow-xl ${isNearRightEdge ? "right-[-10px]" : "left-[-10px]"}`}
       style={{ width: config.width }}
     >
       {/* Preview Image */}

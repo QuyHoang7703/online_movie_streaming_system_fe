@@ -3,6 +3,7 @@ import {
   BellFilled,
   HeartFilled,
   HeartOutlined,
+  HistoryOutlined,
   LogoutOutlined,
   SearchOutlined,
   SettingOutlined,
@@ -57,6 +58,12 @@ const UserHeader = () => {
       label: "Yêu thích",
       icon: <HeartOutlined />,
       onClick: () => navigate("/user/profile/favorite-movies"),
+    });
+    menu.push({
+      key: "4",
+      label: "Lịch sử mua hàng",
+      icon: <HistoryOutlined />,
+      onClick: () => navigate("/user/profile/subscription-orders"),
     });
   }
 
