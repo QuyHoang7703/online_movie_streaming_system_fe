@@ -1,0 +1,257 @@
+.comment-item {
+  background-color: #1a1a1a;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+}
+
+.comment-content {
+  display: flex;
+  gap: 12px;
+}
+
+.comment-avatar {
+  flex-shrink: 0;
+}
+
+.comment-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #333;
+}
+
+.comment-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+
+.comment-username {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.comment-time {
+  color: #888;
+  font-size: 13px;
+}
+
+.comment-text {
+  color: #e5e5e5;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  word-wrap: break-word;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.action-btn:hover {
+  color: #fff;
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.like-btn.liked {
+  color: #4caf50;
+}
+
+.like-btn.liked svg {
+  fill: #4caf50;
+}
+
+.show-replies-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+  text-align: left;
+}
+
+.show-replies-btn:hover {
+  color: #fff;
+}
+
+.comment-replies {
+  margin-top: 12px;
+  margin-left: 52px;
+  border-left: 2px solid #333;
+  padding-left: 16px;
+}
+
+.comment-replies .comment-item {
+  background-color: #0f0f0f;
+  margin-bottom: 8px;
+  padding: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .comment-item {
+    padding: 12px;
+  }
+
+  .comment-avatar img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .comment-replies {
+    margin-left: 44px;
+    padding-left: 12px;
+  }
+}
+
+/* Ant Design Comment Item Styles */
+.comment-item-antd {
+  background-color: #1a1a1a;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+}
+
+.comment-content-antd {
+  display: flex;
+  gap: 12px;
+}
+
+.comment-avatar-antd.ant-avatar {
+  flex-shrink: 0;
+  border: 2px solid #333;
+}
+
+.comment-details-antd {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-header-antd.ant-space {
+  margin-bottom: 8px !important;
+}
+
+.comment-username-antd.ant-typography {
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.comment-time-antd.ant-typography {
+  color: #888 !important;
+  font-size: 13px;
+}
+
+.comment-text-antd.ant-typography {
+  color: #e5e5e5 !important;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 12px !important;
+  word-wrap: break-word;
+  display: block;
+}
+
+.comment-actions-antd.ant-space {
+  margin-bottom: 8px !important;
+}
+
+.action-btn-antd.ant-btn {
+  color: #888;
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  height: auto;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn-antd.ant-btn:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.like-btn-antd.liked {
+  color: #4caf50 !important;
+}
+
+.like-btn-antd.liked:hover {
+  color: #66bb6a !important;
+}
+
+.show-replies-btn-antd.ant-btn {
+  color: #888;
+  padding: 4px 0;
+  height: auto;
+  font-size: 13px;
+  text-align: left;
+}
+
+.show-replies-btn-antd.ant-btn:hover {
+  color: #fff !important;
+}
+
+.comment-replies-antd {
+  margin-top: 12px;
+  margin-left: 52px;
+  border-left: 2px solid #333;
+  padding-left: 16px;
+}
+
+.comment-replies-antd .comment-item-antd {
+  background-color: #0f0f0f;
+  margin-bottom: 8px;
+  padding: 12px;
+}
+
+/* Responsive for Ant Design */
+@media (max-width: 768px) {
+  .comment-item-antd {
+    padding: 12px;
+  }
+
+  .comment-avatar-antd.ant-avatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .comment-replies-antd {
+    margin-left: 44px;
+    padding-left: 12px;
+  }
+}

@@ -1,0 +1,290 @@
+.comment-input-container {
+  margin-bottom: 20px;
+}
+
+.comment-input-box {
+  background-color: #2a2d3a;
+  border: 1px solid #404854;
+  border-radius: 12px;
+  padding: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  overflow: hidden;
+}
+
+.input-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px 8px 16px;
+}
+
+.char-counter {
+  color: #8b8d98;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.comment-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 16px;
+  resize: none;
+  outline: none;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.comment-textarea::placeholder {
+  color: #8b8d98;
+}
+
+.comment-textarea:focus {
+  outline: none;
+}
+
+.input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid #404854;
+  background-color: #252836;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  flex-shrink: 0;
+}
+
+.user-avatar img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #404854;
+}
+
+.spoiler-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spoiler-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #f59e0b;
+  cursor: pointer;
+}
+
+.spoiler-toggle label {
+  color: #8b8d98;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.send-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #374151;
+  border: none;
+  color: #8b8d98;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #4b5563;
+  color: #ffffff;
+}
+
+.send-button.active {
+  background: #f59e0b;
+  color: #000000;
+}
+
+.send-button.active:hover {
+  background: #d97706;
+}
+
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.send-button svg {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+/* Focus state for the entire input box */
+.comment-input-box:focus-within {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 1px #f59e0b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .comment-input-box {
+    border-radius: 8px;
+  }
+
+  .input-header,
+  .input-footer {
+    padding: 10px 12px;
+  }
+
+  .comment-textarea {
+    padding: 0 12px;
+    min-height: 60px;
+  }
+
+  .user-avatar img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .send-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Comment Input with Ant Design */
+.comment-input-antd {
+  background-color: #2a2d3a;
+  border: 1px solid #404854;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+}
+
+.comment-input-antd:focus-within {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.comment-textarea-antd.ant-input {
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.comment-textarea-antd.ant-input:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.comment-textarea-antd.ant-input::placeholder {
+  color: #8b8d98 !important;
+}
+
+/* Character counter for Ant Design TextArea */
+.comment-textarea-antd .ant-input-data-count {
+  color: #8b8d98 !important;
+  font-size: 12px;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}
+
+.comment-input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #404854;
+}
+
+.user-avatar-antd.ant-avatar {
+  border: 2px solid #404854;
+}
+
+.spoiler-checkbox-antd.ant-checkbox-wrapper {
+  color: #8b8d98;
+  font-size: 13px;
+}
+
+.spoiler-checkbox-antd .ant-checkbox-inner {
+  background-color: transparent;
+  border-color: #8b8d98;
+}
+
+.spoiler-checkbox-antd.ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #1890ff;
+}
+
+.spoiler-checkbox-antd .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.send-button-antd.ant-btn {
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.send-button-antd.ant-btn-default {
+  background-color: #374151;
+  border-color: #374151;
+  color: #8b8d98;
+}
+
+.send-button-antd.ant-btn-default:hover {
+  background-color: #4b5563;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.send-button-antd.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.send-button-antd.ant-btn-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .comment-input-antd {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .user-avatar-antd.ant-avatar {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .send-button-antd.ant-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+}
