@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useLoading } from "@context/LoadingContext";
 import { movieTypeUrlMapper } from "@consts/movieTypeUrlMapper";
 import { useGetMovieDetail } from "@hooks/useGetMovieDetail";
+import CommentExample from "@components/user/comment/CommentExample";
 
 const MovieDetail = () => {
   const { movieType, movieId } = useParams();
@@ -126,6 +127,9 @@ const MovieDetail = () => {
               movieDetail={movieDetail}
               setChosenEpisode={setChosenEpisode}
             />
+          </div>
+          <div className="mt-8">
+            <CommentExample movieId={movieId} />
           </div>
         </div>
       </div>
