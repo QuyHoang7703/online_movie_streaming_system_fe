@@ -45,10 +45,10 @@ export const movieApi = rootApi.injectEndpoints({
       }),
     }),
     getRecommendationMovies: builder.mutation({
-      query: ({ title, numRecommendations }) => ({
+      query: ({ title, user_id, tmdb_id, num_recommendations }) => ({
         url: "/user/movies/recommend",
         method: "POST",
-        body: { title, numRecommendations },
+        body: { title, user_id, tmdb_id, num_recommendations },
       }),
     }),
   }),

@@ -127,10 +127,10 @@ const MovieCard = ({
         // Default Movie Card layout
         <div className="mt-1 w-full text-center sm:mt-3 md:mt-4">
           <p className="mb-0.5 line-clamp-2 text-center text-xs font-medium text-white sm:mb-1 sm:text-sm">
-            {movie.title}
+            {movie.originalTitle}
           </p>
           <p className="line-clamp-1 text-[10px] text-gray-400 sm:text-xs">
-            {movie.originalTitle}
+            {movie.title}
           </p>
         </div>
       )}

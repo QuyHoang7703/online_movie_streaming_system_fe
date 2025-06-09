@@ -11,6 +11,7 @@ const FormField = ({
   error,
   onChange,
   status,
+  children,
   ...rest
 }) => {
   return (
@@ -44,7 +45,9 @@ const FormField = ({
                 field.onChange(value);
                 if (onChange) onChange(valueOrEvent);
               }}
-            />
+            >
+              {children}
+            </Component>
           );
         }}
       />

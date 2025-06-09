@@ -7,12 +7,15 @@ import VideoVersionForSeriesMovie from "@components/user/movie/VideoVersionForSe
 import { useGetRecommendationMoviesMutation } from "@service/admin/movieApi";
 import MovieCard from "@components/user/movie/MovieCard";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
   const videoVersionResponse = useGetVideoVersionQuery(movieDetail.id);
   const videoVersions = videoVersionResponse.isSuccess
     ? videoVersionResponse.data.data
     : [];
+
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const renderEpisodes = (movieType) => {
     if (movieType === "STANDALONE") {
@@ -51,21 +54,24 @@ const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
   useEffect(() => {
     if (movieDetail?.title) {
       getRecommendationMovies({
-        title: movieDetail.originalTitle,
-        numRecommendations: 5,
+        title: movieDetail.title,
+        user_id: userInfo?.id,
+        tmdb_id: movieDetail.id,
+        num_recommendations: 15,
       });
     }
-  }, [movieDetail, getRecommendationMovies]);
+  }, [movieDetail, getRecommendationMovies, userInfo]);
 
   const renderRecommendationMovies = () => {
     if (isLoading) return <p>Đang tải đề xuất...</p>;
     if (isError)
-      return <p className="text-red-500">Không thể tải đề xuất phim 😢</p>;
+      return <p className="text-red-500">Không có phim đề xuất 😢</p>;
 
     if (isSuccess && recommendationResponse?.data) {
       const recommendationMovies = recommendationResponse.data;
       return (
-        <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+        // <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-6 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {recommendationMovies.map((movie) => (
             <MovieCard key={movie.movieId} movie={movie} variant="default" />
           ))}

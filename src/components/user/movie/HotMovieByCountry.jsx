@@ -117,7 +117,7 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
                   key={movie.id}
                   className="transition-all duration-500 ease-in-out"
                 >
-                  <RowMovieCard movie={movie} key={movie.id} />
+                  <RowMovieCard movie={movie} key={movie.movieId} />
                 </div>
               ))}
             </div>
