@@ -37,16 +37,16 @@ const MovieFormInfo = () => {
   const [fileList, setFileList] = useState([]);
   const [activeTab, setActiveTab] = useState("basic");
 
-  // Add debug state
-  const [formDebug, setFormDebug] = useState({
-    submitted: false,
-    lastSubmitTime: null,
-    submitCount: 0,
-    lastValidationErrors: null,
-  });
+  // // Add debug state
+  // const [formDebug, setFormDebug] = useState({
+  //   submitted: false,
+  //   lastSubmitTime: null,
+  //   submitCount: 0,
+  //   lastValidationErrors: null,
+  // });
 
-  // Debug mode flag
-  const showDebugPanel = true;
+  // // Debug mode flag
+  // const showDebugPanel = true;
 
   const navigate = useNavigate();
 
@@ -260,13 +260,13 @@ const MovieFormInfo = () => {
     console.log("FULL FORM DATA:", JSON.stringify(data, null, 2));
     console.log("Form errors:", errors);
 
-    // Update debug state
-    setFormDebug((prev) => ({
-      ...prev,
-      submitted: true,
-      lastSubmitTime: new Date().toISOString(),
-      submitCount: prev.submitCount + 1,
-    }));
+    // // Update debug state
+    // setFormDebug((prev) => ({
+    //   ...prev,
+    //   submitted: true,
+    //   lastSubmitTime: new Date().toISOString(),
+    //   submitCount: prev.submitCount + 1,
+    // }));
 
     // Log all errors in detail for debugging
     if (Object.keys(errors).length > 0) {
@@ -321,16 +321,16 @@ const MovieFormInfo = () => {
     }
   };
 
-  // Add an effect to log validation errors
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      console.log("Current validation errors:", errors);
-      setFormDebug((prev) => ({
-        ...prev,
-        lastValidationErrors: errors,
-      }));
-    }
-  }, [errors]);
+  // // Add an effect to log validation errors
+  // useEffect(() => {
+  //   if (Object.keys(errors).length > 0) {
+  //     console.log("Current validation errors:", errors);
+  //     setFormDebug((prev) => ({
+  //       ...prev,
+  //       lastValidationErrors: errors,
+  //     }));
+  //   }
+  // }, [errors]);
 
   return (
     <div className="mx-auto flex h-full w-full flex-col items-center justify-center bg-dark-200 p-8">
@@ -455,7 +455,7 @@ const MovieFormInfo = () => {
           </div>
 
           {/* Debug panel - always visible while debugging */}
-          {showDebugPanel && (
+          {/* {showDebugPanel && (
             <div className="mt-8 rounded border border-gray-500 bg-gray-800 p-4">
               <h3 className="mb-2 text-white">Debug Information</h3>
               <div className="text-sm text-gray-400">
@@ -487,7 +487,7 @@ const MovieFormInfo = () => {
                 Log Form State
               </button>
             </div>
-          )}
+          )} */}
         </div>
       </form>
     </div>

@@ -46,19 +46,6 @@ const PlanDurationPage = () => {
     }
   };
 
-  const paymentMethods = [
-    {
-      id: "momo",
-      name: "Ví MoMo",
-      icon: "https://static.mservice.io/img/logo-momo.png",
-    },
-    {
-      id: "zalopay",
-      name: "Ví điện tử ZaloPay",
-      icon: "https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-ZaloPay.png",
-    },
-  ];
-
   const { data: activeLatestSubscriptionOrder } =
     useGetActiveLatestSubscriptionOrderQuery(subscriptionPlanId);
 
@@ -83,8 +70,6 @@ const PlanDurationPage = () => {
 
     formattedNextPaymentDate = nextPaymentDate.format("DD/MM/YYYY");
   }
-
-  const [selectedPayment, setSelectedPayment] = useState(paymentMethods[0].id);
 
   const [createPayUrl, { isLoading }] = useCreatePayUrlMutation();
 
@@ -145,7 +130,7 @@ const PlanDurationPage = () => {
           </div>
 
           {/* Payment Methods */}
-          <div className="mt-12">
+          {/* <div className="mt-12">
             <h2 className="mb-6 text-xl font-bold text-white">
               Chọn phương thức thanh toán
             </h2>
@@ -181,42 +166,15 @@ const PlanDurationPage = () => {
                 </svg>
               </span>
               <span>
-                Bạn hãy yên tâm VieON luôn đảm bảo mọi giao dịch của bạn đều
+                Bạn hãy yên tâm Emovie luôn đảm bảo mọi giao dịch của bạn đều
                 được bảo mật tuyệt đối
               </span>
             </div>
-
-            <div className="rounded-lg border border-gray-700">
-              {paymentMethods.map((method) => (
-                <div
-                  key={method.id}
-                  className={`flex cursor-pointer items-center border-b p-4 last:border-b-0 ${
-                    selectedPayment === method.id ? "bg-gray-800" : ""
-                  }`}
-                  onClick={() => setSelectedPayment(method.id)}
-                >
-                  <input
-                    type="radio"
-                    id={method.id}
-                    name="paymentMethod"
-                    checked={selectedPayment === method.id}
-                    onChange={() => setSelectedPayment(method.id)}
-                    className="mr-3"
-                  />
-                  <img
-                    src={method.icon}
-                    alt={method.name}
-                    className="mr-3 h-8 w-8"
-                  />
-                  <label
-                    htmlFor={method.id}
-                    className="cursor-pointer text-white"
-                  >
-                    {method.name}
-                  </label>
-                </div>
-              ))}
-            </div>
+          </div> */}
+          <div className="mt-6 text-sm italic text-gray-400">
+            Cảm ơn bạn đã đồng hành cùng Emovie 💖 Chúng tôi cam kết bảo mật mọi
+            giao dịch và sẽ sớm hỗ trợ thêm nhiều phương thức thanh toán tiện
+            lợi hơn!
           </div>
         </div>
 

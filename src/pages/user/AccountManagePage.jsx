@@ -1,5 +1,5 @@
 import { Layout, Menu, Grid } from "antd";
-import { HeartFilled, UserOutlined } from "@ant-design/icons";
+import { HeartFilled, HistoryOutlined, UserOutlined } from "@ant-design/icons";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import { useMemo } from "react";
 
@@ -13,6 +13,7 @@ const AccountManagePage = () => {
   const selectedKey = useMemo(() => {
     if (location.pathname.includes("favorite-movies")) return "2";
     if (location.pathname.includes("info")) return "1";
+    if (location.pathname.includes("subscription-orders")) return "3";
     return "1";
   }, [location.pathname]);
 
@@ -27,6 +28,13 @@ const AccountManagePage = () => {
       icon: <HeartFilled />,
       label: <Link to="/user/profile/favorite-movies">Yêu thích</Link>,
     },
+    {
+      key: "3",
+      icon: <HistoryOutlined />,
+      label: (
+        <Link to="/user/profile/subscription-orders">Lịch sử giao dịch</Link>
+      ),
+    },
   ];
 
   return (
@@ -36,7 +44,7 @@ const AccountManagePage = () => {
         <div
           className={`${
             screens.md ? "w-[250px]" : "w-full"
-          } rounded-lg bg-dark-300 shadow-md`}
+          } rounded-lg bg-dark-100 shadow-md`}
         >
           <div className="mb-5 flex items-center justify-center border-b p-5">
             <p className="text-lg font-bold text-gray-400">Quản lý tài khoản</p>
@@ -44,7 +52,7 @@ const AccountManagePage = () => {
           <Menu
             mode="inline"
             selectedKeys={[selectedKey]}
-            className="!bg-dark-300 !text-sm [&_.ant-menu-item-selected]:!bg-mainColor/85 [&_.ant-menu-item-selected]:!text-white [&_.ant-menu-item]:!mb-3"
+            className="!bg-dark-100 !text-sm [&_.ant-menu-item-selected]:!bg-mainColor/85 [&_.ant-menu-item-selected]:!text-white [&_.ant-menu-item]:!mb-3"
             theme="dark"
             items={menuItems}
           />

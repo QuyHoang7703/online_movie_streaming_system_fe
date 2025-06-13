@@ -56,11 +56,11 @@ export const rootApi = createApi({
         },
       }),
       register: builder.mutation({
-        query: ({ email, password, confirmPassword }) => {
+        query: ({ email, name, password, confirmPassword }) => {
           return {
             url: "auth/register",
             method: "POST",
-            body: { email, password, confirmPassword },
+            body: { email, name, password, confirmPassword },
           };
         },
       }),

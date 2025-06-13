@@ -29,10 +29,10 @@ const MovieInformation = ({ movieDetail, layout = "vertical" }) => {
             <p
               className={`mb-2 font-bold text-white ${isHorizontal ? "text-xl" : "mt-2 text-2xl"}`}
             >
-              {movieDetail.title}
+              {movieDetail.originalTitle}
             </p>
             <p className="mt-1 text-sm text-mainUserColor-100">
-              {movieDetail.originalTitle}
+              {movieDetail.title}
             </p>
           </div>
 

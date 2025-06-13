@@ -57,6 +57,7 @@ export const useMovieCRUD = () => {
 
   // Handle create movie
   const handleCreateMovie = async (formData, movieType) => {
+    console.log({ formData, movieType });
     try {
       console.log("Sending data to backend:", formData);
 

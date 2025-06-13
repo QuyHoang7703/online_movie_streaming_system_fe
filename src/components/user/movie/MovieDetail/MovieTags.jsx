@@ -10,7 +10,7 @@ const MovieTags = ({
 }) => {
   return (
     <div className="mb-4 flex items-center gap-3">
-      {rating && (
+      {rating && rating > 0 && (
         <Tag
           className={`!border-none !bg-mainUserColor-100 p-1 text-[${size}] !text-black`}
         >

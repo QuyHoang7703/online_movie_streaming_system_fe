@@ -14,8 +14,8 @@ const MovieActions = ({
   const { toggleFavorite, isProcessing } = useFavoriteMovie();
   const { defaultEpisodeId } = useDefaultEpisode(movieDetail);
 
-  console.log("MovieActions - episodeId:", episodeId);
-  console.log("MovieActions - defaultEpisodeId:", defaultEpisodeId);
+  // console.log("MovieActions - episodeId:", episodeId);
+  // console.log("MovieActions - defaultEpisodeId:", defaultEpisodeId);
 
   return (
     <div className="flex items-center gap-10">
@@ -36,11 +36,11 @@ const MovieActions = ({
           loading={isProcessing}
           onClick={() => toggleFavorite({ movieId, isFavorite })}
         />
-        <ActionButton
+        {/* <ActionButton
           icon={<PlusOutlined className="text-xl" />}
           text="Thêm vào"
           link="#"
-        />
+        /> */}
         <ActionButton
           icon={<MessageFilled className="text-xl" />}
           text="Bình luận"

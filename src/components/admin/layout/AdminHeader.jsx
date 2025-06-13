@@ -37,11 +37,11 @@ const AdminHeader = ({ collapsed, setCollapsed }) => {
             onClick={() => setCollapsed(!collapsed)}
             className="mr-3 !text-lg !text-white sm:text-xl"
           />
-          <Input
+          {/* <Input
             placeholder="Tìm kiếm"
             className="ant-input !w-full bg-[#323D4E] p-2 !text-white"
             prefix={<SearchOutlined />}
-          />
+          /> */}
         </div>
         <div className="flex items-center gap-3">
           <Badge count={5} size="small" offset={[-2, 2]}>

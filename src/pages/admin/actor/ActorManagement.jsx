@@ -69,14 +69,18 @@ const ActorManagement = () => {
             onClick={() =>
               handleCreateOrUpdateActor(true, { actorId: record.id })
             }
-          />
+          >
+            Cập nhật
+          </Button>
           <Button
             icon={<DeleteFilled />}
             size="large"
             color="danger"
             variant="solid"
             // onClick={() => handleOpenModalDelete(record.id, record.name)}
-          />
+          >
+            Xóa
+          </Button>
         </Space>
       ),
     },

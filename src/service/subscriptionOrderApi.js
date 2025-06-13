@@ -20,6 +20,12 @@ export const subscriptionOrderApi = rootApi.injectEndpoints({
         params: { subscriptionPlanId },
       }),
     }),
+    getSubscriptionOrders: builder.query({
+      query: ({ page, size }) => ({
+        url: "/subscription-orders",
+        params: { page, size },
+      }),
+    }),
   }),
 });
 
@@ -27,4 +33,5 @@ export const {
   useCreatePayUrlMutation,
   useGetSubscriptionOrderDetailQuery,
   useGetActiveLatestSubscriptionOrderQuery,
+  useGetSubscriptionOrdersQuery,
 } = subscriptionOrderApi;

@@ -18,6 +18,7 @@ const RegisterPage = () => {
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Email không hợp lệ",
       ),
+    name: yup.string().required("Tên hiển thị không được để trống"),
     password: yup
       .string()
       .required("Mật khẩu không được để trống")
@@ -91,6 +92,14 @@ const RegisterPage = () => {
             label="Email"
             Component={InputField}
             error={errors?.email?.message}
+          />
+
+          <FormField
+            control={control}
+            name="name"
+            label="Tên hiển thị"
+            Component={InputField}
+            error={errors?.name?.message}
           />
 
           <FormField

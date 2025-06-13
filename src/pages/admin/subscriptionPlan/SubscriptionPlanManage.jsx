@@ -97,7 +97,7 @@ const SubscriptionPlanManage = () => {
             icon={<EditOutlined />}
             onClick={() => handleShowSubscriptionPlanDetail(record.id)}
           >
-            Sửa
+            Cập nhập
           </Button>
           <Button
             color="red"

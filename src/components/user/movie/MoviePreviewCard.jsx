@@ -49,7 +49,9 @@ const MoviePreviewCard = ({
       {/* Content */}
       <div className="p-4">
         {/* Title */}
-        <h3 className="mb-2 text-lg font-bold text-white">{movie.title}</h3>
+        <h3 className="mb-2 text-lg font-bold text-white">
+          {movie.originalTitle}
+        </h3>
         <div className="mb-3 flex gap-2">
           <WatchButton
             episodeId={defaultEpisodeId}
@@ -62,7 +64,7 @@ const MoviePreviewCard = ({
             icon={<HeartFilled />}
             size="middle"
             type="text"
-            className={`!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700 ${movie.favorite ? "!text-mainUserColor-100" : ""}`}
+            className={`!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium hover:!bg-gray-700 ${movie.favorite ? "!text-mainUserColor-100" : "!text-white"}`}
             loading={isProcessing}
             onClick={() =>
               toggleFavorite({
@@ -113,7 +115,7 @@ const MoviePreviewCard = ({
         <div className="mb-3 flex flex-wrap gap-2">
           {(genres || []).map((genre, index) => (
             <React.Fragment key={index}>
-              <span className="rounded bg-gray-800 p-1 text-xs text-gray-300">
+              <span className="flex items-center rounded bg-gray-800 p-1 text-xs text-gray-300">
                 {genre}
               </span>
               {index < genres.length - 1 && (

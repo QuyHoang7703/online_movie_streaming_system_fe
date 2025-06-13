@@ -55,6 +55,7 @@ const FavoriteMovies = () => {
                   key={movie.movieId}
                   movie={movie}
                   variant="default"
+                  isFavorite={true}
                 />
               ))}
             </div>

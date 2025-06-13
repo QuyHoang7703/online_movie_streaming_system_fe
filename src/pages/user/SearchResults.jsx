@@ -8,6 +8,7 @@ import { useLoading } from "@context/LoadingContext";
 import "@styles/user/styles.css";
 import MovieFilter from "@components/common/MovieFilter";
 import ImageWithPlaceholder from "@components/common/ImageWithPlaceholder ";
+import "@styles/user/styles.css";
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();

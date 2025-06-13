@@ -47,7 +47,7 @@ const MovieList = ({ movieType }) => {
   // Set initial pagination from URL
   const [pagination, setPagination] = useState({
     pageNumber: Number(searchParams.get("page")) || 1,
-    pageSize: Number(searchParams.get("size")) || 20,
+    pageSize: Number(searchParams.get("size")) || 32,
   });
 
   // Cập nhật lại state khi URL thay đổi
@@ -105,7 +105,7 @@ const MovieList = ({ movieType }) => {
     if (pagination.pageNumber > 1) {
       params.set("page", pagination.pageNumber.toString());
     }
-    if (pagination.pageSize !== 20) {
+    if (pagination.pageSize !== 32) {
       params.set("size", pagination.pageSize.toString());
     }
 

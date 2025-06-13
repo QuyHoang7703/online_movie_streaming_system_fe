@@ -6,6 +6,9 @@ import { usePreviewPosition } from "../../../hooks/usePreviewPosition";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import ImageWithPlaceholder from "@components/common/ImageWithPlaceholder ";
 import { Image } from "antd";
+import { convertMinutesToHourMinute } from "@utils/timeUtils";
+import { HeartFilled } from "@ant-design/icons";
+import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
 
 const VideoVersionMapper = {
   VIETSUB: { label: "P.Đ", color: "bg-green-600" },
@@ -17,6 +20,7 @@ const MovieCard = ({
   rank,
   index,
   variant = "default", // "hot" for HotMovieCard or "default" for MovieCard
+  isFavorite = false,
 }) => {
   const [showPreview, setShowPreview] = useState(false);
   const cardRef = useRef(null);
@@ -34,6 +38,8 @@ const MovieCard = ({
       setShowPreview(true);
     }, 500); // 500ms delay
   };
+
+  const { handleRemoveFavoriteMovie, isProcessing } = useFavoriteMovie();
 
   const handleMouseLeave = () => {
     clearTimeout(timeoutRef.current); // hủy nếu chưa kịp set
@@ -64,7 +70,40 @@ const MovieCard = ({
                 alt={movie.title}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
+              {isFavorite && (
+                <button
+                  className={`absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full text-white transition-all duration-200 ${
+                    isProcessing
+                      ? "cursor-not-allowed bg-gray-500/80"
+                      : "bg-red-500/80 hover:scale-110 hover:bg-red-600"
+                  }`}
+                  onMouseEnter={() => {
+                    clearTimeout(timeoutRef.current);
+                    setShowPreview(false);
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!isProcessing) {
+                      handleRemoveFavoriteMovie(movie.movieId);
+                    }
+                  }}
+                  disabled={isProcessing}
+                  title="Xóa khỏi danh sách yêu thích"
+                >
+                  {isProcessing ? "..." : "✕"}
+                </button>
+              )}
             </div>
+
+            {/* Subscription Plan Tag */}
+            {movie.subscriptionPlans && movie.subscriptionPlans.length > 0 && (
+              <div className="absolute right-1 top-1">
+                <span className="rounded bg-yellow-500 px-1.5 py-0.5 text-[8px] font-medium text-black sm:text-xs">
+                  {movie.subscriptionPlans[0].name}
+                </span>
+              </div>
+            )}
 
             {/* Badges */}
             <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 transform flex-nowrap items-center justify-center gap-1">
@@ -109,17 +148,32 @@ const MovieCard = ({
           </div>
           <div className="flex-1">
             <p className="mb-0.5 line-clamp-2 text-xs font-medium text-white sm:mb-1 sm:text-sm">
-              {movie.title}
+              {movie.originalTitle}
             </p>
             <p className="line-clamp-1 text-[10px] text-gray-400 sm:text-xs">
-              {movie.originalTitle}
+              {movie.title}
             </p>
             <div className="mt-0.5 flex items-center gap-1 text-[10px] text-gray-400 sm:mt-1 sm:gap-2 sm:text-xs">
               <span>T{movie.type || "16"}</span>
-              <span>•</span>
-              <span>Phần {movie.season || "1"}</span>
-              <span>•</span>
-              <span>Tập {movie.totalEpisodes || "?"}</span>
+
+              {movie.movieType === "SERIES" && (
+                <>
+                  <span>•</span>
+                  <span>Phần {movie.season || "1"}</span>
+                  <span>•</span>
+                  <span>Tập {movie.totalEpisodes || "?"}</span>
+                </>
+              )}
+              {movie.movieType === "STANDALONE" && (
+                <>
+                  <span>•</span>
+                  <span>{movie.year || "2024"}</span>
+                  <span>•</span>
+                  <span>
+                    {convertMinutesToHourMinute(movie.duration) || "2h 30m"}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -127,10 +181,10 @@ const MovieCard = ({
         // Default Movie Card layout
         <div className="mt-1 w-full text-center sm:mt-3 md:mt-4">
           <p className="mb-0.5 line-clamp-2 text-center text-xs font-medium text-white sm:mb-1 sm:text-sm">
-            {movie.title}
+            {movie.originalTitle}
           </p>
           <p className="line-clamp-1 text-[10px] text-gray-400 sm:text-xs">
-            {movie.originalTitle}
+            {movie.title}
           </p>
         </div>
       )}
