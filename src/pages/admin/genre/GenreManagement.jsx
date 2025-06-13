@@ -42,18 +42,22 @@ const GenreManagement = () => {
         <Space size="middle">
           <Button
             icon={<EditFilled />}
-            size="large"
+            // size="large"
             type="primary"
             variant="solid"
             onClick={() => handleCreateOrUpdateGenre(true, record)}
-          />
+          >
+            Cập nhật
+          </Button>
           <Button
             icon={<DeleteFilled />}
-            size="large"
+            // size="large"
             color="danger"
             variant="solid"
             onClick={() => handleOpenModalDelete(record.id, record.name)}
-          />
+          >
+            Xóa
+          </Button>
         </Space>
       ),
     },

@@ -3,7 +3,10 @@ import UserHeader from "@components/user/layout/UserHeader";
 import FeatureMovie from "@components/user/movie/FeatureMovie";
 import HotMovieByCountry from "@components/user/movie/HotMovieByCountry";
 import HotMovieSection from "@components/user/movie/HotMovieSection";
-import { useGetHotMoviesByFilterQuery } from "@service/homePageApi";
+import {
+  useGetFeatureMoviesQuery,
+  useGetHotMoviesByFilterQuery,
+} from "@service/homePageApi";
 const { Content } = Layout;
 
 const HomePage = () => {
@@ -26,10 +29,14 @@ const HomePage = () => {
     movieType: "STANDALONE",
   });
 
+  const { data: movieFeatureResponse } = useGetFeatureMoviesQuery({
+    size: 6,
+  });
+
   return (
     <div className="relative">
       {/* Feature movie */}
-      <FeatureMovie />
+      <FeatureMovie movies={movieFeatureResponse?.data?.result || []} />
 
       <div className="mx-auto max-w-full pt-8 lg:max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px]">
         {/* Phân loại phim theo quốc gia */}

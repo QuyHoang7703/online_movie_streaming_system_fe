@@ -12,7 +12,16 @@ export const homePageApi = rootApi.injectEndpoints({
         },
       }),
     }),
+    getFeatureMovies: builder.query({
+      query: ({ size = 6 }) => ({
+        url: "/home-page/feature-movies",
+        params: {
+          size,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetHotMoviesByFilterQuery } = homePageApi;
+export const { useGetHotMoviesByFilterQuery, useGetFeatureMoviesQuery } =
+  homePageApi;

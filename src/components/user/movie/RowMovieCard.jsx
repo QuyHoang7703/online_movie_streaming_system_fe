@@ -25,7 +25,7 @@ const RowMovieCard = ({ movie }) => {
           {/* Poster phim */}
           <div className="overflow-hidden rounded-md">
             <ImageWithPlaceholder
-              src={movie.posterUrl}
+              src={movie.backdropUrl}
               alt={movie.originalTitle}
               className="aspect-video w-full rounded-md object-cover"
             />

@@ -59,7 +59,7 @@ const VideoVersionForSeriesMovie = ({ videoVersions, movieDetail }) => {
 
   const tabItems = videoVersions.map((videoVersion) => ({
     key: videoVersion.id,
-    label: videoVersionTypes[videoVersion.videoType],
+    label: videoVersionTypes[videoVersion.videoType].label,
     children: (
       <EpisodeListForUser
         videoVersionId={videoVersion.id}

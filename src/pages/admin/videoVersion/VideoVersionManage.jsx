@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { PlusCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Button, Tabs, Popconfirm, message } from "antd";
+import { Button, Tabs, Popconfirm, message, Empty } from "antd";
 import { Children, useEffect, useState } from "react";
 import EpisodeList from "@pages/admin/episode/EpisodeList";
 import { useLocation, useParams } from "react-router-dom";
@@ -31,12 +31,15 @@ const VideoVersionManage = () => {
 
   useEffect(() => {
     if (videoVersionsResponse.isSuccess) {
-      console.log(videoVersionsResponse.data.data);
       const firstVideoVersion = videoVersionsResponse.data.data[0];
-      setActiveTab(firstVideoVersion.id);
-      getEpisode({
-        videoVersionId: firstVideoVersion.id,
-      });
+      if (firstVideoVersion) {
+        setActiveTab(firstVideoVersion.id);
+        getEpisode({
+          videoVersionId: firstVideoVersion.id,
+        });
+      } else {
+        setActiveTab(null);
+      }
     }
   }, [videoVersionsResponse, setActiveTab, getEpisode]);
   const { showNotification } = useNotification();
@@ -201,6 +204,12 @@ const VideoVersionManage = () => {
       }))
     : [];
 
+  const videoVersions =
+    videoVersionsResponse.isSuccess &&
+    Array.isArray(videoVersionsResponse.data?.data)
+      ? videoVersionsResponse.data.data
+      : [];
+
   return (
     <div className="mx-auto flex h-full w-full flex-col gap-5 bg-dark-200 p-10">
       <div className="flex justify-between">
@@ -236,8 +245,8 @@ const VideoVersionManage = () => {
           />
         ) : (
           <div className="flex flex-wrap gap-5">
-            {videoVersionsResponse.isSuccess &&
-              videoVersionsResponse?.data?.data.map((videoVersion) => (
+            {videoVersions.length > 0 ? (
+              videoVersions.map((videoVersion) => (
                 <VideoVersionCard
                   key={videoVersion.id}
                   videoVersion={videoVersion}
@@ -246,7 +255,10 @@ const VideoVersionManage = () => {
                   }
                   handleDeleteVideoVersion={handleDeleteVideoVersion}
                 />
-              ))}
+              ))
+            ) : (
+              <Empty description="Không có bản chiếu" />
+            )}
           </div>
         )}
       </div>

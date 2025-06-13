@@ -123,7 +123,7 @@ const MovieManagement = () => {
               handleShowMovieDetail(record.movieType, record.id);
             }}
           >
-            Sửa
+            Cập nhập
           </Button>
           <Button
             icon={<DeleteFilled />}

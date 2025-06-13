@@ -8,6 +8,7 @@ import CustomSelectField from "@components/customeField/CustomSelectField";
 import { getStatusOptionsByType } from "@consts/statusMovie";
 import { QUALITY_OPTIONS } from "@consts/qualityOptions";
 import { useGetCountriesQuery } from "@service/admin/countryApi";
+import CustomInputNumberField from "@components/customeField/CustomInputNumberField";
 
 const BasisInfoFields = ({ control, errors, movieType, watch, setValue }) => {
   // Load genre data
@@ -183,7 +184,7 @@ const BasisInfoFields = ({ control, errors, movieType, watch, setValue }) => {
             control={control}
             name="season"
             label="Mùa"
-            Component={InputField}
+            Component={CustomInputNumberField}
             error={errors?.season?.message}
           />
           <FormField

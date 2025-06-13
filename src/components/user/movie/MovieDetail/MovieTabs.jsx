@@ -56,12 +56,18 @@ const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
       getRecommendationMovies({
         title: movieDetail.title,
         user_id: userInfo?.id,
-        tmdb_id: movieDetail.id,
+        tmdb_id: movieDetail.tmdbId,
         num_recommendations: 15,
-      });
+      })
+        .unwrap()
+        .then((res) => {
+          console.log("Recommendation data:", res);
+        })
+        .catch((err) => {
+          console.error("Recommendation error:", err);
+        });
     }
   }, [movieDetail, getRecommendationMovies, userInfo]);
-
   const renderRecommendationMovies = () => {
     if (isLoading) return <p>Đang tải đề xuất...</p>;
     if (isError)

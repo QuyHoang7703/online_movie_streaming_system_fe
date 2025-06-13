@@ -12,6 +12,8 @@ const VideoVersionCard = ({
   setChosenEpisode,
 }) => {
   const { modalContent, handleWatchMovie } = useMovieSubscription();
+  console.log({ videoVersion_videoType: videoVersion.videoType });
+  const typeInfo = videoVersionTypes[videoVersion.videoType];
 
   return (
     <div>
@@ -28,12 +30,12 @@ const VideoVersionCard = ({
           <div className="h-full w-[95%] bg-gradient-to-r from-[#5e6070]/95 via-[#5e6070] to-transparent p-4 text-white">
             <div className="flex h-full flex-col justify-center">
               <div className="mb-2 flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-600/50">
-                  <span className="text-xs font-medium">CC</span>
+                <div
+                  className={`flex h-6 w-6 items-center justify-center rounded-md ${typeInfo.colorBg}`}
+                >
+                  <span className="text-xs font-medium">{typeInfo.icon}</span>
                 </div>
-                <p className="m-0 text-blue-400">
-                  {videoVersionTypes[videoVersion.videoType]}
-                </p>
+                <p className={`m-0 ${typeInfo.colorText}`}>{typeInfo.label}</p>
               </div>
               <p className="m-0 text-lg font-medium">
                 {videoVersion.movieTitle}

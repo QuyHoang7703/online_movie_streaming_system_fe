@@ -20,59 +20,6 @@ const MovieDetail = () => {
   const { showLoading, hideLoading } = useLoading();
   const [chosenEpisode, setChosenEpisode] = useState(null);
 
-  // // Hiển thị chi tiết movie theo movieType
-  // const {
-  //   data: standaloneMovieData,
-  //   isLoading: isStandaloneLoading,
-  //   error: standaloneError,
-  //   isSuccess: isStandaloneSuccess,
-  // } = useGetStandaloneMovieDetailQuery(movieId, {
-  //   skip: movieType === "phim-bo",
-  // });
-
-  // const {
-  //   data: seriesMovieData,
-  //   isLoading: isSeriesLoading,
-  //   error: seriesError,
-  //   isSuccess: isSeriesSuccess,
-  // } = useGetSeriesMovieDetailQuery(movieId, {
-  //   skip: movieType === "phim-le",
-  // });
-
-  // // Debug API responses
-  // useEffect(() => {
-  //   if (standaloneError) {
-  //     console.error("Standalone movie API error:", standaloneError);
-  //   }
-  //   if (seriesError) {
-  //     console.error("Series movie API error:", seriesError);
-  //   }
-
-  //   console.log("Standalone data:", standaloneMovieData);
-  //   console.log("Series data:", seriesMovieData);
-  // }, [standaloneMovieData, seriesMovieData, standaloneError, seriesError]);
-
-  // const movieDetailResponse =
-  //   movieType === "phim-le" ? standaloneMovieData : seriesMovieData;
-  // console.log("Movie detail response:", movieDetailResponse);
-
-  // const isLoading = isSeriesLoading || isStandaloneLoading;
-  // const isSuccess = isSeriesSuccess || isStandaloneSuccess;
-
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     showLoading();
-  //   } else {
-  //     hideLoading();
-  //   }
-  // }, [isLoading, showLoading, hideLoading]);
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     const movieDetail = movieDetailResponse?.data;
-  //     setMovieDetail(movieDetail);
-  //   }
-  // }, [isSuccess, movieDetailResponse]);
   const { movieDetail, isLoading, error } = useGetMovieDetail({
     movieType,
     movieId,

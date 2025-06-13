@@ -1,21 +1,43 @@
-import {
-  PlayCircleFilled,
-  HeartOutlined,
-  InfoCircleOutlined,
-  CaretRightFilled,
-} from "@ant-design/icons";
-import { Button, Tag } from "antd";
-import MovieTags from "./MovieDetail/MovieTags";
+import { HeartOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Image, Tag } from "antd";
+import { useState, useEffect } from "react";
+import WatchButton from "@components/user/movie/WatchButton";
+import { convertMinutesToHourMinute } from "@utils/timeUtils";
+import MovieTags from "@components/user/movie/MovieDetail/MovieTags";
+import MovieActions from "@components/user/movie/MovieDetail/MovieActions";
+import LoveMovie from "@components/user/movie/LoveMovie";
 
-const FeatureMovie = () => {
+const FeatureMovie = ({ movies }) => {
+  const [currentMovie, setCurrentMovie] = useState(null);
+
+  // Set first movie as default when movies prop changes
+  useEffect(() => {
+    if (movies && movies.length > 0) {
+      setCurrentMovie(movies[0]);
+    }
+  }, [movies]);
+
+  // Don't render if no movies or currentMovie
+  if (!movies || movies.length === 0 || !currentMovie) {
+    return null;
+  }
+
+  const handleThumbnailClick = (movie) => {
+    setCurrentMovie(movie);
+  };
+
   return (
     <div className="relative">
       {/* Banner phim */}
       <div className="relative">
         <img
-          src="https://image.tmdb.org/t/p/original/ybBIIzDL1B9yH8OVFav81JTZmoN.jpg"
-          alt="Đầu xuôi đuôi đứt lớt"
-          className="aspect-[16/8] w-full brightness-[0.7]"
+          src={
+            currentMovie.backdropUrl ||
+            currentMovie.posterUrl ||
+            "https://image.tmdb.org/t/p/original/ybBIIzDL1B9yH8OVFav81JTZmoN.jpg"
+          }
+          alt={currentMovie.title || currentMovie.name}
+          className="aspect-[16/7] w-full object-cover brightness-[0.7]"
         />
 
         {/* Overlay content */}
@@ -23,89 +45,88 @@ const FeatureMovie = () => {
           <div className="hidden max-w-2xl sm:block">
             {/* Tiêu đề phim */}
             <p className="mb-2 text-[2.5vw] font-bold text-white/80">
-              ĐẦU XUÔI ĐUÔI ĐỨT LỚ
+              {currentMovie.originalTitle || currentMovie.title || "Tên phim"}
             </p>
-            <div className="mb-2 text-mainUserColor-100">Lobby</div>
+            <div className="mb-2 text-mainUserColor-100">
+              {currentMovie.title || "Original Title"}
+            </div>
 
             <div className="hidden lg:block">
               {/* Tags và thông tin */}
               <div className="mb-4 flex items-center gap-3">
-                <Tag className="!text-blac !border-none !bg-mainUserColor-100 p-1">
-                  IMDb 5.7
-                </Tag>
-                <Tag className="!border-none !bg-gray-700 p-1 !text-white">
-                  T16
-                </Tag>
-                <Tag className="!border-none !bg-gray-700 p-1 !text-white">
-                  2025
-                </Tag>
-                <Tag className="!border-none !bg-gray-700 p-1 !text-white">
-                  1h 46m
-                </Tag>
+                <MovieTags
+                  rating={currentMovie.voteAverage?.toFixed(1)}
+                  year={currentMovie.releaseDate?.split("-")[0]}
+                  duration={convertMinutesToHourMinute(currentMovie.duration)}
+                  type="16"
+                  quality={currentMovie.quality}
+                />
               </div>
 
-              {/* <MovieTags /> */}
               {/* Thể loại */}
-              <div className="mb-3 flex items-center gap-4">
-                <span className="rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-white hover:text-mainColor">
-                  Chính Kịch
-                </span>
-                <span className="rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-white hover:text-mainColor">
-                  Chiếu Rạp
-                </span>
-                <span className="rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-white hover:text-mainColor">
-                  Hài
-                </span>
-                <span className="rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-white hover:text-mainColor">
-                  Tâm lý
-                </span>
-              </div>
+              {currentMovie.genres && currentMovie.genres.length > 0 && (
+                <div className="mb-3 flex items-center gap-4">
+                  {currentMovie.genres.slice(0, 4).map((genre) => (
+                    <span
+                      key={genre.id || genre.name}
+                      className="rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-white hover:text-mainColor"
+                    >
+                      {genre.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               {/* Mô tả */}
               <p className="mb-6 max-w-3xl text-gray-300">
-                Yoon Chang Wook - CEO một công ty công nghệ nhỏ, giỏi nghiên cứu
-                nhưng mù tịt chuyện thương trường. Khi công ty sắp sập tiệm vì
-                bị "bạn thân" cố Son Gwang-woo đâm sau lưng bằng chiêu trò đứt
-                lớt để giành lấy dự án quốc gia, Chang-wook buộc...
+                {currentMovie.description || "Không có mô tả cho phim này."}
               </p>
             </div>
 
             {/* Buttons */}
             <div className="flex gap-4">
-              <Button
-                size="large"
-                className="!flex !items-center !gap-2 !rounded-full !border-none !bg-mainUserColor-100 !px-6 !font-medium !text-black hover:!opacity-90"
-              >
-                <CaretRightFilled className="relative top-[1px] text-xl" />
-                Xem Phim
-              </Button>
+              <WatchButton
+                movieDetail={currentMovie}
+                // episodeId={episodeId || defaultEpisodeId}
+                // setChosenEpisode={setChosenEpisode}
+                variant="action"
+                movieType={currentMovie.movieType}
+                movieId={currentMovie.movieId}
+              />
 
               <Button
                 icon={<HeartOutlined />}
                 size="large"
                 type="text"
                 shape="circle"
-                className="!flex !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
+                className="!flex !h-14 !w-14 !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
               />
+              {/* <LoveMovie movie={currentMovie} /> */}
               <Button
                 icon={<InfoCircleOutlined />}
                 size="large"
                 type="text"
                 shape="circle"
-                className="!flex !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
+                className="!flex !h-14 !w-14 !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
               />
             </div>
           </div>
           {/* Thumbnails */}
           <div className="mt-4 flex items-end justify-end gap-2 px-6">
-            {[1, 2, 3, 4, 5].map((num) => (
+            {movies.slice(0, 5).map((movie, index) => (
               <div
-                key={num}
-                className={`h-14 w-24 overflow-hidden rounded-md border-2 ${num === 1 ? "border-mainColor" : "border-transparent"}`}
+                key={movie.id || index}
+                className={`h-14 w-24 cursor-pointer overflow-hidden rounded-md transition-all hover:!bg-mainColor/80 ${
+                  currentMovie.id === movie.id
+                    ? "border-2 border-mainColor"
+                    : ""
+                }`}
+                onClick={() => handleThumbnailClick(movie)}
               >
                 <img
-                  src={`https://picsum.photos/id/${num + 40}/200/120`}
-                  alt={`Thumbnail ${num}`}
-                  className="h-full w-full object-cover"
+                  src={movie.backdropUrl || movie.posterUrl}
+                  alt="Feature movie"
+                  className="brightness- h-full w-full object-contain"
                 />
               </div>
             ))}

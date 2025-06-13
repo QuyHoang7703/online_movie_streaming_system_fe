@@ -3,6 +3,7 @@ import {
   DollarOutlined,
   FileTextOutlined,
   GiftOutlined,
+  HistoryOutlined,
   HomeFilled,
   NotificationFilled,
   ProfileOutlined,
@@ -20,7 +21,7 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
     // Map key sang route tương ứng
     switch (key) {
       case "1":
-        navigate("/admin");
+        navigate("/admin/statistics");
         break;
       case "2":
         navigate("/admin/users");
@@ -63,11 +64,7 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
           icon: <FileTextOutlined />,
           label: "Danh sách phim",
         },
-        // {
-        //   key: "3-2",
-        //   icon: <ProfileOutlined />,
-        //   label: "Tập phim",
-        // },
+
         {
           key: "3-2",
           icon: <UserOutlined />,
@@ -87,18 +84,8 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
     },
     {
       key: "5",
-      icon: <NotificationFilled />,
-      label: "Thông báo",
-    },
-    {
-      key: "6",
-      icon: <CommentOutlined />,
-      label: "Bình luận",
-    },
-    {
-      key: "7",
-      icon: <GiftOutlined />,
-      label: "Mã khuyến mãi",
+      icon: <HistoryOutlined />,
+      label: "Lịch sử giao dịch",
     },
   ];
   return (

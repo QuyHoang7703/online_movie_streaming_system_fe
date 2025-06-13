@@ -65,7 +65,9 @@ const CommentInput = ({
 
       <div className="comment-input-footer">
         <Space align="center">
-          <Avatar src={userAvatar} size={28} className="user-avatar-antd" />
+          {userAvatar && (
+            <Avatar src={userAvatar} size={28} className="user-avatar-antd" />
+          )}
 
           {/* {showSpoilerToggle && (
             <Checkbox

@@ -40,6 +40,8 @@ import PlanDurationPage from "@pages/user/PlanDurationPage";
 import PaymentSuccessPage from "@pages/user/PaymentSuccessPage";
 import PaymentErrorPage from "@pages/user/PaymentErrorPage";
 import SubscriptionOrderPage from "@pages/SubscriptionOrderPage";
+import TestStatistics from "@pages/TestStatistics";
+import StatisticsPage from "@pages/admin/StatisticsPage";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -156,6 +158,16 @@ const router = createBrowserRouter([
         element: (
           <RequireRole allowedRoles={"ADMIN"}>
             <VideoVersionManage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "/admin/statistics",
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <TestStatistics />
+            {/* <StatisticsPage /> */}
+            {/* <StatisticsDemo /> */}
           </RequireRole>
         ),
       },

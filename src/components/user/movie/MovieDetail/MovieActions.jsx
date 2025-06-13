@@ -36,11 +36,11 @@ const MovieActions = ({
           loading={isProcessing}
           onClick={() => toggleFavorite({ movieId, isFavorite })}
         />
-        <ActionButton
+        {/* <ActionButton
           icon={<PlusOutlined className="text-xl" />}
           text="Thêm vào"
           link="#"
-        />
+        /> */}
         <ActionButton
           icon={<MessageFilled className="text-xl" />}
           text="Bình luận"

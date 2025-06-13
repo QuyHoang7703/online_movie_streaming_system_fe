@@ -1,7 +1,28 @@
+// export const videoVersionTypes = {
+//   VOICEOVER: "Lồng tiếng",
+//   VIETSUB: "Phụ đề",
+//   DUBBED: "Thuyết minh",
+// };
+
 export const videoVersionTypes = {
-  VOICEOVER: "Lồng tiếng",
-  VIETSUB: "Phụ đề",
-  DUBBED: "Thuyết minh",
+  VOICEOVER: {
+    label: "Lồng tiếng",
+    colorBg: "bg-red-500/50",
+    colorText: "text-red-400",
+    icon: "LD",
+  },
+  VIETSUB: {
+    label: "Phụ đề",
+    colorBg: "bg-green-500/50",
+    colorText: "text-green-400",
+    icon: "CC",
+  },
+  DUBBED: {
+    label: "Thuyết minh",
+    colorBg: "bg-yellow-500/50",
+    colorText: "text-yellow-500",
+    icon: "TM",
+  },
 };
 
 export const VideoVersionMapper = {

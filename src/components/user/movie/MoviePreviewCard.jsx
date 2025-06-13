@@ -64,7 +64,7 @@ const MoviePreviewCard = ({
             icon={<HeartFilled />}
             size="middle"
             type="text"
-            className={`!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium !text-white hover:!bg-gray-700 ${movie.favorite ? "!text-mainUserColor-100" : ""}`}
+            className={`!flex !items-center !justify-center !border-2 !border-gray-700 !bg-gray-800/80 !font-medium hover:!bg-gray-700 ${movie.favorite ? "!text-mainUserColor-100" : "!text-white"}`}
             loading={isProcessing}
             onClick={() =>
               toggleFavorite({

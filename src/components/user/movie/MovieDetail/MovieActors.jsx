@@ -14,7 +14,7 @@ const MovieActors = ({ movieActors = [], isDetail = false }) => {
             : "grid-cols-3"
         }`}
       >
-        {movieActors.map((actor) => (
+        {(movieActors || []).map((actor) => (
           <Link
             to={`/dien-vien/${actor.actorId}`}
             key={actor.actorId}
