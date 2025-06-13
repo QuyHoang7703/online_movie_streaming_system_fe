@@ -10,8 +10,11 @@ const PaymentSummary = ({
   handlePayment,
   isPaymentSuccess = false,
   activeSubscription = null,
+  userInfo,
+  isAdmin = false,
 }) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const currentUserInfo = useSelector((state) => state.auth.userInfo);
+  const displayUserInfo = isAdmin ? userInfo : currentUserInfo;
 
   // Xác định ngày bắt đầu dựa vào gói hiện tại
   const startDate = activeSubscription?.data
@@ -24,9 +27,17 @@ const PaymentSummary = ({
         <h2 className="mb-1 text-xl font-bold text-gray-100">
           Thông tin thanh toán
         </h2>
-        <p className="mb-4 text-sm text-gray-400">
-          Cho tài khoản Emovie: {userInfo.email}
-        </p>
+        {isAdmin ? (
+          <div className="mb-4 space-y-2 text-sm text-gray-400">
+            <p>Email: {displayUserInfo?.email}</p>
+            <p>Tên: {displayUserInfo?.name}</p>
+            <p>Số điện thoại: {displayUserInfo?.phone || "Chưa cập nhật"}</p>
+          </div>
+        ) : (
+          <p className="mb-4 text-sm text-gray-400">
+            Cho tài khoản Emovie: {displayUserInfo?.email}
+          </p>
+        )}
 
         <div className="my-4 space-y-4 border-y border-gray-700 py-4">
           <div className="flex justify-between">
@@ -101,7 +112,7 @@ const PaymentSummary = ({
           <div className="flex justify-between">
             <span className="text-gray-300">Thời gian thanh toán</span>
             <span className="font-medium text-white">
-              {dayjs(planDuration?.createdAt).format("HH:mm DD/MM/YYYY")}
+              {dayjs(planDuration?.createAt).format("HH:mm DD/MM/YYYY")}
             </span>
           </div>
         )}
