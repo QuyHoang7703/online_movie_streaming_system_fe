@@ -42,6 +42,7 @@ import PaymentErrorPage from "@pages/user/PaymentErrorPage";
 import SubscriptionOrderPage from "@pages/SubscriptionOrderPage";
 import TestStatistics from "@pages/TestStatistics";
 import StatisticsPage from "@pages/admin/StatisticsPage";
+import SubscriptionOrdersForAdmin from "@pages/admin/SubscriptionOrdersForAdmin";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -168,6 +169,14 @@ const router = createBrowserRouter([
             <TestStatistics />
             {/* <StatisticsPage /> */}
             {/* <StatisticsDemo /> */}
+          </RequireRole>
+        ),
+      },
+      {
+        path: "/admin/transaction-history",
+        element: (
+          <RequireRole allowedRoles={"ADMIN"}>
+            <SubscriptionOrdersForAdmin />
           </RequireRole>
         ),
       },

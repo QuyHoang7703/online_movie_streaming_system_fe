@@ -1,26 +1,9 @@
 import { useGetSubscriptionOrdersQuery } from "@service/subscriptionOrderApi";
-import { Pagination } from "antd";
+import { Modal, Pagination } from "antd";
 import { useState } from "react";
-
-const mockData = [
-  {
-    id: 1,
-    subscriptionPlanName: "Gói Premium",
-    durationInMonths: 3,
-    price: 150000,
-    startDate: "2025-02-01",
-    endDate: "2025-05-01",
-  },
-  {
-    id: 2,
-    subscriptionPlanName: "Gói Cơ Bản",
-    durationInMonths: 1,
-    price: 50000,
-    startDate: "2025-01-01",
-    endDate: "2025-02-01",
-  },
-];
-
+import dayjs from "dayjs";
+import PaymentSummary from "@components/user/subscriptionPlan/PaymentSummary";
+import "@styles/styles.css";
 export default function SubscriptionOrderPage() {
   const [selected, setSelected] = useState(null);
   const { data: subscriptionOrdersResponse, isLoading } =
@@ -30,6 +13,18 @@ export default function SubscriptionOrderPage() {
     const now = new Date();
     const end = new Date(endDate);
     return end >= now ? "active" : "expired";
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOrderClick = (order) => {
+    setSelected(order);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelected(null);
   };
 
   const [pagination, setPagination] = useState({
@@ -70,7 +65,7 @@ export default function SubscriptionOrderPage() {
             <div
               key={plan.id}
               className="cursor-pointer rounded-xl border border-gray-700 bg-dark-100 p-4 hover:bg-gray-800"
-              onClick={() => setSelected(plan)}
+              onClick={() => handleOrderClick(plan)}
             >
               <div className="flex justify-between">
                 <span className="font-medium">{plan.subscriptionPlanName}</span>
@@ -99,6 +94,38 @@ export default function SubscriptionOrderPage() {
           className="custom-pagination"
         />
       </div>
+      <Modal
+        // title="Chi tiết thanh toán"
+        open={isModalOpen}
+        onCancel={handleCloseModal}
+        footer={null}
+        width={800}
+        className="ant-modal-header"
+      >
+        {selected && (
+          <PaymentSummary
+            subscriptionPlanName={selected.subscriptionPlanName}
+            planDuration={{
+              durationInMonths: selected.durationInMonths,
+              price: selected.price,
+              startDate: selected.startDate,
+              endDate: selected.endDate,
+              createAt: selected.createAt,
+            }}
+            formattedNextPaymentDate={dayjs(selected.endDate).format(
+              "DD/MM/YYYY",
+            )}
+            nowDate={dayjs(selected.startDate).format("DD/MM/YYYY")}
+            isPaymentSuccess={true}
+            userInfo={{
+              email: selected.email,
+              name: selected.name,
+              phone: selected.phone || "",
+            }}
+            isAdmin={true}
+          />
+        )}
+      </Modal>
     </div>
   );
 }

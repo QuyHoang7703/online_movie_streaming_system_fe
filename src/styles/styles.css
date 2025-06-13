@@ -161,3 +161,26 @@
 .video-version-tabs .ant-tabs-tab {
   @apply text-base hover:!text-white/80;
 }
+
+/* Đổi màu nền modal content */
+.ant-modal-content {
+  background: #232b36 !important; /* hoặc màu bạn muốn */
+  color: #fff; /* nếu muốn chữ trắng */
+  border-radius: 16px;
+}
+
+/* Đổi màu header nếu muốn */
+.ant-modal-header {
+  background: #232b36 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #333;
+}
+
+/* Đổi màu title nếu muốn */
+.ant-modal-title {
+  color: #fff !important;
+}
+
+.ant-modal-close-x {
+  color: white !important; /* Đặt màu của icon đóng thành trắng */
+}
