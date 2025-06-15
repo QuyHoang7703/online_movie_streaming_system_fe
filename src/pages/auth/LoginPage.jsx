@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import FormField from "@components/FormField";
 import { Button, App } from "antd";
 import InputField from "@components/InputField";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@service/rootApi";
 import { useNotification } from "@hooks/useNotification";
 import * as yup from "yup";
@@ -18,6 +18,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { showNotification } = useNotification();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const from = location.state?.fromUrl || "/";
   const onSubmit = async (formData) => {
     try {
       const result = await loginApi(formData).unwrap();
@@ -27,7 +29,7 @@ const LoginPage = () => {
       if (result.data.userInfo.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate(from, { replace: true }); // Sử dụng `from` ở đây
       }
     } catch (error) {
       showNotification("error", mapErrorMessage(error?.data?.message));

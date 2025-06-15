@@ -8,7 +8,13 @@ import { Button } from "antd";
 import { Link } from "react-router-dom";
 import MovieCard from "@components/user/movie/MovieCard";
 
-const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
+const HotMovieSection = ({
+  movies,
+  title,
+  viewAllLink,
+  type = "series",
+  variant = "hot",
+}) => {
   const containerRef = useRef(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -68,7 +74,7 @@ const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
   };
 
   return (
-    <div className="mt-10 px-2 sm:px-4 md:px-6">
+    <div className="mt-10 px-2 sm:px-6 md:px-8">
       <div className="rounded-lg p-3 sm:p-4 md:p-5">
         {/* Header */}
         <div className="mb-5 flex items-center justify-between">
@@ -95,7 +101,7 @@ const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
             <button
               onClick={handlePrevious}
               disabled={isAnimating}
-              className="absolute left-0 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70 disabled:opacity-50 sm:h-10 sm:w-10"
+              className="absolute -left-12 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-gray-400 text-white transition-colors hover:bg-gray-500 disabled:opacity-50 sm:h-10 sm:w-10"
               aria-label="Previous movies"
             >
               <LeftOutlined />
@@ -119,7 +125,7 @@ const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
                   movie={movie}
                   rank={startIndex + index + 1}
                   index={startIndex + index}
-                  variant="hot"
+                  variant={variant}
                 />
               </div>
             ))}
@@ -130,7 +136,7 @@ const HotMovieSection = ({ movies, title, viewAllLink, type = "series" }) => {
             <button
               onClick={handleNext}
               disabled={isAnimating}
-              className="absolute right-0 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70 disabled:opacity-50 sm:h-10 sm:w-10"
+              className="absolute -right-12 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-gray-400 text-white transition-colors hover:bg-gray-500 disabled:opacity-50 sm:h-10 sm:w-10"
               aria-label="Next movies"
             >
               <RightOutlined />

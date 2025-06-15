@@ -127,7 +127,7 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
               <button
                 onClick={handlePrevious}
                 disabled={isAnimating}
-                className="absolute left-0 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70 disabled:opacity-50 sm:h-8 sm:w-8 md:h-9 md:w-9"
+                className="absolute -left-11 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-gray-400 text-white transition-colors hover:bg-gray-500 disabled:opacity-50 sm:h-8 sm:w-8 md:h-9 md:w-9"
                 aria-label="Previous movies"
               >
                 <LeftOutlined />
@@ -139,7 +139,7 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
               <button
                 onClick={handleNext}
                 disabled={isAnimating}
-                className="absolute right-0 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70 disabled:opacity-50 sm:h-8 sm:w-8 md:h-9 md:w-9"
+                className="absolute -right-11 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-gray-400 text-white transition-colors hover:bg-gray-500 disabled:opacity-50 sm:h-8 sm:w-8 md:h-9 md:w-9"
                 aria-label="Next movies"
               >
                 <RightOutlined />

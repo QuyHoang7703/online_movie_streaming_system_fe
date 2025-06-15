@@ -15,6 +15,7 @@ const CommentInput = ({
   parentCommentId = null,
   width = "100%",
   handleShowRepliesAfterSubmit,
+  onCommentSubmitted,
 }) => {
   const [comment, setComment] = useState("");
   const [createComment, { isLoading }] = useCreateCommentMutation();
@@ -37,7 +38,13 @@ const CommentInput = ({
       if (parentCommentId && handleShowRepliesAfterSubmit) {
         handleShowRepliesAfterSubmit();
       }
-    } catch {
+
+      // RTK Query sẽ tự động refetch comments thông qua invalidatesTags
+      if (onCommentSubmitted) {
+        onCommentSubmitted();
+      }
+    } catch (error) {
+      console.error("Failed to create comment", error);
       showNotification("error", "Bạn phải đăng nhập để bình luận");
     }
   };

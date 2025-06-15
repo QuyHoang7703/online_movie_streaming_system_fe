@@ -1,5 +1,11 @@
 import { Layout, Menu, Grid } from "antd";
-import { HeartFilled, HistoryOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  EyeOutlined,
+  HeartFilled,
+  HistoryOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import { useMemo } from "react";
 
@@ -33,6 +39,13 @@ const AccountManagePage = () => {
       icon: <HistoryOutlined />,
       label: (
         <Link to="/user/profile/subscription-orders">Lịch sử giao dịch</Link>
+      ),
+    },
+    {
+      key: "4",
+      icon: <EyeOutlined />,
+      label: (
+        <Link to="/user/profile/subscription-orders">Lịch sử xem phim</Link>
       ),
     },
   ];

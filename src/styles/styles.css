@@ -184,3 +184,13 @@
 .ant-modal-close-x {
   color: white !important; /* Đặt màu của icon đóng thành trắng */
 }
+
+.ant-rate-star-zero .anticon {
+  color: #cccccc !important; /* Màu xám bạn muốn (ví dụ: #cccccc) */
+  /* Sử dụng !important nếu cần để ghi đè các style mặc định của Ant Design */
+}
+
+/* Nếu bạn muốn tùy chỉnh màu cho toàn bộ sao khi di chuột qua */
+.ant-rate-star:hover .anticon {
+  color: #ffc107; /* Ví dụ: trở lại màu vàng khi hover */
+}
