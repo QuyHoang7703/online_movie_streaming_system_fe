@@ -19,7 +19,7 @@ const ImageWithPlaceholder = ({ src, alt, className, preview = false }) => {
         </div>
       )}
       <Image
-        src={src}
+        src={src ? src : "https://placehold.co/300x400?text=Loading"}
         alt={alt}
         preview={preview}
         className={loaded ? "h-full w-full object-cover" : "opacity-0"}

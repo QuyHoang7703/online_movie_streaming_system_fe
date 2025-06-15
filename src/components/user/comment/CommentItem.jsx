@@ -17,6 +17,7 @@ const CommentItem = ({
   replies = [],
   movieId,
   onLike,
+  onNewReply,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
@@ -43,6 +44,8 @@ const CommentItem = ({
     setShowReplies(true);
     setShowCommentInput(false);
   };
+
+  // Loại bỏ logic thêm reply thủ công, RTK Query sẽ tự động refetch
 
   return (
     <div className="comment-item-antd">
@@ -116,8 +119,13 @@ const CommentItem = ({
 
       {showReplies && (
         <div className="comment-replies-antd">
-          {safeReplies.map((reply, index) => (
-            <CommentItem key={index} movieId={movieId} {...reply} />
+          {safeReplies.map((reply) => (
+            <CommentItem
+              key={reply.commentId}
+              movieId={movieId}
+              {...reply}
+              onNewReply={onNewReply}
+            />
           ))}
         </div>
       )}

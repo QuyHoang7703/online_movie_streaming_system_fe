@@ -11,7 +11,13 @@ import {
 } from "@ant-design/icons";
 import CategoryDropdown from "@components/common/CategoryDropdown";
 import { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import useLogout from "@hooks/useLogout";
 import UserDropdown from "@components/UserDropdown";
@@ -28,6 +34,7 @@ const { Header } = Layout;
 const UserHeader = () => {
   const [scrolled, setScrolled] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const location = useLocation();
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -173,14 +180,7 @@ const UserHeader = () => {
           <img src="/emovie-logo.png" alt="emovie-logo" className="h-[20px]" />
         </div>
       </Link>
-      {/* <Input
-        placeholder="Tìm kiếm phim, diễn viên"
-        className="!w-1/4 !rounded !border-none !bg-[#323D4E] !px-3 !py-2 font-medium !text-white"
-        prefix={<SearchOutlined className="text-white/70" />}
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        onKeyDown={handleSearch}
-      /> */}
+
       <InputSearch onKeyDown={handleSearch} />
       <nav className="ml-9 hidden lg:block">
         <ul className="m-0 flex list-none gap-8 p-0 font-medium">
@@ -263,7 +263,12 @@ const UserHeader = () => {
             className="text-dark-200 hover:!text-dark-300"
             // className="!flex !h-8 !items-center !justify-center !rounded !border-mainColor !bg-transparent !px-4 !text-mainColor hover:!border-mainColor hover:!bg-mainColor/10 hover:!text-mainColor"
           >
-            <Link to="/login">Đăng nhập</Link>
+            <Link
+              to="/login"
+              state={{ fromUrl: location.pathname + location.search }}
+            >
+              Đăng nhập
+            </Link>
           </Button>
         </div>
       )}

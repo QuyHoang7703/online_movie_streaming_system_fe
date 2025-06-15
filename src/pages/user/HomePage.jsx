@@ -7,9 +7,15 @@ import {
   useGetFeatureMoviesQuery,
   useGetHotMoviesByFilterQuery,
 } from "@service/homePageApi";
+import { useSelector } from "react-redux";
+import { useGetRecommendationMoviesByNeuMFMutation } from "@service/admin/movieApi";
+import { useEffect } from "react";
+
 const { Content } = Layout;
 
 const HomePage = () => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
+
   const { data: koreanMoviesResponse } = useGetHotMoviesByFilterQuery({
     size: 10,
     country: "South Korea",
@@ -32,11 +38,30 @@ const HomePage = () => {
   const { data: movieFeatureResponse } = useGetFeatureMoviesQuery({
     size: 6,
   });
+  const [
+    getRecommendationMoviesByNeuMF,
+    { data: recommendMoviesResponse, isSuccess },
+  ] = useGetRecommendationMoviesByNeuMFMutation();
+
+  useEffect(() => {
+    if (userInfo?.id) {
+      getRecommendationMoviesByNeuMF({ user_id: userInfo?.id });
+    }
+  }, [userInfo?.id, getRecommendationMoviesByNeuMF]);
 
   return (
     <div className="relative">
       {/* Feature movie */}
       <FeatureMovie movies={movieFeatureResponse?.data?.result || []} />
+
+      {/* Top 10 phim bộ */}
+      {isSuccess && (
+        <HotMovieSection
+          movies={recommendMoviesResponse?.data || []}
+          title="Các bộ phim được đề xuất"
+          variant="default"
+        />
+      )}
 
       <div className="mx-auto max-w-full pt-8 lg:max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px]">
         {/* Phân loại phim theo quốc gia */}

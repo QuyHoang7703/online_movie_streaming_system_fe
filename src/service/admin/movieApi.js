@@ -45,10 +45,17 @@ export const movieApi = rootApi.injectEndpoints({
       }),
     }),
     getRecommendationMovies: builder.mutation({
-      query: ({ title, user_id, tmdb_id, num_recommendations }) => ({
+      query: ({ title, user_id, tmdb_id, num_recommendations, movieType }) => ({
         url: "/user/movies/recommend",
         method: "POST",
-        body: { title, user_id, tmdb_id, num_recommendations },
+        body: { title, user_id, tmdb_id, num_recommendations, movieType },
+      }),
+    }),
+    getRecommendationMoviesByNeuMF: builder.mutation({
+      query: ({ user_id }) => ({
+        url: "/user/movies/recommend-for-user",
+        method: "POST",
+        body: { user_id },
       }),
     }),
   }),
@@ -61,4 +68,5 @@ export const {
   useGetMovieForUserQuery,
   useLazyCanUserWatchMovieQuery,
   useGetRecommendationMoviesMutation,
+  useGetRecommendationMoviesByNeuMFMutation,
 } = movieApi;

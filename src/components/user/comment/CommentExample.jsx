@@ -18,14 +18,36 @@ const CommentExample = ({ movieId }) => {
     setPage((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      setCommentsOfMovie((prev) => [
-        ...prev,
-        ...commentsOfMovieResponse.data.result,
-      ]);
+  // Reset về page 1 khi có comment mới (RTK Query sẽ tự động refetch)
+  const handleCommentCreated = () => {
+    if (page !== 1) {
+      setPage(1);
+      setCommentsOfMovie([]); // Clear current comments để tránh hiển thị cũ
     }
-  }, [commentsOfMovieResponse, isSuccess, setCommentsOfMovie]);
+  };
+
+  useEffect(() => {
+    if (isSuccess && commentsOfMovieResponse?.data?.result) {
+      const newComments = commentsOfMovieResponse.data.result;
+
+      setCommentsOfMovie((prev) => {
+        // Reset lại danh sách khi page = 1 (comment mới được tạo)
+        if (page === 1) {
+          return newComments;
+        }
+
+        // Tạo một Set chứa các commentId đã có để kiểm tra trùng lặp nhanh hơn
+        const existingIds = new Set(prev.map((comment) => comment.commentId));
+
+        // Chỉ thêm những comment chưa tồn tại
+        const uniqueNewComments = newComments.filter(
+          (comment) => !existingIds.has(comment.commentId),
+        );
+
+        return [...prev, ...uniqueNewComments];
+      });
+    }
+  }, [commentsOfMovieResponse, isSuccess, page]);
 
   // const currentUserAvatar =
   //   "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
@@ -40,6 +62,7 @@ const CommentExample = ({ movieId }) => {
         placeholder="Viết bình luận"
         maxLength={1000}
         movieId={movieId}
+        onCommentSubmitted={handleCommentCreated}
       />
 
       {commentsOfMovie.map((comment) => (

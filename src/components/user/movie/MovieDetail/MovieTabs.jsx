@@ -50,11 +50,12 @@ const MovieTabs = ({ movieDetail, setChosenEpisode }) => {
     getRecommendationMovies,
     { data: recommendationResponse, isSuccess, isError, isLoading },
   ] = useGetRecommendationMoviesMutation();
-
+  console.log({ movieDetail });
   useEffect(() => {
     if (movieDetail?.title) {
       getRecommendationMovies({
         title: movieDetail.title,
+        movieType: movieDetail.movieType,
         user_id: userInfo?.id,
         tmdb_id: movieDetail.tmdbId,
         num_recommendations: 15,
