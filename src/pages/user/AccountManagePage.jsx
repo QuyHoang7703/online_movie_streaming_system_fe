@@ -44,9 +44,7 @@ const AccountManagePage = () => {
     {
       key: "4",
       icon: <EyeOutlined />,
-      label: (
-        <Link to="/user/profile/subscription-orders">Lịch sử xem phim</Link>
-      ),
+      label: <Link to="/user/profile/history-view">Lịch sử xem phim</Link>,
     },
   ];
 

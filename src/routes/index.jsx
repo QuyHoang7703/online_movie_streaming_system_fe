@@ -43,6 +43,7 @@ import SubscriptionOrderPage from "@pages/SubscriptionOrderPage";
 import TestStatistics from "@pages/TestStatistics";
 import StatisticsPage from "@pages/admin/StatisticsPage";
 import SubscriptionOrdersForAdmin from "@pages/admin/SubscriptionOrdersForAdmin";
+import HistoryView from "@pages/user/HistoryView";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -247,6 +248,10 @@ const router = createBrowserRouter([
           {
             path: "/user/profile/subscription-orders",
             element: <SubscriptionOrderPage />,
+          },
+          {
+            path: "/user/profile/history-view",
+            element: <HistoryView />,
           },
         ],
       },

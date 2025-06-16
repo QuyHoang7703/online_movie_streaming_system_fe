@@ -21,6 +21,12 @@ export const userInteractionApi = rootApi.injectEndpoints({
         body: { ratingValue, movieId },
       }),
     }),
+    getHistoryView: builder.query({
+      query: ({ page = 1, size = 20 }) => ({
+        url: `/user-interactions/history-view`,
+        params: { page, size },
+      }),
+    }),
   }),
 });
 
@@ -28,4 +34,5 @@ export const {
   useGetUserInteractionQuery,
   useCreateUserInteractionMutation,
   useUpdateUserInteractionMutation,
+  useGetHistoryViewQuery,
 } = userInteractionApi;

@@ -46,6 +46,7 @@ const HomePage = () => {
   useEffect(() => {
     if (userInfo?.id) {
       getRecommendationMoviesByNeuMF({ user_id: userInfo?.id });
+      console.log({ userInfo });
     }
   }, [userInfo?.id, getRecommendationMoviesByNeuMF]);
 
