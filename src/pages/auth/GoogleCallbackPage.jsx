@@ -37,7 +37,7 @@ const GoogleCallbackPage = () => {
       hideLoading();
       dispatch(saveUserInfo(response?.data?.userInfo));
       showNotification("success", response?.message || "Đăng nhập thành công");
-      navigate("/admin", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [isSuccess, response, navigate]);
 

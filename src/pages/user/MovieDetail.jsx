@@ -3,12 +3,9 @@ import MovieActors from "@components/user/movie/MovieDetail/MovieActors";
 
 import MovieInformation from "@components/user/movie/MovieDetail/MovieInformation";
 import MovieTabs from "@components/user/movie/MovieDetail/MovieTabs";
-import { useGetSeriesMovieDetailQuery } from "@service/admin/seriesMovieApi";
-import { useGetStandaloneMovieDetailQuery } from "@service/admin/standaloneMovieApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLoading } from "@context/LoadingContext";
-import { movieTypeUrlMapper } from "@consts/movieTypeUrlMapper";
 import { useGetMovieDetail } from "@hooks/useGetMovieDetail";
 import CommentExample from "@components/user/comment/CommentExample";
 
@@ -75,7 +72,7 @@ const MovieDetail = () => {
               setChosenEpisode={setChosenEpisode}
             />
           </div>
-          <div className="mt-8">
+          <div className="mt-8" id="comment-section">
             <CommentExample movieId={movieId} />
           </div>
         </div>

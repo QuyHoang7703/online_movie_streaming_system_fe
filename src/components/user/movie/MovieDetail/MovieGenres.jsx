@@ -1,6 +1,6 @@
 const MovieGenres = ({ genres }) => {
   return (
-    <div className="mb-3 flex items-center gap-4">
+    <div className="mb-3 flex flex-wrap items-center gap-4">
       {(genres || []).map((genre) => (
         <span
           className="whitespace-nowrap rounded-md border-2 border-white/30 bg-gray-500/30 p-1 text-[0.8vw] text-white hover:text-mainColor"

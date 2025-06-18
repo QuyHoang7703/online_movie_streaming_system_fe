@@ -2,7 +2,9 @@ import { FilterFilled } from "@ant-design/icons";
 import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 import { useGetCountriesQuery } from "@service/admin/countryApi";
 import { useGetAllGenresQuery } from "@service/admin/genresApi";
+import { useGetSubscriptionPlansForFilterQuery } from "@service/admin/subscriptionPlanApi";
 import { Button } from "antd";
+import { useSelector } from "react-redux";
 
 const movieTypes = [
   { label: "Tất cả", value: "Tất cả" },
@@ -19,9 +21,13 @@ const MovieFilter = ({
   setSelectedMovieType,
   isVisibleFilter,
   setIsVisibleFilter,
+  selectedSubscriptionPlanId,
+  setSelectedSubscriptionPlanId,
 }) => {
   const countriesResponse = useGetCountriesQuery();
   const genresResponse = useGetAllGenresQuery();
+  const subscriptionPlansResponse = useGetSubscriptionPlansForFilterQuery();
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const handleFilterClick = () => {
     setIsVisibleFilter((prev) => !prev);
@@ -65,6 +71,10 @@ const MovieFilter = ({
         }
       });
     }
+  };
+
+  const handleSubscriptionPlanClick = (subscriptionPlanId) => {
+    setSelectedSubscriptionPlanId(subscriptionPlanId);
   };
 
   return (
@@ -151,6 +161,34 @@ const MovieFilter = ({
               </div>
             </div>
 
+            {userInfo?.role === "ADMIN" && (
+              <div className="ml-10 flex items-center gap-4 p-5">
+                <div className="flex items-start gap-4">
+                  <div className="min-w-[90px] pt-2 font-semibold text-slate-100">
+                    Gói đăng ký
+                  </div>
+                  <div className="flex flex-wrap gap-3 text-slate-300">
+                    {(subscriptionPlansResponse?.data?.data || []).map(
+                      (subscriptionPlan) => (
+                        <div
+                          key={subscriptionPlan.id}
+                          onClick={() =>
+                            handleSubscriptionPlanClick(subscriptionPlan.id)
+                          }
+                          className={`cursor-pointer rounded p-2 transition ${
+                            selectedSubscriptionPlanId === subscriptionPlan.id
+                              ? "border-[0.5px] border-slate-500 bg-[#112233] text-[#f9d373]"
+                              : "hover:text-[#f9d373]"
+                          }`}
+                        >
+                          {subscriptionPlan.name}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
             {/* <div className="ml-10 flex items-center gap-4">
               <Button
                 className="!bg-mainUserColor-100 p-3 font-semibold text-black hover:bg-mainUserColor-100 hover:!text-gray-800"

@@ -35,7 +35,7 @@ const EpisodeListForUser = ({
               className={`border-none p-5 ${
                 isCurrentEpisode
                   ? "bg-mainColor text-white hover:!bg-mainColorHover hover:!text-white"
-                  : "bg-dark-100 text-white hover:!bg-dark-100 hover:!text-mainUserColor-200"
+                  : "w-24 bg-dark-100 text-white hover:!bg-dark-100 hover:!text-mainUserColor-200"
               }`}
               icon={<CaretRightFilled />}
               onClick={() =>

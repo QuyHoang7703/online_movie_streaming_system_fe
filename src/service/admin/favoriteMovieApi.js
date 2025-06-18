@@ -8,9 +8,10 @@ export const favoriteMovieApi = rootApi.injectEndpoints({
         method: "POST",
         params: { movieId },
       }),
-      invalidatesTags: (result, error, { movieId }) => [
+      invalidatesTags: (result, error, movieId) => [
         { type: "MoviesUser", id: "List" },
         { type: "MovieDetail", id: movieId },
+        { type: "HomePageMovies", id: "List" },
       ],
     }),
     removeFavoriteMovie: builder.mutation({
@@ -18,9 +19,10 @@ export const favoriteMovieApi = rootApi.injectEndpoints({
         url: `/favorite-movies/${movieId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, { movieId }) => [
+      invalidatesTags: (result, error, movieId) => [
         { type: "MoviesUser", id: "List" },
         { type: "MovieDetail", id: movieId },
+        { type: "HomePageMovies", id: "List" },
       ],
     }),
     getFavoriteMovies: builder.query({

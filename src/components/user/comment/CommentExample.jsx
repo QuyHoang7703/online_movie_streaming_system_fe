@@ -55,7 +55,7 @@ const CommentExample = ({ movieId }) => {
   console.log({ userInfo_comment: userInfo });
   return (
     <div className="min-h-screen bg-dark-400 p-5">
-      <p className="mb-3 text-lg font-medium">Bình luận: </p>
+      <p className="mb-3 text-lg font-medium text-white">Bình luận: </p>
 
       <CommentInput
         userAvatar={userInfo?.avatarUrl}

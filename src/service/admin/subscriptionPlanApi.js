@@ -55,6 +55,11 @@ export const subscriptionPlanApi = rootApi.injectEndpoints({
         url: `user/movies/${movieId}/subscription-plans`,
       }),
     }),
+    getSubscriptionPlansForFilter: builder.query({
+      query: () => ({
+        url: "subscription-plans/filters",
+      }),
+    }),
   }),
 });
 
@@ -66,4 +71,5 @@ export const {
   useUpdateSubscriptionPlanMutation,
   useDeleteSubscriptionPlanMutation,
   useGetSubscriptionPlansForMovieQuery,
+  useGetSubscriptionPlansForFilterQuery,
 } = subscriptionPlanApi;

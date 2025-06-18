@@ -4,13 +4,13 @@ const ActionButton = ({
   icon,
   text,
   link,
-  isProcessing,
+  loading,
   onClick,
   className = "",
 }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    if (!isProcessing && onClick) {
+    if (!loading && onClick) {
       onClick();
     }
   };
@@ -21,7 +21,7 @@ const ActionButton = ({
         className={`flex flex-col items-center gap-2 hover:text-mainUserColor-200 ${className}`}
       >
         {icon}
-        <span>{text}</span>
+        <span>{loading ? "Đang xử lý..." : text}</span>
       </Link>
     </div>
   );

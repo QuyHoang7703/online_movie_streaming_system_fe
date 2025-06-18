@@ -1,9 +1,10 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import RowMovieCard from "./RowMovieCard";
 
-const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
+const HotMovieByCountry = ({ title, movies, viewAllLink = "#", country }) => {
+  const navigate = useNavigate();
   // State quản lý số phim hiển thị
   const [visibleMoviesCount, setVisibleMoviesCount] = useState(3);
   const [startIndex, setStartIndex] = useState(0);
@@ -79,6 +80,19 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
     }
   };
 
+  // Xử lý khi click "Xem toàn bộ"
+  const handleViewAll = () => {
+    if (country) {
+      // Navigate to movie list with country filter
+      navigate(`/phim?country=${encodeURIComponent(country)}`, {
+        state: { fromUrl: true },
+      });
+    } else {
+      // Fallback to original viewAllLink if no country provided
+      navigate(viewAllLink);
+    }
+  };
+
   return (
     <div className="mb-6 px-2 sm:mb-8 sm:px-4 md:mb-10 md:px-6">
       <div
@@ -89,19 +103,16 @@ const HotMovieByCountry = ({ title, movies, viewAllLink = "#" }) => {
         }
       >
         {/* Title and view all link - left column - hidden on small screens */}
-        {/* {showTitleSection && (
-        
-        )} */}
         <div className="hidden flex-col justify-center sm:flex">
           <p className="mb-2 text-xl font-bold text-mainColor sm:text-2xl md:mb-3">
             {title}
           </p>
-          <Link
-            to={viewAllLink}
+          <button
+            onClick={handleViewAll}
             className="flex items-center gap-1 text-xs text-gray-400 transition-colors duration-200 hover:text-mainColor sm:text-sm"
           >
             Xem toàn bộ <RightOutlined className="text-[10px] sm:text-xs" />
-          </Link>
+          </button>
         </div>
 
         {/* Movie list - right column (takes full width on small screens) */}

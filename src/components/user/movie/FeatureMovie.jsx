@@ -1,15 +1,18 @@
 import { HeartOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { Button, Image, Tag } from "antd";
+import { Button } from "antd";
 import { useState, useEffect } from "react";
 import WatchButton from "@components/user/movie/WatchButton";
 import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import MovieTags from "@components/user/movie/MovieDetail/MovieTags";
-import MovieActions from "@components/user/movie/MovieDetail/MovieActions";
-import LoveMovie from "@components/user/movie/LoveMovie";
+
+import { useFavoriteMovie } from "@hooks/useFavoriteMovie";
+import { useNavigate } from "react-router-dom";
+import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 
 const FeatureMovie = ({ movies }) => {
   const [currentMovie, setCurrentMovie] = useState(null);
-
+  const { toggleFavorite, isProcessing } = useFavoriteMovie();
+  const navigate = useNavigate();
   // Set first movie as default when movies prop changes
   useEffect(() => {
     if (movies && movies.length > 0) {
@@ -24,6 +27,8 @@ const FeatureMovie = ({ movies }) => {
 
   const handleThumbnailClick = (movie) => {
     setCurrentMovie(movie);
+    console.log({ movie });
+    1;
   };
 
   return (
@@ -91,7 +96,7 @@ const FeatureMovie = ({ movies }) => {
                 // setChosenEpisode={setChosenEpisode}
                 variant="action"
                 movieType={currentMovie.movieType}
-                movieId={currentMovie.movieId}
+                movieId={currentMovie.id}
               />
 
               <Button
@@ -99,15 +104,27 @@ const FeatureMovie = ({ movies }) => {
                 size="large"
                 type="text"
                 shape="circle"
-                className="!flex !h-14 !w-14 !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
+                className={`!flex !h-14 !w-14 !items-center !justify-center !bg-gray-800/80 hover:!bg-gray-700 ${currentMovie.favorite ? "!text-mainUserColor-200" : "!text-white"}`}
+                loading={isProcessing}
+                onClick={() =>
+                  toggleFavorite({
+                    movieId: currentMovie.id,
+                    isFavorite: currentMovie.favorite,
+                  })
+                }
               />
-              {/* <LoveMovie movie={currentMovie} /> */}
+
               <Button
                 icon={<InfoCircleOutlined />}
                 size="large"
                 type="text"
                 shape="circle"
                 className="!flex !h-14 !w-14 !items-center !justify-center !bg-gray-800/80 !text-white hover:!bg-gray-700"
+                onClick={() =>
+                  navigate(
+                    `/${movieTypeUrlMapperReverse[currentMovie.movieType]}/${currentMovie.id}`,
+                  )
+                }
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { InfoCircleFilled } from "@ant-design/icons";
 import MovieGenres from "@components/user/movie/MovieDetail/MovieGenres";
 import MovieTags from "@components/user/movie/MovieDetail/MovieTags";
+import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
 import { convertMinutesToHourMinute } from "@utils/timeUtils";
 import { Link } from "react-router-dom";
@@ -52,7 +53,9 @@ const MovieInformation = ({ movieDetail, layout = "vertical" }) => {
         <>
           <div>
             <p className="mb-3 text-base font-medium">Giới thiệu: </p>
-            <p className="text-gray-500">{movieDetail.description}</p>
+            <p className="text-gray-500">
+              {movieDetail.description || "Đang cập nhật"}
+            </p>
           </div>
           <p>
             <span className="min-w-5 font-medium">Thời lượng: </span>{" "}
@@ -63,13 +66,15 @@ const MovieInformation = ({ movieDetail, layout = "vertical" }) => {
           <p>
             <span className="min-w-5 font-medium">Quốc gia: </span>{" "}
             <span className="font-light text-white">
-              {movieDetail.countries?.map((country) => country.name).join(", ")}
+              {movieDetail.countries
+                ?.map((country) => COUNTRY_NAME_MAP[country.name])
+                .join(", ")}
             </span>
           </p>
           <p>
             <span className="min-w-5 font-medium">Đạo diễn: </span>{" "}
             <span className="font-light text-white">
-              {movieDetail.director}
+              {movieDetail.director || "Đang cập nhật"}
             </span>
           </p>
         </>
@@ -78,7 +83,9 @@ const MovieInformation = ({ movieDetail, layout = "vertical" }) => {
       {isHorizontal && (
         <div className="mt-2">
           <p className="mb-2 text-base font-medium">Giới thiệu: </p>
-          <p className="mb-4 text-gray-500">{movieDetail.description}</p>
+          <p className="mb-4 text-gray-500">
+            {movieDetail.description || "Đang cập nhật"}
+          </p>
           <Link
             to={`/${movieTypeUrlMapperReverse[movieDetail.movieType]}/${movieDetail.id}`}
             className="text-mainUserColor-100"

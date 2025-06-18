@@ -55,7 +55,7 @@ const VideoVersionForSeriesMovie = ({ videoVersions, movieDetail }) => {
     };
 
     loadAllEpisodes();
-  }, [videoVersions, episodeId]);
+  }, [videoVersions, episodeId, setActiveTabKey]);
 
   const tabItems = videoVersions.map((videoVersion) => ({
     key: videoVersion.id,

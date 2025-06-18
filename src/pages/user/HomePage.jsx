@@ -8,7 +8,10 @@ import {
   useGetHotMoviesByFilterQuery,
 } from "@service/homePageApi";
 import { useSelector } from "react-redux";
-import { useGetRecommendationMoviesByNeuMFMutation } from "@service/admin/movieApi";
+import {
+  useGetMovieForUserQuery,
+  useGetRecommendationMoviesByNeuMFMutation,
+} from "@service/admin/movieApi";
 import { useEffect } from "react";
 
 const { Content } = Layout;
@@ -17,26 +20,31 @@ const HomePage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const { data: koreanMoviesResponse } = useGetHotMoviesByFilterQuery({
-    size: 10,
+    size: 15,
     country: "South Korea",
   });
   console.log({ koreanMoviesResponse });
   const { data: chineseMoviesResponse } = useGetHotMoviesByFilterQuery({
-    size: 10,
+    size: 15,
     country: "China",
   });
   const { data: usMoviesResponse } = useGetHotMoviesByFilterQuery({
-    size: 10,
+    size: 15,
     country: "United States",
   });
 
   const { data: standaloneMoviesResponse } = useGetHotMoviesByFilterQuery({
-    size: 10,
+    size: 15,
     movieType: "STANDALONE",
   });
 
   const { data: movieFeatureResponse } = useGetFeatureMoviesQuery({
     size: 6,
+  });
+
+  const { data: animeMoviesResponse } = useGetMovieForUserQuery({
+    size: 15,
+    genreNames: "Kinh dị",
   });
   const [
     getRecommendationMoviesByNeuMF,
@@ -56,7 +64,7 @@ const HomePage = () => {
       <FeatureMovie movies={movieFeatureResponse?.data?.result || []} />
 
       {/* Top 10 phim bộ */}
-      {isSuccess && (
+      {isSuccess && recommendMoviesResponse?.data?.length > 0 && (
         <HotMovieSection
           movies={recommendMoviesResponse?.data || []}
           title="Các bộ phim được đề xuất"
@@ -73,6 +81,7 @@ const HomePage = () => {
               title="Phim Hàn Quốc mới"
               movies={koreanMoviesResponse?.data?.result || []}
               viewAllLink="/quoc-gia/han-quoc"
+              country="South Korea"
             />
 
             {/* Phim Trung Quốc Mới */}
@@ -80,6 +89,7 @@ const HomePage = () => {
               title="Phim Trung Quốc mới"
               movies={chineseMoviesResponse?.data?.result || []}
               viewAllLink="/quoc-gia/trung-quoc"
+              country="China"
             />
 
             {/* Phim Mỹ Mới */}
@@ -87,6 +97,7 @@ const HomePage = () => {
               title="Phim Mỹ mới"
               movies={usMoviesResponse?.data?.result || []}
               viewAllLink="/quoc-gia/my"
+              country="United States"
             />
           </div>
         </div>
@@ -102,6 +113,12 @@ const HomePage = () => {
           movies={standaloneMoviesResponse?.data?.result || []}
           title="Top 10 phim lẻ đặc sắc"
           viewAllLink="/phim-le"
+        />
+
+        <HotMovieSection
+          movies={animeMoviesResponse?.data?.result || []}
+          title="Phim kinh dị đặc sắc"
+          viewAllLink="/phim?genre=Kinh Dị"
         />
       </div>
     </div>

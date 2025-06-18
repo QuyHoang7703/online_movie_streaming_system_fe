@@ -11,6 +11,7 @@ export const homePageApi = rootApi.injectEndpoints({
           country,
         },
       }),
+      providesTags: [{ type: "HomePageMovies", id: "List" }],
     }),
     getFeatureMovies: builder.query({
       query: ({ size = 6 }) => ({
@@ -19,6 +20,7 @@ export const homePageApi = rootApi.injectEndpoints({
           size,
         },
       }),
+      providesTags: [{ type: "HomePageMovies", id: "List" }],
     }),
   }),
 });

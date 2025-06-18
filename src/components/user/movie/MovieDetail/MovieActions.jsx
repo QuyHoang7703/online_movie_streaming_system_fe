@@ -41,10 +41,10 @@ const MovieActions = ({
     }
   }, [userInteractionResponse, setCurrentRating]);
 
-  const [createUserInteraction, { isLoading: isCreating }] =
+  const [createUserInteraction, { isLoading: _isCreating }] =
     useCreateUserInteractionMutation();
 
-  const [updateUserInteraction, { isLoading: isUpdating }] =
+  const [updateUserInteraction, { isLoading: _isUpdating }] =
     useUpdateUserInteractionMutation();
 
   // Hàm xử lý khi người dùng thay đổi đánh giá trên Rate (sẽ kích hoạt modal)
@@ -53,8 +53,6 @@ const MovieActions = ({
 
     setIsModalVisible(true); // Hiển thị Modal
   };
-
-  // Hàm xử lý khi người dùng nhấn "Đồng ý" trong Modal
 
   // Hàm xử lý khi người dùng nhấn "Đồng ý" trong Modal
   const handleOk = async () => {
@@ -76,7 +74,7 @@ const MovieActions = ({
       }
       showNotification("success", response.message); // Sử dụng response.message
       setCurrentRating(tempRating); // Cập nhật rating hiển thị ngay sau khi thành công
-    } catch (error) {
+    } catch {
       // Đảm bảo rằng bạn truy cập đúng thuộc tính message của error
       showNotification("error", "Bạn cần đăng nhập để đánh giá phim");
     } finally {
@@ -87,6 +85,17 @@ const MovieActions = ({
   // Hàm xử lý khi người dùng nhấn "Hủy" hoặc đóng Modal
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  // Hàm xử lý scroll đến phần bình luận
+  const handleScrollToComment = () => {
+    const commentSection = document.getElementById("comment-section");
+    if (commentSection) {
+      commentSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
@@ -113,6 +122,7 @@ const MovieActions = ({
             icon={<MessageFilled className="text-xl" />}
             text="Bình luận"
             link="#"
+            onClick={handleScrollToComment}
           />
         </div>
       </div>

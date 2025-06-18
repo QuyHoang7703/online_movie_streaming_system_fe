@@ -1,5 +1,6 @@
 import ScrollToTop from "@components/common/ScrollToTop ";
 import UserHeader from "@components/user/layout/UserHeader";
+import UserFooter from "@components/user/layout/UserFooter";
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 
@@ -13,6 +14,7 @@ const UserLayout = () => {
       <Content>
         <Outlet />
       </Content>
+      <UserFooter />
     </Layout>
   );
 };

@@ -20,10 +20,8 @@ export const useFavoriteMovie = () => {
         response.message || "Đã thêm vào danh sách yêu thích",
       );
     } catch (error) {
-      showNotification(
-        "error",
-        error.message || "Bạn phải đăng nhập để sử dụng tính năng này ",
-      );
+      console.log({ error });
+      showNotification("error", "Bạn phải đăng nhập để sử dụng tính năng này ");
     }
   };
 
@@ -35,10 +33,7 @@ export const useFavoriteMovie = () => {
         response.message || "Đã xóa khỏi danh sách yêu thích",
       );
     } catch (error) {
-      showNotification(
-        "error",
-        error.message || "Bạn phải đăng nhập để sử dụng tính năng này",
-      );
+      showNotification("error", "Bạn phải đăng nhập để sử dụng tính năng này");
     }
   };
 

@@ -20,6 +20,7 @@ const AccountManagePage = () => {
     if (location.pathname.includes("favorite-movies")) return "2";
     if (location.pathname.includes("info")) return "1";
     if (location.pathname.includes("subscription-orders")) return "3";
+    if (location.pathname.includes("history-view")) return "4";
     return "1";
   }, [location.pathname]);
 

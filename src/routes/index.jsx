@@ -44,6 +44,7 @@ import TestStatistics from "@pages/TestStatistics";
 import StatisticsPage from "@pages/admin/StatisticsPage";
 import SubscriptionOrdersForAdmin from "@pages/admin/SubscriptionOrdersForAdmin";
 import HistoryView from "@pages/user/HistoryView";
+import AdminInfoPage from "@pages/admin/AdminInfoPage";
 
 const HomePageAdmin = lazy(() => import("@pages/HomePageAdmin.jsx"));
 const router = createBrowserRouter([
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
   {
     element: <ProtectedLayout />,
     children: [
+      {
+        path: "/admin/profile/info",
+        element: <AdminInfoPage />,
+      },
       {
         path: "/admin",
         element: (

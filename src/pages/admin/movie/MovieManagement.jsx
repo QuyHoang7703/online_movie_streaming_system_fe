@@ -152,6 +152,8 @@ const MovieManagement = () => {
   const [isVisibleFilter, setIsVisibleFilter] = useState(false);
   const [selectedMovieType, setSelectedMovieType] = useState("Tất cả");
   const [selectedGenres, setSelectedGenres] = useState(["Tất cả"]);
+  const [selectedSubscriptionPlanId, setSelectedSubscriptionPlanId] =
+    useState(null);
   const [searchDebounced, setSearchDebounced] = useState("");
 
   // Tạo debounce function
@@ -184,6 +186,9 @@ const MovieManagement = () => {
   }
   if (!selectedCountries.includes("Tất cả")) {
     params.countries = selectedCountries;
+  }
+  if (selectedSubscriptionPlanId) {
+    params.subscriptionPlanId = [selectedSubscriptionPlanId];
   }
 
   const response = useGetMoviesQuery(params);
@@ -297,6 +302,8 @@ const MovieManagement = () => {
           setSelectedMovieType={setSelectedMovieType}
           isVisibleFilter={isVisibleFilter}
           setIsVisibleFilter={setIsVisibleFilter}
+          selectedSubscriptionPlanId={selectedSubscriptionPlanId}
+          setSelectedSubscriptionPlanId={setSelectedSubscriptionPlanId}
         />
       </div>
 

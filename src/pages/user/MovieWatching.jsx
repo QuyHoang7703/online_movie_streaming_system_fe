@@ -11,6 +11,7 @@ import VideoVersionForSeriesMovie from "@components/user/movie/VideoVersionForSe
 import HlsPlayer from "@components/common/HlsPlayer ";
 import { useGetMovieDetail } from "@hooks/useGetMovieDetail";
 import { movieTypeUrlMapperReverse } from "@consts/movieTypeUrlMapper";
+import CommentExample from "@components/user/comment/CommentExample";
 
 const MovieWatching = () => {
   const location = useLocation();
@@ -133,7 +134,7 @@ const MovieWatching = () => {
                     </p>
 
                     {movieDetail.movieType === "STANDALONE" && (
-                      <div className="flex gap-5">
+                      <div className="flex flex-wrap gap-7">
                         {videoVersions.map((videoVersion) => (
                           <div
                             key={videoVersion.id}
@@ -172,6 +173,9 @@ const MovieWatching = () => {
               <div className="lg:w-1/3">
                 <MovieActors movieActors={movieDetail.movieActors} />
               </div>
+            </div>
+            <div className="mt-8" id="comment-section">
+              <CommentExample movieId={movieId} />
             </div>
           </div>
         </div>

@@ -50,7 +50,7 @@ const VideoVersionManage = () => {
       await deleteVideoVersion(videoVersionId).unwrap();
       showNotification(
         "success",
-        `Đã xóa bản chiếu ${videoVersionTypes[videoType]} thành công!`,
+        `Đã xóa bản chiếu ${videoVersionTypes[videoType].label} thành công!`,
       );
       videoVersionsResponse.refetch();
 
@@ -164,10 +164,10 @@ const VideoVersionManage = () => {
         key: videoVersion.id,
         label: (
           <div className="flex items-center gap-2">
-            <span>{videoVersionTypes[videoVersion.videoType]}</span>
+            <span>{videoVersionTypes[videoVersion.videoType].label}</span>
             <Popconfirm
               title="Xóa bản chiếu"
-              description={`Bạn có chắc muốn xóa bản chiếu ${videoVersionTypes[videoVersion.videoType]}?`}
+              description={`Bạn có chắc muốn xóa bản chiếu ${videoVersionTypes[videoVersion.videoType].label}?`}
               onConfirm={(e) => {
                 e.stopPropagation(); // Prevent tab from being selected
                 handleDeleteVideoVersion(
