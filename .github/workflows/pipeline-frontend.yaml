@@ -8,7 +8,7 @@ on:
       - "**"
 
 jobs:
-  build-image:
+  build-push-image:
     name: Build FE Docker image
     runs-on: ubuntu-latest
     steps:
