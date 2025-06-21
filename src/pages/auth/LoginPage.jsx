@@ -22,34 +22,16 @@ const LoginPage = () => {
   const from = location.state?.fromUrl || "/";
   const onSubmit = async (formData) => {
     try {
-      console.log("🚀 Starting login process...");
       const result = await loginApi(formData).unwrap();
-      console.log("✅ Login API success:", result);
-      console.log("👤 UserInfo received:", result?.data?.userInfo);
-
+      console.log("Login success", result?.data?.userInfo);
       showNotification("success", "Đăng nhập thành công");
-
-      // Dispatch saveUserInfo và log để debug
-      console.log("🔄 Dispatching saveUserInfo...");
       dispatch(saveUserInfo(result?.data?.userInfo));
-
-      // Kiểm tra localStorage sau khi dispatch
-      setTimeout(() => {
-        const persistedState = localStorage.getItem("persist:root");
-        console.log("💾 LocalStorage after dispatch:", persistedState);
-        if (persistedState) {
-          const parsed = JSON.parse(persistedState);
-          console.log("📋 Parsed auth state:", parsed.auth);
-        }
-      }, 100);
-
       if (result.data.userInfo.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate(from, { replace: true });
+        navigate(from, { replace: true }); // Sử dụng `from` ở đây
       }
     } catch (error) {
-      console.error("❌ Login error:", error);
       showNotification("error", mapErrorMessage(error?.data?.message));
     }
   };
