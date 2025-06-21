@@ -56,17 +56,33 @@ const VideoVersionCard = ({
                     Xem bản này
                   </Button>
                 ) : (
-                  <Button
-                    className="w-fit"
-                    type="default"
-                    onClick={() =>
-                      handleOpenViewDetailEpisodeModal({
-                        episodeId: videoVersion.episodeIdOfStandaloneMovie,
-                      })
-                    }
-                  >
-                    Xem bản này
-                  </Button>
+                  <>
+                    {videoVersion.episodeIdOfStandaloneMovie ? (
+                      <Button
+                        className="w-fit"
+                        type="default"
+                        onClick={() =>
+                          handleOpenViewDetailEpisodeModal({
+                            episodeId: videoVersion.episodeIdOfStandaloneMovie,
+                          })
+                        }
+                      >
+                        Xem bản này
+                      </Button>
+                    ) : (
+                      <Button
+                        className="w-fit"
+                        type="primary"
+                        onClick={() =>
+                          handleOpenViewDetailEpisodeModal({
+                            videoVersionId: videoVersion.id,
+                          })
+                        }
+                      >
+                        Thêm tập phim
+                      </Button>
+                    )}
+                  </>
                 )}
                 {handleDeleteVideoVersion && (
                   <Button

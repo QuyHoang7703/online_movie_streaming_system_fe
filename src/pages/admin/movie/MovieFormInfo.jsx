@@ -54,7 +54,7 @@ const MovieFormInfo = () => {
     const baseSchema = {
       title: yup.string().required("Tên phim không được để trống"),
       countryIds: yup.array().min(1, "Quốc gia không được để trống"),
-      director: yup.string().required("Đạo diễn không được để trống"),
+      // director: yup.string().required("Đạo diễn không được để trống"),
       description: yup.string().required("Mô tả không được để trống"),
       genreIds: yup.array().min(1, "Thể loại không được để trống"),
       movieActors: yup.array().of(
@@ -64,7 +64,7 @@ const MovieFormInfo = () => {
         }),
       ),
 
-      trailerUrl: yup.string().required("Trailer không được để trống"),
+      // trailerUrl: yup.string().required("Trailer không được để trống"),
       poster: yup.mixed().test("required", "Poster không được để trống", () => {
         return filePosterList && filePosterList.length > 0;
       }),

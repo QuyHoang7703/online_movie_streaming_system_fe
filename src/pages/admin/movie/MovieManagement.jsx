@@ -134,14 +134,16 @@ const MovieManagement = () => {
           >
             Xóa
           </Button>
-          {record.movieType === "SERIES" && (
+          {/* {record.movieType === "SERIES" && (
             <Button
               type="default"
-              onClick={() => navigate(`/admin/series/${record.id}/episodes`)}
+              onClick={() =>
+                navigate(`/admin/movies/${record.id}/video-versions`)
+              }
             >
               Quản lý tập phim
             </Button>
-          )}
+          )} */}
         </Space>
       ),
     },

@@ -124,24 +124,31 @@ const VideoVersionManage = () => {
     });
   };
 
-  const handleOpenViewDetailEpisodeModal = ({ episodeId }) => {
+  const handleOpenViewDetailEpisodeModal = ({ episodeId, videoVersionId }) => {
     setModalContent({
-      title: "Cập nhập tập phim",
+      title: episodeId ? "Cập nhật tập phim" : "Thêm tập phim",
       open: true,
       onCancel: () => setModalContent(null),
       Component: EpisodeFormInfo,
       width: 700,
       componentProps: {
         episodeId,
-        isUpdate: true,
+        videoVersionId: videoVersionId || activeTab,
+        isUpdate: !!episodeId,
         onSuccess: () => {
           setModalContent(null);
+          // Refresh data sau khi thêm/sửa episode
+          if (videoVersionId) {
+            videoVersionsResponse.refetch();
+          } else {
+            getEpisode({ videoVersionId: activeTab });
+          }
         },
         onCancel: () => setModalContent(null),
       },
     });
   };
-  const handleOpenDeleteEpisodeModal = (episodeId) => {
+  const handleOpenDeleteEpisodeModal = ({ episodeId }) => {
     setModalContent({
       title: "Xóa tập phim",
       open: true,

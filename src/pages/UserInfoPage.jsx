@@ -19,9 +19,12 @@ const { Title, Text } = Typography;
 const UserInfoPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   console.log({ userInfo });
-  const [selectedGender, setSelectedGender] = useState("MALE");
+  const [_selectedGender, _setSelectedGender] = useState("MALE");
   const [fileList, setFileList] = useState([]);
-  const handleChange = ({ fileList: newList }) => setFileList(newList);
+  const handleChange = ({ fileList: newList }) => {
+    console.log("File list changed:", newList);
+    setFileList(newList);
+  };
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Tên hiển thị không được để trống"),
@@ -81,14 +84,34 @@ const UserInfoPage = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log("Form data:", data);
+    console.log("File list:", fileList);
+    console.log("File list length:", fileList.length);
+    if (fileList.length > 0) {
+      console.log("First file:", fileList[0]);
+      console.log("Has originFileObj:", !!fileList[0].originFileObj);
+    }
+
     const formData = new FormData();
-    // 1. Thêm userInfo dưới dạng JSON
+
+    // 1. Thêm userInfo dưới dạng JSON blob (giống ActorForm)
     formData.append(
       "userInfo",
       new Blob([JSON.stringify(data)], { type: "application/json" }),
     );
+
+    // 2. Thêm avatar file nếu có (giống ActorForm)
     if (fileList.length > 0 && fileList[0].originFileObj) {
+      console.log("Appending avatar file:", fileList[0].originFileObj);
       formData.append("avatar", fileList[0].originFileObj);
+    } else {
+      console.log("No file to upload or no originFileObj");
+    }
+
+    // Debug FormData contents
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
     try {
@@ -105,6 +128,11 @@ const UserInfoPage = () => {
       }
     } catch (error) {
       console.log({ error });
+      console.log("Error details:", error?.data?.message || error?.message);
+      showNotification(
+        "error",
+        error?.data?.message || "Có lỗi xảy ra khi cập nhật thông tin",
+      );
     }
   };
 

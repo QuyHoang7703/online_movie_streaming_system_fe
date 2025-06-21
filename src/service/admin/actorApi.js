@@ -11,6 +11,7 @@ export const actorApi = rootApi.injectEndpoints({
             params: { actorName, page, size },
           };
         },
+        providesTags: [{ type: "Actors", id: "List" }],
       }),
       createActor: builder.mutation({
         query: (formData) => ({
@@ -18,6 +19,7 @@ export const actorApi = rootApi.injectEndpoints({
           method: "POST",
           body: formData,
         }),
+        invalidatesTags: [{ type: "Actors", id: "List" }],
       }),
       updateActor: builder.mutation({
         query: ({ actorId, formData }) => ({
@@ -25,12 +27,20 @@ export const actorApi = rootApi.injectEndpoints({
           method: "PATCH",
           body: formData,
         }),
+        invalidatesTags: [{ type: "Actors", id: "List" }],
       }),
       getDetailActor: builder.query({
         query: ({ actorId }) => ({
           url: `/actors/${actorId}`,
           method: "GET",
         }),
+      }),
+      deleteActor: builder.mutation({
+        query: ({ actorId }) => ({
+          url: `/actors/${actorId}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: [{ type: "Actors", id: "List" }],
       }),
     };
   },
@@ -42,4 +52,5 @@ export const {
   useUpdateActorMutation,
   useGetDetailActorQuery,
   useLazyGetActorsQuery,
+  useDeleteActorMutation,
 } = actorApi;

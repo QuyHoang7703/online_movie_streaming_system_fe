@@ -6,13 +6,17 @@ import {
 } from "@ant-design/icons";
 import InputSearch from "@components/InputSearch";
 import { useNotification } from "@hooks/useNotification";
-import { useGetActorsQuery } from "@service/admin/actorApi";
+import {
+  useDeleteActorMutation,
+  useGetActorsQuery,
+} from "@service/admin/actorApi";
 import { Button, Image, Space, Table } from "antd";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import "@styles/styles.css";
 import ActorForm from "@pages/admin/actor/ActorForm";
 import GenericModal from "@context/GenericModal";
+import ConfirmDeleteModal from "@pages/admin/ConfirmDeleteModal";
 
 const ActorManagement = () => {
   const columns = [
@@ -77,7 +81,8 @@ const ActorManagement = () => {
             size="large"
             color="danger"
             variant="solid"
-            // onClick={() => handleOpenModalDelete(record.id, record.name)}
+            onClick={() => handleOpenModalDelete(record.id, record.name)}
+            loading={isDeleteLoading}
           >
             Xóa
           </Button>
@@ -126,6 +131,7 @@ const ActorManagement = () => {
   // };
 
   const [modalContent, setModalContent] = useState(null);
+  const [modelDeleteContent, setModelDeleteContent] = useState(null);
 
   const handleCreateOrUpdateActor = (isUpdate = false, actorId = null) => {
     setModalContent({
@@ -142,6 +148,35 @@ const ActorManagement = () => {
           response.refetch();
         },
         onCancel: () => setModalContent(null),
+      },
+    });
+  };
+  const [deleteActor, { isLoading: isDeleteLoading }] =
+    useDeleteActorMutation();
+
+  const handleDeleteActor = async (actorId) => {
+    try {
+      await deleteActor({ actorId }).unwrap();
+      showNotification("success", "Diễn viên đã được xóa thành công");
+    } catch (error) {
+      showNotification("error", error?.data?.message);
+    }
+  };
+
+  const handleOpenModalDelete = (actorId, actorName) => {
+    setModelDeleteContent({
+      title: "Xác nhận xóa diễn viên",
+      open: true,
+      onCancel: () => setModelDeleteContent(null),
+      Component: ConfirmDeleteModal,
+      componentProps: {
+        itemName: actorName,
+        itemType: "diễn viên",
+        onConfirm: () => {
+          handleDeleteActor(actorId);
+          setModelDeleteContent(null);
+        },
+        onCancel: () => setModelDeleteContent(null),
       },
     });
   };
@@ -191,7 +226,7 @@ const ActorManagement = () => {
         ></Table>
       </div>
       {modalContent && <GenericModal {...modalContent} />}
-      {/* {modelDeleteContent && <GenericModal {...modelDeleteContent} />} */}
+      {modelDeleteContent && <GenericModal {...modelDeleteContent} />}
     </div>
   );
 };

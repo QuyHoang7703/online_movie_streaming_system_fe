@@ -92,6 +92,16 @@ const MovieWatching = () => {
     ? videoUrl.split("url=")[1]
     : videoUrl;
 
+  // Kiểm tra loại video để quyết định cách hiển thị
+  const isYouTubeVideo =
+    videoUrl?.includes("youtube.com") || videoUrl?.includes("youtu.be");
+  const isAzureBlobVideo = videoUrl?.includes(
+    "onlinemoviestreamsystem.blob.core.windows.net",
+  );
+
+  // Sử dụng iframe cho YouTube và Azure blob, HlsPlayer cho phimapi
+  const shouldUseIframe = isYouTubeVideo || isAzureBlobVideo;
+
   // Hiển thị thông báo loading nếu đang tải dữ liệu
   if (!movieDetail && isMovieDetailLoading) {
     return (
@@ -107,7 +117,17 @@ const MovieWatching = () => {
     <div className="bg-dark-400 pt-24">
       <div className="h-[calc(100vh-100px)] w-full">
         {resolvedVideoUrl ? (
-          <HlsPlayer url={resolvedVideoUrl} />
+          shouldUseIframe ? (
+            <iframe
+              src={resolvedVideoUrl}
+              className="h-full w-full"
+              allowFullScreen
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          ) : (
+            <HlsPlayer url={resolvedVideoUrl} />
+          )
         ) : (
           !isEpisodeLoading && (
             <div className="flex h-[70vh] items-center justify-center text-white">

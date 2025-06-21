@@ -172,8 +172,8 @@ const router = createBrowserRouter([
         path: "/admin/statistics",
         element: (
           <RequireRole allowedRoles={"ADMIN"}>
-            <TestStatistics />
-            {/* <StatisticsPage /> */}
+            {/* <TestStatistics /> */}
+            <StatisticsPage />
             {/* <StatisticsDemo /> */}
           </RequireRole>
         ),

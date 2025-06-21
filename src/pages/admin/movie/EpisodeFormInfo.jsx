@@ -100,15 +100,17 @@ const EpisodeFormInfo = ({
     showLoading();
 
     try {
-      if (videoVersionId) {
-        await handleCreateEpisode({
-          videoVersionId,
+      if (isUpdate && episodeId) {
+        // Cập nhật episode hiện có
+        await handleUpdateEpisode({
+          episodeId,
           episodeInfo: data,
           video: data.videoSource === "upload" ? data.videoFile : null,
         });
       } else {
-        await handleUpdateEpisode({
-          episodeId,
+        // Tạo episode mới
+        await handleCreateEpisode({
+          videoVersionId,
           episodeInfo: data,
           video: data.videoSource === "upload" ? data.videoFile : null,
         });

@@ -38,9 +38,9 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
       case "1":
         navigate("/admin/statistics");
         break;
-      case "2":
-        navigate("/admin/users");
-        break;
+      // case "2":
+      //   navigate("/admin/users");
+      //   break;
       case "3-1":
         navigate("/admin/movies");
         break;
@@ -66,11 +66,11 @@ const AdminSidebar = ({ collapsed, setCollapsed }) => {
       icon: <HomeFilled />,
       label: "Trang chủ",
     },
-    {
-      key: "2",
-      icon: <UserOutlined />,
-      label: "Người dùng",
-    },
+    // {
+    //   key: "2",
+    //   icon: <UserOutlined />,
+    //   label: "Người dùng",
+    // },
     {
       key: "3",
       icon: <VideoCameraFilled />,

@@ -257,7 +257,7 @@ const UserHeader = () => {
         </div>
       ) : (
         <div className="ml-auto">
-          <Button
+          {/* <Button
             icon={<UserOutlined />}
             type="primary"
             className="text-dark-200 hover:!text-dark-300"
@@ -269,7 +269,19 @@ const UserHeader = () => {
             >
               Đăng nhập
             </Link>
-          </Button>
+          </Button> */}
+          <Link
+            to="/login"
+            state={{ fromUrl: location.pathname + location.search }}
+          >
+            <Button
+              icon={<UserOutlined />}
+              type="primary"
+              className="text-dark-200 hover:!text-dark-300"
+            >
+              Đăng nhập
+            </Button>
+          </Link>
         </div>
       )}
     </Header>

@@ -42,7 +42,7 @@ import {
   useGetYearlyRevenueQuery,
   useGetMoviesByGenreQuery,
 } from "@service/admin/statisticsApi";
-
+import "@styles/styles.css";
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -57,6 +57,7 @@ const COLORS = [
   "#96CEB4",
   "#FFEAA7",
 ];
+import dayjs from "dayjs";
 
 const StatisticsPage = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -66,7 +67,10 @@ const StatisticsPage = () => {
 
   // Gọi các API
   const { data: overviewData, isLoading: overviewLoading } =
-    useGetOverviewStatisticsQuery({ month: 5, year: 2025 });
+    useGetOverviewStatisticsQuery({
+      month: dayjs().month() + 1,
+      year: dayjs().year(),
+    });
   const { data: monthlyRevenueData, isLoading: monthlyLoading } =
     useGetMonthlyRevenueQuery({
       year: selectedYear,
@@ -221,7 +225,7 @@ const StatisticsPage = () => {
           <Card className="h-full border-gray-700 bg-gray-800 shadow-md transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-gray-300">Phim lẻ</span>}
-              value={overviewData?.data?.singleMovies || 0}
+              value={overviewData?.data?.standaloneMovies || 0}
               prefix={<PlayCircleOutlined className="text-blue-400" />}
               loading={overviewLoading}
               valueStyle={{
@@ -479,7 +483,7 @@ const StatisticsPage = () => {
                   formatter={(value) => [value, "Số lượng phim"]}
                   labelFormatter={(label) => `Thể loại: ${label}`}
                   contentStyle={{
-                    backgroundColor: "#1F2937",
+                    backgroundColor: "#fff",
                     border: "1px solid #374151",
                     borderRadius: "8px",
                     color: "#FFFFFF",
@@ -507,6 +511,7 @@ const StatisticsPage = () => {
             <Table
               columns={genreColumns}
               dataSource={processedGenreData}
+              className="custom-table"
               rowKey="name"
               pagination={{
                 pageSize: 8,
@@ -516,7 +521,6 @@ const StatisticsPage = () => {
                   `${range[0]}-${range[1]} của ${total} thể loại`,
               }}
               size="small"
-              className="dark-table"
               style={{
                 backgroundColor: "#1F2937",
               }}
