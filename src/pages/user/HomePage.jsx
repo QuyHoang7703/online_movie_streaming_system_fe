@@ -62,7 +62,7 @@ const HomePage = () => {
     <div className="relative">
       {/* Feature movie */}
       <FeatureMovie movies={movieFeatureResponse?.data?.result || []} />
-      <p className="text-white">ALo</p>
+      <p className="text-white">ALololol</p>
 
       {/* Top 10 phim bộ */}
       {/* {isSuccess && recommendMoviesResponse?.data?.length > 0 && (
