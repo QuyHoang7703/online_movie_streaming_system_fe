@@ -5,9 +5,7 @@ on:
     branches:
       - ci/pipeline
     paths:
-      - OnlineMovieStreamingSystemFe/**
-      - .github/workflows/**
-      - "Dockerfile"
+      - "**"
 
 jobs:
   build-image:
