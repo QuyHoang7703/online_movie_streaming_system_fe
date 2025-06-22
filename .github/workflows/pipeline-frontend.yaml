@@ -1,0 +1,55 @@
+name: OMSS Frontend Pipeline
+
+on:
+  push:
+    branches:
+      - ci/pipeline
+      - main
+    paths:
+      - "**"
+
+jobs:
+  build-push-image:
+    name: Build FE Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract project version
+        id: extract_version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/omss-fe:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/omss-fe:${{ steps.extract_version.outputs.VERSION }}
+
+  deploy:
+    name: Deploy to VM
+    runs-on: ubuntu-latest
+    needs: build-push-image
+    steps:
+      - name: SSH and run Docker Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          username: ${{ secrets.AZURE_USER }}
+          key: ${{ secrets.AZURE_PRIVATE_KEY }}
+          script: |
+            cd ~
+            docker compose pull
+            docker compose up -d
