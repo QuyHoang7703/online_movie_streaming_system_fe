@@ -31,7 +31,8 @@ const NotificationDropdown = () => {
   useEffect(() => {
     if (!userInfo) return;
 
-    let ws = new SockJS("http://localhost:8080/ws");
+    // let ws = new SockJS("http://localhost:8080/ws");
+    let ws = new SockJS("https://emovie.io.vn/ws");
     const socketClient = Stomp.over(ws);
 
     socketClient.connect(

@@ -9,7 +9,10 @@ export const useNotificationSocket = (userEmail) => {
 
   useEffect(() => {
     if (!userEmail) return;
-    const ws = new SockJS("http://localhost:8080/ws", null, {
+    // const ws = new SockJS("http://localhost:8080/ws", null, {
+    //   withCredentials: true,
+    // });
+    const ws = new SockJS("https://emovie.io.vn/ws", null, {
       withCredentials: true,
     });
     const socketClient = Stomp.over(ws);
