@@ -20,5 +20,5 @@ COPY emovie.io.vn.key /etc/nginx/ssl/emovie.io.vn.key
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 443
 
