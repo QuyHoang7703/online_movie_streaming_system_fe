@@ -62,15 +62,15 @@ const HomePage = () => {
     <div className="relative">
       {/* Feature movie */}
       <FeatureMovie movies={movieFeatureResponse?.data?.result || []} />
-      <p className="text-white">Home Page</p>
+      {/* <p className="text-white">Home Page</p> */}
       {/* Top 10 phim bộ */}
-      {/* {isSuccess && recommendMoviesResponse?.data?.length > 0 && (
+      {isSuccess && recommendMoviesResponse?.data?.length > 0 && (
         <HotMovieSection
           movies={recommendMoviesResponse?.data || []}
           title="Các bộ phim được đề xuất"
           variant="default"
         />
-      )} */}
+      )}
 
       <div className="mx-auto max-w-full pt-8 lg:max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px]">
         {/* Phân loại phim theo quốc gia */}
