@@ -8,6 +8,7 @@ import { Button } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WatchButton from "./WatchButton";
+import { useAddHistoryViewMutation } from "@service/userInteractionApi";
 
 const MoviePreviewCard = ({
   movie,
@@ -30,6 +31,17 @@ const MoviePreviewCard = ({
 
   const { toggleFavorite, isProcessing } = useFavoriteMovie();
   const navigate = useNavigate();
+
+  const [addHistoryView, { isLoading: _isAddingHistoryView }] =
+    useAddHistoryViewMutation();
+
+  const handleAddHistoryView = async () => {
+    try {
+      await addHistoryView({ movieId: movie.movieId }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -58,6 +70,7 @@ const MoviePreviewCard = ({
             movieId={movie.movieId}
             movieType={movie.movieType}
             variant="preview"
+            handleAddHistoryView={handleAddHistoryView}
           />
 
           <Button

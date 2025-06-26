@@ -65,11 +65,16 @@ export const RequireAuth = ({ children }) => {
 
 // Tạo HOC để check permission của Role
 export const RequireRole = ({ children, allowedRoles }) => {
-  const { hasRole, isLoading } = useAuth();
+  const { hasRole, isLoading, user } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
     return <div>Loading....</div>;
+  }
+
+  // Nếu user không tồn tại (logout), redirect về login thay vì unauthorized
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   if (!hasRole(allowedRoles)) {

@@ -22,10 +22,19 @@ export const userInteractionApi = rootApi.injectEndpoints({
       }),
     }),
     getHistoryView: builder.query({
-      query: ({ page = 1, size = 20 }) => ({
+      query: ({ page = 1, size = 18 }) => ({
         url: `/user-interactions/history-view`,
         params: { page, size },
       }),
+      providesTags: [{ type: "HistoryView", id: "List" }],
+    }),
+    addHistoryView: builder.mutation({
+      query: ({ movieId }) => ({
+        url: `/user-interactions/history-view`,
+        method: "POST",
+        body: { movieId },
+      }),
+      invalidatesTags: [{ type: "HistoryView", id: "List" }],
     }),
   }),
 });
@@ -35,4 +44,5 @@ export const {
   useCreateUserInteractionMutation,
   useUpdateUserInteractionMutation,
   useGetHistoryViewQuery,
+  useAddHistoryViewMutation,
 } = userInteractionApi;

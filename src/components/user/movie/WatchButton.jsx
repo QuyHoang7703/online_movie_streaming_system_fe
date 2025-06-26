@@ -33,6 +33,7 @@ const WatchButton = ({
   className = "",
   text,
   variant = "default", // 'default', 'action', 'preview'
+  handleAddHistoryView,
 }) => {
   const { modalContent, handleWatchMovie } = useMovieSubscription();
 
@@ -77,14 +78,21 @@ const WatchButton = ({
       buttonText = buttonText || "Xem phim";
   }
 
-  const handleClick = () => {
-    handleWatchMovie({
-      movieDetail,
-      episodeId: actualEpisodeId,
-      setChosenEpisode,
-      movieId,
-      movieType,
-    });
+  const handleClick = async () => {
+    try {
+      await handleWatchMovie({
+        movieDetail,
+        episodeId: actualEpisodeId,
+        setChosenEpisode,
+        movieId,
+        movieType,
+      });
+
+      // Chỉ thực hiện handleAddHistoryView khi handleWatchMovie thành công
+      handleAddHistoryView();
+    } catch (error) {
+      console.error("Lỗi khi xem phim:", error);
+    }
   };
 
   return (

@@ -7,6 +7,7 @@ import { Modal, Rate } from "antd";
 import "@styles/styles.css";
 import { useEffect, useState } from "react";
 import {
+  useAddHistoryViewMutation,
   useCreateUserInteractionMutation,
   useGetUserInteractionQuery,
   useUpdateUserInteractionMutation,
@@ -47,11 +48,24 @@ const MovieActions = ({
   const [updateUserInteraction, { isLoading: _isUpdating }] =
     useUpdateUserInteractionMutation();
 
+  const [addHistoryView, { isLoading: _isAddingHistoryView }] =
+    useAddHistoryViewMutation();
+
   // Hàm xử lý khi người dùng thay đổi đánh giá trên Rate (sẽ kích hoạt modal)
   const handleRateChange = (value) => {
     setTempRating(value);
 
     setIsModalVisible(true); // Hiển thị Modal
+  };
+
+  const handleAddHistoryView = async () => {
+    try {
+      await addHistoryView({ movieId }).unwrap();
+      console.log("addHistoryView success");
+    } catch (error) {
+      console.log("addHistoryView error");
+      console.log(error);
+    }
   };
 
   // Hàm xử lý khi người dùng nhấn "Đồng ý" trong Modal
@@ -108,6 +122,7 @@ const MovieActions = ({
           variant="action"
           movieType={movieDetail.movieType}
           movieId={movieId}
+          handleAddHistoryView={handleAddHistoryView}
         />
         <div className="flex gap-5">
           <ActionButton
