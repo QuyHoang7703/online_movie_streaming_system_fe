@@ -12,6 +12,7 @@ import { useLoading } from "@context/LoadingContext";
 import PaymentSummary from "@components/user/subscriptionPlan/PaymentSummary";
 import StepProgress from "@components/common/StepProgress";
 import dayjs from "dayjs";
+import { useNotification } from "@hooks/useNotification";
 
 const PlanDurationPage = () => {
   const { subscriptionPlanId } = useParams();
@@ -82,14 +83,18 @@ const PlanDurationPage = () => {
     }
   }, [isLoading, showLoading, hideLoading]);
 
+  const { showNotification } = useNotification();
+
   const handlePayment = async (planDurationId) => {
     if (planDurationId) {
       try {
         const paymentResponse = await createPayUrl(planDurationId).unwrap();
-        console.log({ paymentResponse });
         window.location.href = paymentResponse.data.paymentUrl;
       } catch (error) {
-        console.error("Lỗi tạo link thanh toán:", error);
+        showNotification(
+          "error",
+          error.data.message || "Lỗi tạo link thanh toán",
+        );
       }
     }
   };

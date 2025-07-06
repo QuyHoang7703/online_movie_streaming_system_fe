@@ -28,7 +28,7 @@ import { COUNTRY_NAME_MAP } from "@consts/countryNameMap";
 import InputSearch from "@components/common/InputSearch";
 import NotificationDropdown from "@components/common/NotificationDropdown";
 const { Header } = Layout;
-
+import "@styles/styles.css";
 // Dữ liệu mẫu cho thể loại và quốc gia đã được thay thế bằng API calls
 
 const UserHeader = () => {
@@ -239,14 +239,6 @@ const UserHeader = () => {
 
       {userInfo ? (
         <div className="ml-auto flex items-center gap-7">
-          <Link to="/user/subscription-plan">
-            <Button
-              type="primary"
-              className="p-4 font-semibold text-dark-200 hover:!text-dark-300"
-            >
-              Đăng ký gói
-            </Button>
-          </Link>
           <div className="flex items-center gap-3">
             {/* <Badge count={5} size="small" offset={[-2, 2]}>
               <BellFilled className="cursor-pointer text-2xl text-blue-500" />
@@ -256,7 +248,7 @@ const UserHeader = () => {
           </div>
         </div>
       ) : (
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
           {/* <Button
             icon={<UserOutlined />}
             type="primary"
@@ -270,6 +262,14 @@ const UserHeader = () => {
               Đăng nhập
             </Link>
           </Button> */}
+          <Link to="/user/subscription-plan">
+            <Button
+              type="create-btn"
+              className="!bg-green-400 p-4 text-dark-200 hover:!bg-green-400/80 hover:!text-dark-300"
+            >
+              Đăng ký gói
+            </Button>
+          </Link>
           <Link
             to="/login"
             state={{ fromUrl: location.pathname + location.search }}
